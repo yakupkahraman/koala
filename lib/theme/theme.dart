@@ -5,7 +5,7 @@ import 'package:koala/constants.dart';
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   cardColor: Colors.blueGrey,
-  scaffoldBackgroundColor: Colors.grey.shade100,
+  scaffoldBackgroundColor: Colors.white,
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     shape: CircleBorder(),
     backgroundColor: Colors.grey.shade300,

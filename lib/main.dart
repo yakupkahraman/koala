@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Koala',
+      theme: Provider.of<ThemeProvider>(context).themeData,
       home: AuthGate(),
     );
   }
