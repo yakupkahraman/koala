@@ -3,6 +3,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:koala/components/my_button.dart';
 import 'package:koala/components/my_textfield.dart';
 import 'package:koala/constants.dart';
+import 'package:koala/pages/home_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -69,7 +70,14 @@ class LoginPage extends StatelessWidget {
                             width: double.infinity,
                             height: 60,
                             child: MyButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                    builder: (context) => HomePage(),
+                                  ),
+                                  (route) => false,
+                                );
+                              },
                               title: 'GİRİŞ YAP',
                             ),
                           ),
