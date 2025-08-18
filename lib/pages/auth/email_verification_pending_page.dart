@@ -5,7 +5,7 @@ import 'package:koala/components/my_textfield.dart';
 import 'package:koala/constants.dart';
 import 'package:koala/pages/auth/company_informations_page.dart';
 import 'package:lottie/lottie.dart';
-import 'package:koala/pages/home_page.dart';
+import 'package:koala/pages/main_page.dart';
 
 class EmailVerificationPendingPage extends StatelessWidget {
   const EmailVerificationPendingPage({super.key, required this.isBusiness});
@@ -279,7 +279,7 @@ class _CreatingPasswordPageState extends State<CreatingPasswordPage> {
                         if (isPasswordStrong && passwordsMatch) {
                           Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                              builder: (context) => const HomePage(),
+                              builder: (context) => const MainPage(),
                             ),
                             (route) => false, // Tüm önceki sayfaları temizle
                           );

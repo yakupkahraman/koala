@@ -3,7 +3,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:koala/components/my_button.dart';
 import 'package:koala/components/my_textfield.dart';
 import 'package:koala/constants.dart';
-import 'package:koala/pages/home_page.dart';
+import 'package:koala/pages/main_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -73,7 +73,7 @@ class LoginPage extends StatelessWidget {
                               onPressed: () {
                                 Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
-                                    builder: (context) => HomePage(),
+                                    builder: (context) => MainPage(),
                                   ),
                                   (route) => false,
                                 );

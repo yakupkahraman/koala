@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:koala/page_provider.dart';
 import 'package:koala/pages/auth/auth_gate.dart';
 import 'package:koala/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +7,10 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => ThemeProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => PageProvider()),
+      ],
       child: const MyApp(),
     ),
   );
