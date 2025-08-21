@@ -7,8 +7,8 @@ import 'package:koala/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreatingPasswordPage extends StatefulWidget {
-  const CreatingPasswordPage({super.key, required this.isBusiness});
-  final bool isBusiness;
+  const CreatingPasswordPage({super.key, this.token});
+  final String? token;
 
   @override
   State<CreatingPasswordPage> createState() => _CreatingPasswordPageState();
@@ -17,6 +17,7 @@ class CreatingPasswordPage extends StatefulWidget {
 class _CreatingPasswordPageState extends State<CreatingPasswordPage> {
   bool isVisiblePassword = false;
   bool isVisibleConfirmPassword = false;
+  bool isBusiness = false;
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
@@ -32,6 +33,24 @@ class _CreatingPasswordPageState extends State<CreatingPasswordPage> {
         password.contains(RegExp(r'[A-Z]')) &&
         password.contains(RegExp(r'[a-z]')) &&
         password.contains(RegExp(r'[0-9]'));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBusinessStatus();
+  }
+
+  Future<void> _loadBusinessStatus() async {
+    final businessStatus = await isBusinessUser();
+    setState(() {
+      isBusiness = businessStatus;
+    });
+  }
+
+  Future<bool> isBusinessUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('isBusiness') ?? false;
   }
 
   @override
@@ -210,7 +229,7 @@ class _CreatingPasswordPageState extends State<CreatingPasswordPage> {
                   ),
                   MyButton(
                     onPressed: () async {
-                      if (!widget.isBusiness) {
+                      if (isBusiness) {
                         if (isPasswordStrong && passwordsMatch) {
                           final prefs = await SharedPreferences.getInstance();
                           await prefs.setBool('is_logged_in', true);
@@ -255,7 +274,7 @@ class _CreatingPasswordPageState extends State<CreatingPasswordPage> {
                         }
                       }
                     },
-                    title: widget.isBusiness ? "DEVAM ET" : "BİTİR",
+                    title: isBusiness ? "DEVAM ET" : "BİTİR",
                   ),
                 ],
               ),

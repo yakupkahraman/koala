@@ -67,8 +67,7 @@ class RouterManager {
                   GoRoute(
                     path: 'creating-password',
                     builder: (context, state) => CreatingPasswordPage(
-                      isBusiness:
-                          state.uri.queryParameters['isBusiness'] == 'true',
+                      token: state.uri.queryParameters['token'],
                     ),
                     routes: [
                       GoRoute(

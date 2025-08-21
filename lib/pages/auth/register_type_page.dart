@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:koala/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterTypePage extends StatelessWidget {
   const RegisterTypePage({super.key});
@@ -44,10 +45,15 @@ class RegisterTypePage extends StatelessWidget {
                     splashColor: Colors.green[100],
                     highlightColor: Colors.green[50],
                     borderRadius: BorderRadius.circular(12.0),
-                    onTap: () {
-                      context.push(
-                        '/auth/register-type/register?isBusiness=true',
-                      );
+                    onTap: () async {
+                      final prefs = await SharedPreferences.getInstance();
+                      await prefs.setBool('isBusiness', true);
+
+                      if (context.mounted) {
+                        context.push(
+                          '/auth/register-type/register?isBusiness=true',
+                        );
+                      }
                     },
                     child: Container(
                       padding: EdgeInsets.all(14.0),
@@ -117,10 +123,15 @@ class RegisterTypePage extends StatelessWidget {
                     splashColor: Colors.green[100],
                     highlightColor: Colors.green[50],
                     borderRadius: BorderRadius.circular(12.0),
-                    onTap: () {
-                      context.push(
-                        '/auth/register-type/register?isBusiness=false',
-                      );
+                    onTap: () async {
+                      final prefs = await SharedPreferences.getInstance();
+                      await prefs.setBool('isBusiness', false);
+
+                      if (context.mounted) {
+                        context.push(
+                          '/auth/register-type/register?isBusiness=false',
+                        );
+                      }
                     },
                     child: Container(
                       padding: EdgeInsets.all(14.0),
