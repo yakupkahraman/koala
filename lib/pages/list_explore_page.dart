@@ -18,7 +18,9 @@ class ListExplorePage extends StatelessWidget {
           statusBarIconBrightness: Brightness.dark, // Android için
           statusBarBrightness: Brightness.light, // iOS için
         ),
+        //TODO: Küçük ekranlar için responsive tasarım
         toolbarHeight: 124,
+
         elevation: 0,
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,

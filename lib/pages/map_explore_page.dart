@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:koala/constants.dart';
@@ -76,7 +77,9 @@ class _MapExplorePageState extends State<MapExplorePage> {
       // Anlık konum takibini başlat
       _startLocationTracking();
     } catch (e) {
-      print('Konum alınamadı: $e');
+      if (kDebugMode) {
+        print('Konum alınamadı: $e');
+      }
     }
   }
 

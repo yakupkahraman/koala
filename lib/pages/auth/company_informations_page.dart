@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:koala/components/my_button.dart';
 import 'package:koala/components/my_textfield.dart';
@@ -140,7 +141,7 @@ class _CompanyInformationsPageState extends State<CompanyInformationsPage> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(HugeIcons.strokeRoundedArrowLeft01, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.pop(),
         ),
         backgroundColor: Colors.white,
       ),

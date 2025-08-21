@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:koala/components/my_button.dart';
 import 'package:koala/constants.dart';
-import 'package:koala/pages/auth/login_page.dart';
-import 'package:koala/pages/auth/register_type_page.dart';
 
-class LoginOrRegisterPage extends StatelessWidget {
-  const LoginOrRegisterPage({super.key});
+class AuthPage extends StatelessWidget {
+  const AuthPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +50,7 @@ class LoginOrRegisterPage extends StatelessWidget {
                       children: [
                         MyButton(
                           onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const RegisterTypePage(),
-                              ),
-                            );
+                            context.go('/auth/register-type');
                           },
                           title: 'KAYIT OL',
                         ),
@@ -67,11 +62,7 @@ class LoginOrRegisterPage extends StatelessWidget {
                             height: 60,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const LoginPage(),
-                                  ),
-                                );
+                                context.push('/auth/login');
                               },
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(

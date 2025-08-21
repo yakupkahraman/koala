@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:koala/components/my_button.dart';
 import 'package:koala/components/my_textfield.dart';
 import 'package:koala/constants.dart';
-import 'package:koala/pages/main_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -16,7 +17,7 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(HugeIcons.strokeRoundedArrowLeft01, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.pop(),
         ),
       ),
       body: SafeArea(
@@ -70,13 +71,14 @@ class LoginPage extends StatelessWidget {
                             width: double.infinity,
                             height: 60,
                             child: MyButton(
-                              onPressed: () {
-                                Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                    builder: (context) => MainPage(),
-                                  ),
-                                  (route) => false,
-                                );
+                              onPressed: () async {
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.setBool('is_logged_in', true);
+
+                                if (context.mounted) {
+                                  context.go('/explore');
+                                }
                               },
                               title: 'GİRİŞ YAP',
                             ),

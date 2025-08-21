@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:koala/components/my_button.dart';
 import 'package:koala/constants.dart';
-import 'package:koala/pages/auth/login_or_register_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -63,12 +63,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     final prefs = await SharedPreferences.getInstance();
                     await prefs.setBool('seen_onboarding', true);
                     if (context.mounted) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const LoginOrRegisterPage(),
-                        ),
-                      );
+                      context.go('/auth');
                     }
                   } else {
                     controller.nextPage(

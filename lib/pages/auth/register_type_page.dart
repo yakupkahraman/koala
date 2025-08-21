@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:koala/constants.dart';
-import 'package:koala/pages/auth/register_page.dart';
 
 class RegisterTypePage extends StatelessWidget {
   const RegisterTypePage({super.key});
@@ -12,7 +12,7 @@ class RegisterTypePage extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(HugeIcons.strokeRoundedArrowLeft01, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.pop(),
         ),
       ),
       body: SafeArea(
@@ -45,11 +45,8 @@ class RegisterTypePage extends StatelessWidget {
                     highlightColor: Colors.green[50],
                     borderRadius: BorderRadius.circular(12.0),
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const RegisterPage(isBusiness: true),
-                        ),
+                      context.push(
+                        '/auth/register-type/register?isBusiness=true',
                       );
                     },
                     child: Container(
@@ -121,11 +118,8 @@ class RegisterTypePage extends StatelessWidget {
                     highlightColor: Colors.green[50],
                     borderRadius: BorderRadius.circular(12.0),
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const RegisterPage(isBusiness: false),
-                        ),
+                      context.push(
+                        '/auth/register-type/register?isBusiness=false',
                       );
                     },
                     child: Container(

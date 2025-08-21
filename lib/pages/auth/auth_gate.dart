@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:koala/pages/auth/login_or_register_page.dart';
+import 'package:koala/pages/auth/auth_page.dart';
 import 'package:koala/pages/auth/onboarding_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,9 +22,7 @@ class AuthGate extends StatelessWidget {
           return Text('Error: ${snapshot.error}');
         } else {
           final seenOnboarding = snapshot.data ?? false;
-          return seenOnboarding
-              ? const LoginOrRegisterPage()
-              : const OnboardingPage();
+          return seenOnboarding ? const AuthPage() : const OnboardingPage();
         }
       },
     );

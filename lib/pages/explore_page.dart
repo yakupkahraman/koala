@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:koala/constants.dart';
-import 'package:koala/page_provider.dart';
+import 'package:koala/providers/page_provider.dart';
 import 'package:koala/pages/map_explore_page.dart';
 import 'package:koala/pages/list_explore_page.dart';
-import 'package:koala/pages/search_explore_page.dart';
 import 'package:provider/provider.dart';
 
 class ExplorePage extends StatefulWidget {
@@ -124,11 +124,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     height: 60,
                     child: TextField(
                       onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => SearchExplorePage(),
-                          ),
-                        );
+                        context.push('/search');
                       },
                       readOnly: true, // Klavyenin açılmasını önler
                       decoration: InputDecoration(
@@ -168,11 +164,7 @@ class _ExplorePageState extends State<ExplorePage> {
                       ),
                       color: Colors.white,
                       onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => SearchExplorePage(),
-                          ),
-                        );
+                        context.push('/search');
                       },
                     ),
                   ),

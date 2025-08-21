@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:koala/page_provider.dart';
-import 'package:koala/pages/auth/auth_gate.dart';
+import 'package:koala/providers/page_provider.dart';
+import 'package:koala/router_manager.dart';
 import 'package:koala/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +11,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => PageProvider()),
       ],
-      child: const MyApp(),
+      child: MyApp(),
     ),
   );
 }
@@ -21,11 +21,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Koala',
       theme: Provider.of<ThemeProvider>(context).themeData,
-      home: AuthGate(),
+      routerConfig: RouterManager.router,
     );
   }
 }

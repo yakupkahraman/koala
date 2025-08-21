@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:koala/components/my_button.dart';
 import 'package:koala/components/my_textfield.dart';
 import 'package:koala/constants.dart';
-import 'package:koala/pages/auth/email_verification_pending_page.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key, required this.isBusiness});
@@ -18,7 +18,7 @@ class RegisterPage extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(HugeIcons.strokeRoundedArrowLeft01, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.pop(),
         ),
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),
@@ -72,13 +72,8 @@ class RegisterPage extends StatelessWidget {
                             height: 60,
                             child: MyButton(
                               onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        EmailVerificationPendingPage(
-                                          isBusiness: isBusiness,
-                                        ),
-                                  ),
+                                context.go(
+                                  '/auth/register-type/register/email-verification-pending?isBusiness=$isBusiness',
                                 );
                               },
                               title: 'KAYIT OL',
