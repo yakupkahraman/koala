@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:koala/constants.dart';
+import 'package:koala/core/constants.dart';
 
 class MyButton extends StatelessWidget {
   const MyButton({super.key, required this.onPressed, required this.title});
@@ -20,7 +20,7 @@ class MyButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
-            backgroundColor: kMainGreenColor,
+            backgroundColor: ThemeConstants.primaryColor,
             overlayColor: Colors.green[50],
             padding: const EdgeInsets.all(12.0),
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:koala/components/my_button.dart';
-import 'package:koala/constants.dart';
+import 'package:koala/core/widgets/my_button.dart';
+import 'package:koala/core/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -21,7 +21,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: kDefaultPadding,
+          padding: EdgeInsets.all(UiConstants.defaultPadding),
           child: Column(
             children: [
               Expanded(
@@ -53,7 +53,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   dotHeight: 8,
                   dotWidth: 8,
                   spacing: 6,
-                  activeDotColor: kMainGreenColor,
+                  activeDotColor: ThemeConstants.primaryColor,
                 ),
               ),
               const SizedBox(height: 30),

@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:koala/constants.dart';
+import 'package:koala/core/constants.dart';
 
 class NavItem extends StatefulWidget {
   final int index;
@@ -90,7 +90,9 @@ class _NavItemState extends State<NavItem> with SingleTickerProviderStateMixin {
               ),
               child: Icon(
                 widget.isSelected ? widget.selectedIcon : widget.unSelectedIcon,
-                color: widget.isSelected ? kMainGreenColor : Colors.white,
+                color: widget.isSelected
+                    ? ThemeConstants.primaryColor
+                    : Colors.white,
                 size: 28,
               ),
             ),

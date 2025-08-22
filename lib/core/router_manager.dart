@@ -1,20 +1,20 @@
 import 'package:go_router/go_router.dart';
-import 'package:koala/pages/auth/auth_gate.dart';
-import 'package:koala/pages/auth/auth_page.dart';
-import 'package:koala/pages/auth/company_informations_page.dart';
-import 'package:koala/pages/auth/creating_password_page.dart';
-import 'package:koala/pages/auth/onboarding_page.dart';
-import 'package:koala/pages/auth/register_type_page.dart';
-import 'package:koala/pages/explore_page.dart';
-import 'package:koala/pages/my_jobs_page.dart';
-import 'package:koala/pages/chat_page.dart';
-import 'package:koala/pages/profile_page.dart';
-import 'package:koala/shell_page.dart';
-import 'package:koala/pages/search_explore_page.dart';
+import 'package:koala/features/auth/presentation/pages/auth_gate.dart';
+import 'package:koala/features/auth/presentation/pages/auth_page.dart';
+import 'package:koala/features/auth/presentation/pages/company_informations_page.dart';
+import 'package:koala/features/auth/presentation/pages/creating_password_page.dart';
+import 'package:koala/features/auth/presentation/pages/onboarding_page.dart';
+import 'package:koala/features/auth/presentation/pages/register_type_page.dart';
+import 'package:koala/features/home/presentation/pages/explore_page.dart';
+import 'package:koala/features/home/presentation/pages/my_jobs_page.dart';
+import 'package:koala/features/home/presentation/pages/chat_page.dart';
+import 'package:koala/features/home/presentation/pages/profile_page.dart';
+import 'package:koala/features/home/presentation/pages/shell_page.dart';
+import 'package:koala/features/home/presentation/pages/search_explore_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:koala/pages/auth/login_page.dart';
-import 'package:koala/pages/auth/register_page.dart';
-import 'package:koala/pages/auth/email_verification_pending_page.dart';
+import 'package:koala/features/auth/presentation/pages/login_page.dart';
+import 'package:koala/features/auth/presentation/pages/register_page.dart';
+import 'package:koala/features/auth/presentation/pages/email_verification_pending_page.dart';
 
 class RouterManager {
   static Future<bool> isUserLoggedIn() async {

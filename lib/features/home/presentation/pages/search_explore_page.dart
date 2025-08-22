@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:koala/constants.dart';
+import 'package:koala/core/constants.dart';
 
 class SearchExplorePage extends StatelessWidget {
   const SearchExplorePage({super.key});
@@ -23,7 +23,9 @@ class SearchExplorePage extends StatelessWidget {
                   child: IconButton(
                     icon: const Icon(HugeIcons.strokeRoundedSearch01, size: 24),
                     style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(kMainGreenColor),
+                      backgroundColor: WidgetStatePropertyAll(
+                        ThemeConstants.primaryColor,
+                      ),
                       padding: WidgetStatePropertyAll(EdgeInsets.all(8)),
                     ),
                     color: Colors.white,

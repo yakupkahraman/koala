@@ -3,7 +3,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:koala/constants.dart';
+import 'package:koala/core/constants.dart';
 import 'package:location/location.dart';
 import 'dart:async';
 
@@ -166,7 +166,7 @@ class _MapExplorePageState extends State<MapExplorePage> {
                   children: [
                     CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        kMainGreenColor,
+                        ThemeConstants.primaryColor,
                       ),
                       strokeWidth: 3.0,
                     ),

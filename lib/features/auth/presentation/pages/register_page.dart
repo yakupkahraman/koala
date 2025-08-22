@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:koala/components/my_button.dart';
-import 'package:koala/components/my_textfield.dart';
-import 'package:koala/constants.dart';
+import 'package:koala/core/widgets/my_button.dart';
+import 'package:koala/core/widgets/my_textfield.dart';
+import 'package:koala/core/constants.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key, required this.isBusiness});
@@ -131,7 +131,7 @@ class RegisterPage extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0),
                                     side: BorderSide(
-                                      color: kMainGreenColor,
+                                      color: ThemeConstants.primaryColor,
                                       width: 3.0,
                                     ),
                                   ),
@@ -159,7 +159,8 @@ class RegisterPage extends StatelessWidget {
                                               "GOOGLE İLE KAYIT OL",
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
-                                                color: kMainGreenColor,
+                                                color:
+                                                    ThemeConstants.primaryColor,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w700,
                                               ),
@@ -199,7 +200,7 @@ class RegisterPage extends StatelessWidget {
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 10,
-                                  color: kMainGreenColor,
+                                  color: ThemeConstants.primaryColor,
                                   fontWeight: FontWeight.w600,
                                   decoration: TextDecoration.underline,
                                 ),
@@ -215,7 +216,7 @@ class RegisterPage extends StatelessWidget {
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 10,
-                                  color: kMainGreenColor,
+                                  color: ThemeConstants.primaryColor,
                                   fontWeight: FontWeight.w600,
                                   decoration: TextDecoration.underline,
                                 ),

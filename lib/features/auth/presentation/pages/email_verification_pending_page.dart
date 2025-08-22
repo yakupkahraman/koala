@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:koala/constants.dart';
+import 'package:koala/core/constants.dart';
 import 'package:lottie/lottie.dart';
 
 class EmailVerificationPendingPage extends StatelessWidget {
@@ -22,7 +22,7 @@ class EmailVerificationPendingPage extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: kDefaultPadding,
+            padding: EdgeInsets.all(UiConstants.defaultPadding),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

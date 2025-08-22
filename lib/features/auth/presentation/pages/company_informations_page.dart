@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:koala/components/my_button.dart';
-import 'package:koala/components/my_textfield.dart';
-import 'package:koala/constants.dart';
+import 'package:koala/core/widgets/my_button.dart';
+import 'package:koala/core/widgets/my_textfield.dart';
+import 'package:koala/core/constants.dart';
 
 class CompanyInformationsPage extends StatefulWidget {
   const CompanyInformationsPage({super.key});
@@ -118,7 +118,7 @@ class _CompanyInformationsPageState extends State<CompanyInformationsPage> {
       return Colors.lightGreen[700]!;
     }
 
-    return kMainGreenColor;
+    return ThemeConstants.primaryColor;
   }
 
   @override
@@ -246,7 +246,7 @@ class _CompanyInformationsPageState extends State<CompanyInformationsPage> {
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.0),
                                     borderSide: BorderSide(
-                                      color: kMainGreenColor,
+                                      color: ThemeConstants.primaryColor,
                                       width: 2.0,
                                     ),
                                   ),
@@ -295,7 +295,7 @@ class _CompanyInformationsPageState extends State<CompanyInformationsPage> {
                                       width: 30,
                                       height: 30,
                                       decoration: BoxDecoration(
-                                        color: kMainGreenColor,
+                                        color: ThemeConstants.primaryColor,
                                         shape: BoxShape.circle,
                                         border: Border.all(
                                           color: Colors.white,
@@ -360,7 +360,7 @@ class _CompanyInformationsPageState extends State<CompanyInformationsPage> {
           'Şirket bilgileri başarıyla kaydedildi',
           style: TextStyle(fontFamily: 'Poppins'),
         ),
-        backgroundColor: kMainGreenColor,
+        backgroundColor: ThemeConstants.primaryColor,
         behavior: SnackBarBehavior.floating,
       ),
     );

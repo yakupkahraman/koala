@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:koala/constants.dart';
+import 'package:koala/core/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterTypePage extends StatelessWidget {
@@ -39,7 +39,10 @@ class RegisterTypePage extends StatelessWidget {
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
-                    side: BorderSide(color: kMainGreenColor, width: 3),
+                    side: BorderSide(
+                      color: ThemeConstants.primaryColor,
+                      width: 3,
+                    ),
                   ),
                   child: InkWell(
                     splashColor: Colors.green[100],
@@ -117,7 +120,10 @@ class RegisterTypePage extends StatelessWidget {
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
-                    side: BorderSide(color: kMainGreenColor, width: 3),
+                    side: BorderSide(
+                      color: ThemeConstants.primaryColor,
+                      width: 3,
+                    ),
                   ),
                   child: InkWell(
                     splashColor: Colors.green[100],

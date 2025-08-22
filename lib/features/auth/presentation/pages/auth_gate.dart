@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:koala/pages/auth/auth_page.dart';
-import 'package:koala/pages/auth/onboarding_page.dart';
+import 'package:koala/features/auth/presentation/pages/auth_page.dart';
+import 'package:koala/features/auth/presentation/pages/onboarding_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthGate extends StatelessWidget {

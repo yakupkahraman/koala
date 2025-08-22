@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:koala/constants.dart';
-import 'package:koala/providers/page_provider.dart';
-import 'package:koala/pages/map_explore_page.dart';
-import 'package:koala/pages/list_explore_page.dart';
+import 'package:koala/core/constants.dart';
+import 'package:koala/features/home/presentation/providers/page_provider.dart';
+import 'package:koala/features/home/presentation/pages/map_explore_page.dart';
+import 'package:koala/features/home/presentation/pages/list_explore_page.dart';
 import 'package:provider/provider.dart';
 
 class ExplorePage extends StatefulWidget {
@@ -95,7 +95,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   );
                   pageProvider.toggleExploreView();
                 },
-                backgroundColor: kMainGreenColor,
+                backgroundColor: ThemeConstants.primaryColor,
 
                 child: Icon(
                   pageProvider.exploreViewType == ExploreViewType.map
@@ -158,7 +158,7 @@ class _ExplorePageState extends State<ExplorePage> {
                       ),
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
-                          kMainGreenColor,
+                          ThemeConstants.primaryColor,
                         ),
                         padding: WidgetStatePropertyAll(EdgeInsets.all(8)),
                       ),

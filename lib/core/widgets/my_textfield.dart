@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:koala/constants.dart';
+import 'package:koala/core/constants.dart';
 
 class MyTextfield extends StatelessWidget {
   const MyTextfield({
@@ -35,7 +35,10 @@ class MyTextfield extends StatelessWidget {
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(color: kMainGreenColor, width: 2.0),
+            borderSide: BorderSide(
+              color: ThemeConstants.primaryColor,
+              width: 2.0,
+            ),
           ),
           contentPadding: EdgeInsets.symmetric(
             horizontal: 16.0,

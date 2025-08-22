@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:koala/constants.dart';
+import 'package:koala/core/constants.dart';
 
 class ListExplorePage extends StatelessWidget {
   const ListExplorePage({super.key});
@@ -132,7 +132,7 @@ class ListExplorePage extends StatelessWidget {
                                 width: 20,
                                 height: 20,
                                 decoration: BoxDecoration(
-                                  color: kMainGreenColor,
+                                  color: ThemeConstants.primaryColor,
                                   borderRadius: BorderRadius.circular(25),
                                 ),
                                 child: Icon(
@@ -197,7 +197,7 @@ class ListExplorePage extends StatelessWidget {
                   ),
                   contentPadding: const EdgeInsets.all(16),
                   leading: CircleAvatar(
-                    backgroundColor: kMainGreenColor,
+                    backgroundColor: ThemeConstants.primaryColor,
                     child: Icon(
                       index % 2 == 0
                           ? HugeIcons.strokeRoundedWork
@@ -231,7 +231,7 @@ class ListExplorePage extends StatelessWidget {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: kMainGreenColor,
+                      color: ThemeConstants.primaryColor,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(

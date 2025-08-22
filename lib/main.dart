@@ -1,8 +1,8 @@
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
-import 'package:koala/providers/page_provider.dart';
-import 'package:koala/router_manager.dart';
-import 'package:koala/theme/theme_provider.dart';
+import 'package:koala/features/home/presentation/providers/page_provider.dart';
+import 'package:koala/core/router_manager.dart';
+import 'package:koala/core/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {

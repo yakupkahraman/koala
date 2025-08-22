@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:koala/components/my_button.dart';
-import 'package:koala/components/my_textfield.dart';
-import 'package:koala/constants.dart';
+import 'package:koala/core/widgets/my_button.dart';
+import 'package:koala/core/widgets/my_textfield.dart';
+import 'package:koala/core/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatelessWidget {
@@ -136,7 +136,7 @@ class LoginPage extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0),
                                     side: BorderSide(
-                                      color: kMainGreenColor,
+                                      color: ThemeConstants.primaryColor,
                                       width: 3.0,
                                     ),
                                   ),
@@ -166,7 +166,8 @@ class LoginPage extends StatelessWidget {
                                               "GOOGLE İLE GİRİŞ YAP",
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
-                                                color: kMainGreenColor,
+                                                color:
+                                                    ThemeConstants.primaryColor,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w700,
                                               ),
@@ -206,7 +207,7 @@ class LoginPage extends StatelessWidget {
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 10,
-                                  color: kMainGreenColor,
+                                  color: ThemeConstants.primaryColor,
                                   fontWeight: FontWeight.w600,
                                   decoration: TextDecoration.underline,
                                 ),
@@ -222,7 +223,7 @@ class LoginPage extends StatelessWidget {
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 10,
-                                  color: kMainGreenColor,
+                                  color: ThemeConstants.primaryColor,
                                   fontWeight: FontWeight.w600,
                                   decoration: TextDecoration.underline,
                                 ),

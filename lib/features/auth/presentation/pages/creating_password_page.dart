@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:koala/components/my_button.dart';
-import 'package:koala/components/my_textfield.dart';
-import 'package:koala/constants.dart';
+import 'package:koala/core/widgets/my_button.dart';
+import 'package:koala/core/widgets/my_textfield.dart';
+import 'package:koala/core/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreatingPasswordPage extends StatefulWidget {
@@ -65,7 +65,7 @@ class _CreatingPasswordPageState extends State<CreatingPasswordPage> {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: kDefaultPadding,
+            padding: EdgeInsets.all(UiConstants.defaultPadding),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

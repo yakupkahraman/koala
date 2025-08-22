@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:koala/components/my_button.dart';
-import 'package:koala/constants.dart';
+import 'package:koala/core/widgets/my_button.dart';
+import 'package:koala/core/constants.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -21,7 +21,7 @@ class AuthPage extends StatelessWidget {
               ),
             ),
             Container(
-              padding: kDefaultPadding,
+              padding: EdgeInsets.all(UiConstants.defaultPadding),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,7 +68,7 @@ class AuthPage extends StatelessWidget {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.0),
                                   side: BorderSide(
-                                    color: kMainGreenColor,
+                                    color: ThemeConstants.primaryColor,
                                     width: 3.0,
                                   ),
                                 ),
@@ -79,7 +79,7 @@ class AuthPage extends StatelessWidget {
                                 "GİRİŞ YAP",
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
-                                  color: kMainGreenColor,
+                                  color: ThemeConstants.primaryColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                 ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:koala/constants.dart';
+import 'package:koala/core/constants.dart';
 
 //light theme
 ThemeData lightTheme = ThemeData(
@@ -12,7 +12,7 @@ ThemeData lightTheme = ThemeData(
     foregroundColor: Colors.grey.shade900,
   ),
   colorScheme: ColorScheme.light(
-    primary: kMainGreenColor,
+    primary: ThemeConstants.primaryColor,
     secondary: Colors.grey.shade400,
     surfaceContainer: Colors.grey.shade300,
 

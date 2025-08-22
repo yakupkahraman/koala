@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:koala/constants.dart';
-import 'package:koala/components/navbar_item.dart';
+import 'package:koala/core/constants.dart';
+import 'package:koala/core/widgets/navbar_item.dart';
 import 'package:go_router/go_router.dart';
 
 class ShellPage extends StatefulWidget {
@@ -42,7 +42,7 @@ class _ShellPageState extends State<ShellPage> {
                 fontFamily: 'Poppins',
                 fontSize: 30,
                 fontWeight: FontWeight.w800,
-                color: kMainGreenColor,
+                color: ThemeConstants.primaryColor,
               ),
             ),
           ),
@@ -53,7 +53,7 @@ class _ShellPageState extends State<ShellPage> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(36),
-            color: kMainGreenColor,
+            color: ThemeConstants.primaryColor,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.3),

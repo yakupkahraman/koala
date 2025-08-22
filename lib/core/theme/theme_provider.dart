@@ -1,4 +1,4 @@
-import 'package:koala/theme/theme.dart';
+import 'package:koala/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
