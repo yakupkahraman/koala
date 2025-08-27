@@ -1,11 +1,9 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:koala/core/constants.dart';
 import 'package:location/location.dart';
-import 'dart:async';
 
 class MapExplorePage extends StatefulWidget {
   const MapExplorePage({super.key});
@@ -19,16 +17,21 @@ class _MapExplorePageState extends State<MapExplorePage> {
   GoogleMapController? _mapController;
   Location location = Location();
   LocationData? _currentPosition;
-  StreamSubscription<LocationData>? _locationSubscription;
-  bool _isFollowingUser = true; // Kullanıcıyı takip ediyor mu?
+  String _loadingMessage = '';
 
   @override
   void initState() {
     super.initState();
+
+    setState(() {
+      _loadingMessage = 'Harita yükleniyor...';
+      _isMapLoading = true;
+    });
+
     _getCurrentLocation();
   }
 
-  // Kullanıcının konumunu al ve anlık takip et
+  // Kullanıcının mevcut konumunu al (sadece bir kez)
   Future<void> _getCurrentLocation() async {
     bool serviceEnabled;
     PermissionStatus permissionGranted;
@@ -52,17 +55,14 @@ class _MapExplorePageState extends State<MapExplorePage> {
     }
 
     // Konum ayarlarını yapılandır
-    await location.changeSettings(
-      accuracy: LocationAccuracy.high,
-      interval: 5000, // 5 saniyede bir güncelle
-      distanceFilter: 5, // 5 metre hareket ettiğinde güncelle
-    );
+    await location.changeSettings(accuracy: LocationAccuracy.high);
 
-    // İlk konumu al
+    // Konumu al
     try {
       LocationData locationData = await location.getLocation();
       setState(() {
         _currentPosition = locationData;
+        _isMapLoading = false;
       });
 
       // Haritayı kullanıcının konumuna odakla
@@ -73,36 +73,12 @@ class _MapExplorePageState extends State<MapExplorePage> {
           ),
         );
       }
-
-      // Anlık konum takibini başlat
-      _startLocationTracking();
     } catch (e) {
-      if (kDebugMode) {
-        print('Konum alınamadı: $e');
-      }
+      setState(() {
+        _isMapLoading = false;
+      });
+      Exception('Konum alınamadı: $e');
     }
-  }
-
-  // Anlık konum takibini başlat
-  void _startLocationTracking() {
-    _locationSubscription = location.onLocationChanged.listen((
-      LocationData locationData,
-    ) {
-      if (mounted) {
-        setState(() {
-          _currentPosition = locationData;
-        });
-
-        // Sadece kullanıcıyı takip ediyorsak haritayı hareket ettir
-        if (_mapController != null && _isFollowingUser) {
-          _mapController!.animateCamera(
-            CameraUpdate.newLatLng(
-              LatLng(locationData.latitude!, locationData.longitude!),
-            ),
-          );
-        }
-      }
-    });
   }
 
   @override
@@ -124,14 +100,12 @@ class _MapExplorePageState extends State<MapExplorePage> {
             myLocationEnabled: true,
             myLocationButtonEnabled: false,
             zoomControlsEnabled: false,
-            onCameraMove: (CameraPosition position) {
-              setState(() {
-                _isFollowingUser = false;
-              });
-              // Kullanıcı haritayı manuel olarak hareket ettirdi
-            },
             onMapCreated: (GoogleMapController controller) {
               _mapController = controller;
+
+              setState(() {
+                _loadingMessage = 'Konum alınıyor...';
+              });
 
               // Eğer konum zaten alınmışsa haritayı odakla
               if (_currentPosition != null) {
@@ -143,24 +117,19 @@ class _MapExplorePageState extends State<MapExplorePage> {
                     ),
                   ),
                 );
-              }
 
-              // Map yüklendiğinde loading'i kapat
-              Future.delayed(const Duration(milliseconds: 500), () {
-                if (mounted) {
-                  setState(() {
-                    _isMapLoading = false;
-                  });
-                }
-              });
+                setState(() {
+                  _isMapLoading = false;
+                });
+              }
             },
           ),
 
           // Loading overlay
           if (_isMapLoading)
             Container(
-              color: Colors.black.withOpacity(0.8),
-              child: const Center(
+              color: Colors.black.withOpacity(0.6),
+              child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -172,7 +141,7 @@ class _MapExplorePageState extends State<MapExplorePage> {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'Harita Yükleniyor...',
+                      _loadingMessage,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -184,6 +153,31 @@ class _MapExplorePageState extends State<MapExplorePage> {
                 ),
               ),
             ),
+
+          // Konumum butonu
+          Positioned(
+            bottom: 110, // Bottom navigation'ın üzerinde
+            right: UiConstants.defaultPadding,
+            child: FloatingActionButton(
+              mini: true,
+              backgroundColor: ThemeConstants.primaryColor,
+              foregroundColor: Colors.white,
+              elevation: 4,
+              onPressed: () {
+                if (_currentPosition != null && _mapController != null) {
+                  _mapController!.animateCamera(
+                    CameraUpdate.newLatLng(
+                      LatLng(
+                        _currentPosition!.latitude!,
+                        _currentPosition!.longitude!,
+                      ),
+                    ),
+                  );
+                }
+              },
+              child: const Icon(Icons.my_location, size: 24),
+            ),
+          ),
         ],
       ),
     );
@@ -191,7 +185,6 @@ class _MapExplorePageState extends State<MapExplorePage> {
 
   @override
   void dispose() {
-    _locationSubscription?.cancel();
     _mapController?.dispose();
     super.dispose();
   }

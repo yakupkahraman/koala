@@ -13,7 +13,7 @@ class SearchExplorePage extends StatelessWidget {
           AnimatedContainer(
             duration: const Duration(milliseconds: 400),
             curve: Curves.easeInOut,
-            width: MediaQuery.of(context).size.width - 50,
+            width: MediaQuery.of(context).size.width - 60,
             height: 60,
             child: TextField(
               autofocus: true, // Sayfa açılınca otomatik focus
@@ -42,6 +42,7 @@ class SearchExplorePage extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(width: 8),
         ],
       ),
     );

@@ -81,6 +81,7 @@ class _ExplorePageState extends State<ExplorePage> {
               children: const [MapExplorePage(), ListExplorePage()],
             ),
 
+            /*
             //toggle view
             Positioned(
               bottom: 100,
@@ -106,7 +107,7 @@ class _ExplorePageState extends State<ExplorePage> {
                 ),
               ),
             ),
-
+*/
             //search button
             Stack(
               clipBehavior: Clip.none,
@@ -140,6 +141,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   ),
                 ),
 
+                // Search butonu
                 AnimatedPositioned(
                   duration: allowButtonAnimation
                       ? Duration(milliseconds: 200)

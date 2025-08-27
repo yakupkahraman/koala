@@ -22,4 +22,15 @@ class PageProvider with ChangeNotifier {
           : ExploreViewType.map,
     );
   }
+
+  // PageProvider'a eklenecek metodlar
+  void setExploreViewToMap() {
+    _exploreViewType = ExploreViewType.map;
+    notifyListeners();
+  }
+
+  void setExploreViewToList() {
+    _exploreViewType = ExploreViewType.list;
+    notifyListeners();
+  }
 }

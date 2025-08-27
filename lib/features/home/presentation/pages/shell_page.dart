@@ -5,6 +5,8 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:koala/core/constants.dart';
 import 'package:koala/core/widgets/navbar_item.dart';
 import 'package:go_router/go_router.dart';
+import 'package:koala/features/home/presentation/providers/page_provider.dart';
+import 'package:provider/provider.dart';
 
 class ShellPage extends StatefulWidget {
   final Widget child;
@@ -19,6 +21,19 @@ class _ShellPageState extends State<ShellPage> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index, String path) {
+    if (index == 0) {
+      // Home butonuna basıldığında
+      final pageProvider = Provider.of<PageProvider>(context, listen: false);
+
+      if (_selectedIndex != 0) {
+        // Diğer sayfalardan home'a geliyorsa -> map göster
+        pageProvider.setExploreViewToMap();
+      } else {
+        // Zaten home'dayken tekrar basıldıysa -> toggle yap
+        pageProvider.toggleExploreView();
+      }
+    }
+
     setState(() {
       _selectedIndex = index;
     });
@@ -70,8 +85,18 @@ class _ShellPageState extends State<ShellPage> {
               children: [
                 NavItem(
                   index: 0,
-                  unSelectedIcon: HugeIcons.strokeRoundedHome01,
-                  selectedIcon: HugeIcons.strokeRoundedHome01,
+                  unSelectedIcon: _selectedIndex == 0
+                      ? (context.watch<PageProvider>().exploreViewType ==
+                                ExploreViewType.map
+                            ? HugeIcons.strokeRoundedNavigation05
+                            : HugeIcons.strokeRoundedListView)
+                      : HugeIcons.strokeRoundedNavigation05,
+                  selectedIcon: _selectedIndex == 0
+                      ? (context.watch<PageProvider>().exploreViewType ==
+                                ExploreViewType.map
+                            ? HugeIcons.strokeRoundedNavigation05
+                            : HugeIcons.strokeRoundedListView)
+                      : HugeIcons.strokeRoundedNavigation05,
                   isSelected: _selectedIndex == 0,
                   onTap: () => _onItemTapped(0, '/explore'),
                 ),
