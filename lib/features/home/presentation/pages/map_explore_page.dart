@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:koala/core/constants.dart';
-import 'package:location/location.dart';
+import 'package:koala/features/home/data/location_service.dart';
 
 class MapExplorePage extends StatefulWidget {
   const MapExplorePage({super.key});
@@ -13,72 +13,42 @@ class MapExplorePage extends StatefulWidget {
 }
 
 class _MapExplorePageState extends State<MapExplorePage> {
-  bool _isMapLoading = true;
   GoogleMapController? _mapController;
-  Location location = Location();
-  LocationData? _currentPosition;
-  String _loadingMessage = '';
+  late LocationService _locationService;
+  bool _loading = true;
+  LatLng? _currentLatLng;
+  final LatLng _defaultLatLng = const LatLng(39.925533, 32.866287);
+
+  String _loadingMessage = 'Harita Yükleniyor...';
 
   @override
   void initState() {
     super.initState();
 
-    setState(() {
-      _loadingMessage = 'Harita yükleniyor...';
-      _isMapLoading = true;
-    });
+    _locationService = LocationService(
+      context,
+      onLocationReceived: (pos) {
+        setState(() {
+          _currentLatLng = LatLng(pos.latitude, pos.longitude);
+          _loading = false;
+        });
 
-    _getCurrentLocation();
+        // Haritayı konuma taşı
+        if (_mapController != null) {
+          _mapController!.animateCamera(
+            CameraUpdate.newLatLngZoom(_currentLatLng!, 16),
+          );
+        }
+      },
+    );
+
+    _locationService.init();
   }
 
-  // Kullanıcının mevcut konumunu al (sadece bir kez)
-  Future<void> _getCurrentLocation() async {
-    bool serviceEnabled;
-    PermissionStatus permissionGranted;
-
-    // Konum servisi aktif mi kontrol et
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) {
-        return;
-      }
-    }
-
-    // Konum izni var mı kontrol et
-    permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    // Konum ayarlarını yapılandır
-    await location.changeSettings(accuracy: LocationAccuracy.high);
-
-    // Konumu al
-    try {
-      LocationData locationData = await location.getLocation();
-      setState(() {
-        _currentPosition = locationData;
-        _isMapLoading = false;
-      });
-
-      // Haritayı kullanıcının konumuna odakla
-      if (_mapController != null && _currentPosition != null) {
-        _mapController!.animateCamera(
-          CameraUpdate.newLatLng(
-            LatLng(_currentPosition!.latitude!, _currentPosition!.longitude!),
-          ),
-        );
-      }
-    } catch (e) {
-      setState(() {
-        _isMapLoading = false;
-      });
-      Exception('Konum alınamadı: $e');
-    }
+  @override
+  void dispose() {
+    _locationService.dispose();
+    super.dispose();
   }
 
   @override
@@ -88,12 +58,7 @@ class _MapExplorePageState extends State<MapExplorePage> {
         children: [
           GoogleMap(
             initialCameraPosition: CameraPosition(
-              target: _currentPosition != null
-                  ? LatLng(
-                      _currentPosition!.latitude!,
-                      _currentPosition!.longitude!,
-                    )
-                  : const LatLng(37.7749, -122.4194), // Default San Francisco
+              target: _currentLatLng ?? _defaultLatLng,
               zoom: 15.0,
             ),
             mapType: MapType.normal,
@@ -104,45 +69,36 @@ class _MapExplorePageState extends State<MapExplorePage> {
               _mapController = controller;
 
               setState(() {
-                _loadingMessage = 'Konum alınıyor...';
+                _loadingMessage = 'Konum Alınıyor...';
               });
 
               // Eğer konum zaten alınmışsa haritayı odakla
-              if (_currentPosition != null) {
-                controller.animateCamera(
-                  CameraUpdate.newLatLng(
-                    LatLng(
-                      _currentPosition!.latitude!,
-                      _currentPosition!.longitude!,
-                    ),
-                  ),
+              if (_currentLatLng != null) {
+                _mapController!.animateCamera(
+                  CameraUpdate.newLatLngZoom(_currentLatLng!, 16),
                 );
-
-                setState(() {
-                  _isMapLoading = false;
-                });
               }
             },
           ),
 
           // Loading overlay
-          if (_isMapLoading)
+          if (_loading)
             Container(
               color: Colors.black.withOpacity(0.6),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircularProgressIndicator(
+                    const CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(
                         ThemeConstants.primaryColor,
                       ),
                       strokeWidth: 3.0,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Text(
                       _loadingMessage,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                         fontFamily: 'Poppins',
@@ -164,15 +120,17 @@ class _MapExplorePageState extends State<MapExplorePage> {
               foregroundColor: Colors.white,
               elevation: 4,
               onPressed: () {
-                if (_currentPosition != null && _mapController != null) {
+                if (_currentLatLng != null && _mapController != null) {
                   _mapController!.animateCamera(
-                    CameraUpdate.newLatLng(
-                      LatLng(
-                        _currentPosition!.latitude!,
-                        _currentPosition!.longitude!,
+                    CameraUpdate.newCameraPosition(
+                      CameraPosition(
+                        target: _currentLatLng!,
+                        zoom: 15.0, // Consistent zoom level
                       ),
                     ),
                   );
+                  // Optional: Add haptic feedback
+                  // HapticFeedback.lightImpact();
                 }
               },
               child: const Icon(Icons.my_location, size: 24),
@@ -181,11 +139,5 @@ class _MapExplorePageState extends State<MapExplorePage> {
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _mapController?.dispose();
-    super.dispose();
   }
 }
