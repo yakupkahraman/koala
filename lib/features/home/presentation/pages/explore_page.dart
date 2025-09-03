@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hugeicons/hugeicons.dart';
-import 'package:koala/core/constants.dart';
+import 'package:provider/provider.dart';
 import 'package:koala/features/home/presentation/providers/page_provider.dart';
 import 'package:koala/features/home/presentation/pages/map_explore_page.dart';
 import 'package:koala/features/home/presentation/pages/list_explore_page.dart';
-import 'package:provider/provider.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
@@ -14,168 +11,46 @@ class ExplorePage extends StatefulWidget {
   State<ExplorePage> createState() => _ExplorePageState();
 }
 
-class _ExplorePageState extends State<ExplorePage> {
-  bool isOpen = false;
-  bool allowButtonAnimation = true; // Button animasyonunu kontrol etmek için
-  ExploreViewType? _previousViewType;
+class _ExplorePageState extends State<ExplorePage>
+    with AutomaticKeepAliveClientMixin<ExplorePage> {
+  late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
-    // İlk açılışta view type'ı kaydet
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final pageProvider = Provider.of<PageProvider>(context, listen: false);
-      _previousViewType = pageProvider.exploreViewType;
-    });
+    _pageController = PageController();
   }
 
-  void _handleViewTypeChange(ExploreViewType currentViewType) {
-    // Eğer map'ten list'e geçiş yapıldıysa
-    if (_previousViewType == ExploreViewType.map &&
-        currentViewType == ExploreViewType.list) {
-      // Search button'un konumlandırma animasyonu süresini bekle (200ms)
-      // sonra TextField'ı aç
-      Future.delayed(const Duration(milliseconds: 100), () {
-        if (mounted) {
-          setState(() {
-            isOpen = true;
-          });
-        }
-      });
-    } else if (_previousViewType == ExploreViewType.list &&
-        currentViewType == ExploreViewType.map) {
-      // List'ten map'e geçerken önce button animasyonunu durdur
-      setState(() {
-        allowButtonAnimation = false;
-        isOpen = false;
-      });
-
-      // TextField kapanma animasyonu bitince (50ms) button animasyonunu başlat
-      Future.delayed(const Duration(milliseconds: 100), () {
-        if (mounted) {
-          setState(() {
-            allowButtonAnimation = true; // Button animasyonunu tekrar başlat
-          });
-        }
-      });
-    }
-
-    _previousViewType = currentViewType;
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Consumer<PageProvider>(
       builder: (context, pageProvider, child) {
-        // View type değişikliğini kontrol et
+        // PageProvider değiştiğinde sayfa animasyonu yap
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          _handleViewTypeChange(pageProvider.exploreViewType);
+          if (_pageController.hasClients) {
+            _pageController.jumpToPage(
+              pageProvider.exploreViewType == ExploreViewType.map ? 0 : 1,
+            );
+          }
         });
 
-        return Stack(
-          children: [
-            IndexedStack(
-              index: pageProvider.exploreViewType == ExploreViewType.map
-                  ? 0
-                  : 1,
-              children: const [MapExplorePage(), ListExplorePage()],
-            ),
-
-            /*
-            //toggle view
-            Positioned(
-              bottom: 100,
-              left: 36,
-              child: FloatingActionButton(
-                mini: true,
-                elevation: 4,
-                onPressed: () {
-                  final pageProvider = Provider.of<PageProvider>(
-                    context,
-                    listen: false,
-                  );
-                  pageProvider.toggleExploreView();
-                },
-                backgroundColor: ThemeConstants.primaryColor,
-
-                child: Icon(
-                  pageProvider.exploreViewType == ExploreViewType.map
-                      ? HugeIcons.strokeRoundedListView
-                      : HugeIcons.strokeRoundedMaps,
-                  color: Colors.white,
-                  size: 20,
-                ),
-              ),
-            ),
-*/
-            //search button
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                // 🔹 Açılan TextField (butonun altından)
-                Positioned(
-                  top: pageProvider.exploreViewType == ExploreViewType.map
-                      ? 30
-                      : 80,
-                  right: 16,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    curve: Curves.easeInOut,
-                    width: isOpen ? MediaQuery.of(context).size.width - 32 : 0,
-                    height: 60,
-                    child: TextField(
-                      onTap: () {
-                        context.push('/search');
-                      },
-                      readOnly: true, // Klavyenin açılmasını önler
-                      decoration: InputDecoration(
-                        hintText: "Ara...",
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                // Search butonu
-                AnimatedPositioned(
-                  duration: allowButtonAnimation
-                      ? Duration(milliseconds: 200)
-                      : Duration.zero, // Animasyon kontrolü
-                  curve: Curves.easeInOut,
-                  top: pageProvider.exploreViewType == ExploreViewType.map
-                      ? 30
-                      : 84,
-                  right: 16,
-                  child: Hero(
-                    tag: 'search_button',
-                    child: IconButton(
-                      icon: const Icon(
-                        HugeIcons.strokeRoundedSearch01,
-                        size: 24,
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(
-                          ThemeConstants.primaryColor,
-                        ),
-                        padding: WidgetStatePropertyAll(EdgeInsets.all(8)),
-                      ),
-                      color: Colors.white,
-                      onPressed: () {
-                        context.push('/search');
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+        return PageView(
+          controller: _pageController,
+          physics:
+              const NeverScrollableScrollPhysics(), // Sadece programmatik geçiş
+          children: const [MapExplorePage(), ListExplorePage()],
         );
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

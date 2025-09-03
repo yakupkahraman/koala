@@ -6,6 +6,10 @@ import 'package:koala/core/constants.dart';
 import 'package:koala/core/widgets/navbar_item.dart';
 import 'package:go_router/go_router.dart';
 import 'package:koala/features/home/presentation/providers/page_provider.dart';
+import 'package:koala/features/home/presentation/pages/explore_page.dart';
+import 'package:koala/features/home/presentation/pages/my_jobs_page.dart';
+import 'package:koala/features/home/presentation/pages/chat_page.dart';
+import 'package:koala/features/home/presentation/pages/profile_page.dart';
 import 'package:provider/provider.dart';
 
 class ShellPage extends StatefulWidget {
@@ -19,6 +23,27 @@ class ShellPage extends StatefulWidget {
 
 class _ShellPageState extends State<ShellPage> {
   int _selectedIndex = 0;
+  late PageController _pageController;
+
+  // State korunması için sayfaları burada tanımla
+  static const List<Widget> _pages = [
+    ExplorePage(),
+    MyJobsPage(),
+    ChatPage(),
+    ProfilePage(),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   void _onItemTapped(int index, String path) {
     if (index == 0) {
@@ -37,7 +62,52 @@ class _ShellPageState extends State<ShellPage> {
     setState(() {
       _selectedIndex = index;
     });
+
+    // PageView'i animate et
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+
     context.go(path);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // URL'e göre index'i güncelle
+    final location = GoRouterState.of(context).matchedLocation;
+    int newIndex = 0;
+    switch (location) {
+      case '/explore':
+        newIndex = 0;
+        break;
+      case '/my-jobs':
+        newIndex = 1;
+        break;
+      case '/chat':
+        newIndex = 2;
+        break;
+      case '/profile':
+        newIndex = 3;
+        break;
+    }
+
+    if (_selectedIndex != newIndex) {
+      setState(() {
+        _selectedIndex = newIndex;
+      });
+
+      // PageController'ı güncelle
+      if (_pageController.hasClients) {
+        _pageController.animateToPage(
+          newIndex,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    }
   }
 
   @override
@@ -47,19 +117,12 @@ class _ShellPageState extends State<ShellPage> {
       extendBody: true,
       body: Stack(
         children: [
-          widget.child,
-          Positioned(
-            top: 30,
-            left: 16,
-            child: const Text(
-              'KOALA',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 30,
-                fontWeight: FontWeight.w800,
-                color: ThemeConstants.primaryColor,
-              ),
-            ),
+          // PageView ile sayfaları yönet
+          PageView(
+            controller: _pageController,
+            physics:
+                const NeverScrollableScrollPhysics(), // Sadece programmatik geçiş
+            children: _pages,
           ),
         ],
       ),

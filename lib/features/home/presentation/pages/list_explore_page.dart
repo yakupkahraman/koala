@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:koala/core/constants.dart';
 
-class ListExplorePage extends StatelessWidget {
+class ListExplorePage extends StatefulWidget {
   const ListExplorePage({super.key});
+
+  @override
+  State<ListExplorePage> createState() => _ListExplorePageState();
+}
+
+class _ListExplorePageState extends State<ListExplorePage> {
+  bool isOpen = true;
 
   @override
   Widget build(BuildContext context) {
@@ -12,28 +18,106 @@ class ListExplorePage extends StatelessWidget {
       backgroundColor: Colors.grey[200],
       extendBody: true,
       extendBodyBehindAppBar: false,
-      appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark, // Android için
-          statusBarBrightness: Brightness.light, // iOS için
-        ),
-        //TODO: Küçük ekranlar için responsive tasarım
-        toolbarHeight: 124,
-
-        elevation: 0,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
-        clipBehavior: Clip.antiAlias, // Bu satırı ekleyin
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20),
-            bottomRight: Radius.circular(20),
-          ),
-        ),
-      ),
       body: CustomScrollView(
         slivers: [
+          //TODO: Küçük ekranlar için responsive tasarım
+          SliverAppBar(
+            pinned: true,
+            floating: true,
+            snap: false,
+            stretch: true,
+            expandedHeight: 124,
+            collapsedHeight: 124,
+            elevation: 0,
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            clipBehavior: Clip.hardEdge,
+            title: const Text(
+              'KOALA',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 30,
+                fontWeight: FontWeight.w800,
+                color: ThemeConstants.primaryColor,
+              ),
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+            ),
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                  color: Colors.white,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Stack(
+                          clipBehavior: Clip.none,
+                          alignment: Alignment.centerRight,
+                          children: [
+                            // 🔹 Açılan TextField (butonun altından)
+                            AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              curve: Curves.easeInOut,
+                              width: isOpen
+                                  ? MediaQuery.of(context).size.width - 32
+                                  : 50,
+                              height: 60,
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText: "Ara...",
+                                  filled: true,
+                                  fillColor: isOpen
+                                      ? Colors.grey[200]
+                                      : Colors.transparent,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  suffixIcon: Hero(
+                                    tag: 'search_button',
+                                    child: IconButton(
+                                      icon: const Icon(
+                                        HugeIcons.strokeRoundedSearch01,
+                                        size: 24,
+                                      ),
+                                      style: ButtonStyle(
+                                        backgroundColor: WidgetStatePropertyAll(
+                                          ThemeConstants.primaryColor,
+                                        ),
+                                        padding: WidgetStatePropertyAll(
+                                          EdgeInsets.all(8),
+                                        ),
+                                      ),
+                                      color: Colors.white,
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                      ],
+                    ),
+                    SizedBox(width: 16),
+                  ],
+                ),
+              ),
+            ),
+          ),
           // Kategoriler Bölümü
           SliverToBoxAdapter(
             child: Container(

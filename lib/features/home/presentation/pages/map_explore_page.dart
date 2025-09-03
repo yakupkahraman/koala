@@ -1,7 +1,9 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:koala/core/constants.dart';
 import 'package:koala/features/home/data/location_service.dart';
 
@@ -12,7 +14,8 @@ class MapExplorePage extends StatefulWidget {
   State<MapExplorePage> createState() => _MapExplorePageState();
 }
 
-class _MapExplorePageState extends State<MapExplorePage> {
+class _MapExplorePageState extends State<MapExplorePage>
+    with AutomaticKeepAliveClientMixin<MapExplorePage> {
   GoogleMapController? _mapController;
   late LocationService _locationService;
   bool _loading = true;
@@ -53,7 +56,44 @@ class _MapExplorePageState extends State<MapExplorePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark, // Android için
+          statusBarBrightness: Brightness.light, // iOS için
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(
+          'KOALA',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 30,
+            fontWeight: FontWeight.w800,
+            color: ThemeConstants.primaryColor,
+          ),
+        ),
+        actions: [
+          Hero(
+            tag: 'search_button',
+            child: IconButton(
+              icon: const Icon(HugeIcons.strokeRoundedSearch01, size: 24),
+              style: ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll(
+                  ThemeConstants.primaryColor,
+                ),
+                padding: WidgetStatePropertyAll(EdgeInsets.all(8)),
+              ),
+              color: Colors.white,
+              onPressed: () {},
+            ),
+          ),
+          SizedBox(width: 16),
+        ],
+      ),
       body: Stack(
         children: [
           GoogleMap(
@@ -129,8 +169,7 @@ class _MapExplorePageState extends State<MapExplorePage> {
                       ),
                     ),
                   );
-                  // Optional: Add haptic feedback
-                  // HapticFeedback.lightImpact();
+                  HapticFeedback.lightImpact();
                 }
               },
               child: const Icon(Icons.my_location, size: 24),
@@ -140,4 +179,7 @@ class _MapExplorePageState extends State<MapExplorePage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
