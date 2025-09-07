@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 
 enum ExploreViewType { map, list }
 
+enum JobsViewType { home, saved }
+
 class PageProvider with ChangeNotifier {
   ExploreViewType _exploreViewType = ExploreViewType.map;
+  JobsViewType _jobsViewType = JobsViewType.home;
 
   ExploreViewType get exploreViewType => _exploreViewType;
+  JobsViewType get jobsViewType => _jobsViewType;
 
   // Explore view type değiştirme
   void setExploreViewType(ExploreViewType viewType) {
@@ -32,5 +36,21 @@ class PageProvider with ChangeNotifier {
   void setExploreViewToList() {
     _exploreViewType = ExploreViewType.list;
     notifyListeners();
+  }
+
+  // Jobs view type değiştirme
+  void setJobsViewType(JobsViewType viewType) {
+    if (_jobsViewType != viewType) {
+      _jobsViewType = viewType;
+      notifyListeners();
+    }
+  }
+
+  void toggleJobsView() {
+    setJobsViewType(
+      _jobsViewType == JobsViewType.home
+          ? JobsViewType.saved
+          : JobsViewType.home,
+    );
   }
 }

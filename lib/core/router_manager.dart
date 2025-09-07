@@ -6,7 +6,7 @@ import 'package:koala/features/auth/presentation/pages/creating_password_page.da
 import 'package:koala/features/auth/presentation/pages/onboarding_page.dart';
 import 'package:koala/features/auth/presentation/pages/register_type_page.dart';
 import 'package:koala/features/home/presentation/pages/explore_page.dart';
-import 'package:koala/features/home/presentation/pages/my_jobs_page.dart';
+import 'package:koala/features/home/presentation/pages/jobs_page.dart';
 import 'package:koala/features/home/presentation/pages/chat_page.dart';
 import 'package:koala/features/home/presentation/pages/profile_page.dart';
 import 'package:koala/features/home/presentation/pages/shell_page.dart';
@@ -104,9 +104,9 @@ class RouterManager {
                 NoTransitionPage(child: const ExplorePage()),
           ),
           GoRoute(
-            path: '/my-jobs',
+            path: '/jobs',
             pageBuilder: (context, state) =>
-                NoTransitionPage(child: const MyJobsPage()),
+                NoTransitionPage(child: const JobsPage()),
           ),
           GoRoute(
             path: '/chat',

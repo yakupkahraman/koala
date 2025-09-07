@@ -7,7 +7,7 @@ import 'package:koala/core/widgets/navbar_item.dart';
 import 'package:go_router/go_router.dart';
 import 'package:koala/features/home/presentation/providers/page_provider.dart';
 import 'package:koala/features/home/presentation/pages/explore_page.dart';
-import 'package:koala/features/home/presentation/pages/my_jobs_page.dart';
+import 'package:koala/features/home/presentation/pages/jobs_page.dart';
 import 'package:koala/features/home/presentation/pages/chat_page.dart';
 import 'package:koala/features/home/presentation/pages/profile_page.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +28,7 @@ class _ShellPageState extends State<ShellPage> {
   // State korunması için sayfaları burada tanımla
   static const List<Widget> _pages = [
     ExplorePage(),
-    MyJobsPage(),
+    JobsPage(),
     ChatPage(),
     ProfilePage(),
   ];
@@ -59,6 +59,19 @@ class _ShellPageState extends State<ShellPage> {
       }
     }
 
+    if (index == 1) {
+      // Jobs butonuna basıldığında
+      final pageProvider = Provider.of<PageProvider>(context, listen: false);
+
+      if (_selectedIndex != 1) {
+        // Diğer sayfalardan jobs'a geliyorsa -> home göster
+        pageProvider.setJobsViewType(JobsViewType.home);
+      } else {
+        // Zaten jobs'dayken tekrar basıldıysa -> toggle yap
+        pageProvider.toggleJobsView();
+      }
+    }
+
     setState(() {
       _selectedIndex = index;
     });
@@ -83,7 +96,7 @@ class _ShellPageState extends State<ShellPage> {
       case '/explore':
         newIndex = 0;
         break;
-      case '/my-jobs':
+      case '/jobs':
         newIndex = 1;
         break;
       case '/chat':
@@ -165,10 +178,20 @@ class _ShellPageState extends State<ShellPage> {
                 ),
                 NavItem(
                   index: 1,
-                  unSelectedIcon: HugeIcons.strokeRoundedWork,
-                  selectedIcon: HugeIcons.strokeRoundedWork,
+                  unSelectedIcon: _selectedIndex == 1
+                      ? (context.watch<PageProvider>().jobsViewType ==
+                                JobsViewType.home
+                            ? HugeIcons.strokeRoundedWork
+                            : HugeIcons.strokeRoundedBookmark02)
+                      : HugeIcons.strokeRoundedWork,
+                  selectedIcon: _selectedIndex == 1
+                      ? (context.watch<PageProvider>().jobsViewType ==
+                                JobsViewType.home
+                            ? HugeIcons.strokeRoundedWork
+                            : HugeIcons.strokeRoundedBookmark02)
+                      : HugeIcons.strokeRoundedWork,
                   isSelected: _selectedIndex == 1,
-                  onTap: () => _onItemTapped(1, '/my-jobs'),
+                  onTap: () => _onItemTapped(1, '/jobs'),
                 ),
                 NavItem(
                   index: 2,
