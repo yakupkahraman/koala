@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:koala/features/home/presentation/providers/page_provider.dart';
 import 'package:koala/features/home/presentation/pages/explore_page.dart';
 import 'package:koala/features/home/presentation/pages/jobs_page.dart';
-import 'package:koala/features/home/presentation/pages/chat_page.dart';
+import 'package:koala/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:koala/features/home/presentation/pages/profile_page.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +29,7 @@ class _ShellPageState extends State<ShellPage> {
   static const List<Widget> _pages = [
     ExplorePage(),
     JobsPage(),
-    ChatPage(),
+    ChatListPage(),
     ProfilePage(),
   ];
 
@@ -76,12 +76,8 @@ class _ShellPageState extends State<ShellPage> {
       _selectedIndex = index;
     });
 
-    // PageView'i animate et
-    _pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
+    // PageView'i animasyon olmadan değiştir
+    _pageController.jumpToPage(index);
 
     context.go(path);
   }

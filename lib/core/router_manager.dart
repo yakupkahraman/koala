@@ -7,7 +7,8 @@ import 'package:koala/features/auth/presentation/pages/onboarding_page.dart';
 import 'package:koala/features/auth/presentation/pages/register_type_page.dart';
 import 'package:koala/features/home/presentation/pages/explore_page.dart';
 import 'package:koala/features/home/presentation/pages/jobs_page.dart';
-import 'package:koala/features/home/presentation/pages/chat_page.dart';
+import 'package:koala/features/chat/presentation/pages/chat_list_page.dart';
+import 'package:koala/features/chat/presentation/pages/chat_page.dart';
 import 'package:koala/features/home/presentation/pages/profile_page.dart';
 import 'package:koala/features/home/presentation/pages/shell_page.dart';
 import 'package:koala/features/home/presentation/pages/search_explore_page.dart';
@@ -94,6 +95,15 @@ class RouterManager {
         builder: (context, state) => const SearchExplorePage(),
       ),
 
+      // Chat Detail Route (outside of shell)
+      GoRoute(
+        path: '/chat-detail',
+        builder: (context, state) {
+          final chatData = state.extra as Map<String, dynamic>;
+          return ChatPage(chat: chatData);
+        },
+      ),
+
       //Main Shell
       ShellRoute(
         builder: (context, state, child) => ShellPage(child: child),
@@ -111,7 +121,7 @@ class RouterManager {
           GoRoute(
             path: '/chat',
             pageBuilder: (context, state) =>
-                NoTransitionPage(child: const ChatPage()),
+                NoTransitionPage(child: const ChatListPage()),
           ),
           GoRoute(
             path: '/profile',
