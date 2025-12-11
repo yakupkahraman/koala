@@ -5,7 +5,7 @@ import 'package:koala/features/auth/presentation/pages/company_informations_page
 import 'package:koala/features/auth/presentation/pages/creating_password_page.dart';
 import 'package:koala/features/auth/presentation/pages/onboarding_page.dart';
 import 'package:koala/features/auth/presentation/pages/register_type_page.dart';
-import 'package:koala/features/home/presentation/pages/explore_page.dart';
+import 'package:koala/features/home/presentation/pages/explore_pages/explore_page.dart';
 import 'package:koala/features/home/presentation/pages/jobs_page.dart';
 import 'package:koala/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:koala/features/chat/presentation/pages/chat_page.dart';
