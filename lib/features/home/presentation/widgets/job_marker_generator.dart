@@ -6,10 +6,10 @@ import 'package:koala/features/home/data/models/job_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 /// Custom marker oluşturucu
-/// İş türüne göre farklı SVG pinli marker'lar oluşturur
+/// İş kategorisine göre farklı SVG pinli marker'lar oluşturur
 class JobMarkerGenerator {
   // Cache for bitmap descriptors to avoid regenerating
-  static final Map<JobType, BitmapDescriptor> _iconCache = {};
+  static final Map<JobCategory, BitmapDescriptor> _iconCache = {};
 
   /// Job listesinden marker set'i oluştur
   static Future<Set<Marker>> generateMarkers({
@@ -31,7 +31,7 @@ class JobMarkerGenerator {
     JobModel job,
     void Function(JobModel job) onMarkerTap,
   ) async {
-    final BitmapDescriptor icon = await _getOrCreateIcon(job.type);
+    final BitmapDescriptor icon = await _getOrCreateIcon(job.category);
 
     return Marker(
       markerId: MarkerId(job.id),
@@ -43,22 +43,24 @@ class JobMarkerGenerator {
   }
 
   /// Cache'den ikon al veya yeni oluştur
-  static Future<BitmapDescriptor> _getOrCreateIcon(JobType type) async {
-    if (_iconCache.containsKey(type)) {
-      return _iconCache[type]!;
+  static Future<BitmapDescriptor> _getOrCreateIcon(JobCategory category) async {
+    if (_iconCache.containsKey(category)) {
+      return _iconCache[category]!;
     }
 
-    final icon = await _createIconFromSvg(type);
-    _iconCache[type] = icon;
+    final icon = await _createIconFromSvg(category);
+    _iconCache[category] = icon;
     return icon;
   }
 
   /// SVG dosyasından BitmapDescriptor oluştur
-  static Future<BitmapDescriptor> _createIconFromSvg(JobType type) async {
-    const double size = 80; // Marker boyutu
+  static Future<BitmapDescriptor> _createIconFromSvg(
+    JobCategory category,
+  ) async {
+    const double size = 70; // Marker boyutu
 
     // SVG dosyasını yükle
-    final String svgString = await rootBundle.loadString(type.pinAsset);
+    final String svgString = await rootBundle.loadString(category.pinAsset);
 
     // SVG'yi Picture'a dönüştür
     final PictureInfo pictureInfo = await vg.loadPicture(

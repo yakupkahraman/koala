@@ -137,6 +137,7 @@ class _MapExplorePageState extends MapExplorePageModel {
           color: ThemeConstants.primaryColor,
         ),
       ),
+      centerTitle: false,
       actions: [
         Hero(
           tag: 'search_button',

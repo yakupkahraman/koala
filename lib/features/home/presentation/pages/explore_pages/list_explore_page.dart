@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:koala/core/constants.dart';
+import 'package:koala/features/home/data/models/job_model.dart';
+import 'package:koala/features/home/data/repositories/job_repository.dart';
+import 'package:koala/features/home/presentation/widgets/job_card.dart';
+import 'package:geolocator/geolocator.dart';
+
+part 'list_explore_pagemodel.dart';
 
 class ListExplorePage extends StatefulWidget {
   const ListExplorePage({super.key});
@@ -9,11 +15,10 @@ class ListExplorePage extends StatefulWidget {
   State<ListExplorePage> createState() => _ListExplorePageState();
 }
 
-class _ListExplorePageState extends State<ListExplorePage> {
-  bool isOpen = true;
-
+class _ListExplorePageState extends ListExplorePagemodel {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Colors.grey[200],
       extendBody: true,
@@ -21,234 +26,9 @@ class _ListExplorePageState extends State<ListExplorePage> {
       body: CustomScrollView(
         slivers: [
           //TODO: Küçük ekranlar için responsive tasarım
-          SliverAppBar(
-            pinned: true,
-            floating: true,
-            snap: false,
-            stretch: true,
-            expandedHeight: 124,
-            collapsedHeight: 124,
-            elevation: 0,
-            backgroundColor: Colors.white,
-            surfaceTintColor: Colors.white,
-            clipBehavior: Clip.hardEdge,
-            title: const Text(
-              'KOALA',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 30,
-                fontWeight: FontWeight.w800,
-                color: ThemeConstants.primaryColor,
-              ),
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-              ),
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
-                  color: Colors.white,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Stack(
-                          clipBehavior: Clip.none,
-                          alignment: Alignment.centerRight,
-                          children: [
-                            // 🔹 Açılan TextField (butonun altından)
-                            AnimatedContainer(
-                              duration: const Duration(milliseconds: 200),
-                              curve: Curves.easeInOut,
-                              width: isOpen
-                                  ? MediaQuery.of(context).size.width - 32
-                                  : 50,
-                              height: 60,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: "Ara...",
-                                  filled: true,
-                                  fillColor: isOpen
-                                      ? Colors.grey[200]
-                                      : Colors.transparent,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  suffixIcon: Hero(
-                                    tag: 'search_button',
-                                    child: IconButton(
-                                      icon: const Icon(
-                                        HugeIcons.strokeRoundedSearch01,
-                                        size: 24,
-                                      ),
-                                      style: ButtonStyle(
-                                        backgroundColor: WidgetStatePropertyAll(
-                                          ThemeConstants.primaryColor,
-                                        ),
-                                        padding: WidgetStatePropertyAll(
-                                          EdgeInsets.all(8),
-                                        ),
-                                      ),
-                                      color: Colors.white,
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                      ],
-                    ),
-                    SizedBox(width: 16),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          // Kategoriler Bölümü
-          SliverToBoxAdapter(
-            child: Container(
-              width: double.infinity,
-              margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-              padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Kategoriler',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          HugeIcons.strokeRoundedArrowRight01,
-                          size: 20,
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(
-                            Colors.grey[200],
-                          ),
-                          padding: WidgetStateProperty.all(EdgeInsets.all(4)),
-                          minimumSize: WidgetStateProperty.all(Size(28, 28)),
-                          fixedSize: WidgetStateProperty.all(Size(28, 28)),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  SizedBox(
-                    height: 40,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 8,
-                      itemBuilder: (context, index) {
-                        final categories = [
-                          {
-                            'name': 'Bahçıvanlık',
-                            'icon': HugeIcons.strokeRoundedPlant01,
-                          },
-                          {
-                            'name': 'Temizlik',
-                            'icon': HugeIcons.strokeRoundedClean,
-                          },
-                          {
-                            'name': 'Elektrik',
-                            'icon': HugeIcons.strokeRoundedElectricWire,
-                          },
-                          {
-                            'name': 'Su Tesisatı',
-                            'icon': HugeIcons.strokeRoundedWaterEnergy,
-                          },
-                          {
-                            'name': 'Boyacılık',
-                            'icon': HugeIcons.strokeRoundedPaintBrush01,
-                          },
-                          {
-                            'name': 'Nakliye',
-                            'icon': HugeIcons.strokeRoundedTruck,
-                          },
-                          {
-                            'name': 'İnşaat',
-                            'icon': HugeIcons.strokeRoundedWork,
-                          },
-                          {
-                            'name': 'Diğer',
-                            'icon': HugeIcons.strokeRoundedMore01,
-                          },
-                        ];
-
-                        return Container(
-                          height: 50,
-                          margin: EdgeInsets.only(right: 12),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 8),
-                              Container(
-                                width: 20,
-                                height: 20,
-                                decoration: BoxDecoration(
-                                  color: ThemeConstants.primaryColor,
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                child: Icon(
-                                  categories[index]['icon'] as IconData,
-                                  color: Colors.white,
-                                  size: 16,
-                                ),
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                categories[index]['name'] as String,
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black87,
-                                ),
-                                textAlign: TextAlign.center,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(width: 8),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          appBar(context),
+          SliverToBoxAdapter(child: const SizedBox(height: 10)),
+          filters(),
 
           // Yakındaki İşler Başlığı
           SliverToBoxAdapter(
@@ -267,73 +47,600 @@ class _ListExplorePageState extends State<ListExplorePage> {
           ),
 
           // İş Listesi
-          SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              return Card(
-                elevation: 0,
-                margin: EdgeInsets.only(bottom: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+          if (_loading)
+            const SliverToBoxAdapter(
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.all(32.0),
+                  child: CircularProgressIndicator(
+                    color: ThemeConstants.primaryColor,
+                  ),
                 ),
-                child: ListTile(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  contentPadding: const EdgeInsets.all(16),
-                  leading: CircleAvatar(
-                    backgroundColor: ThemeConstants.primaryColor,
-                    child: Icon(
-                      index % 2 == 0
-                          ? HugeIcons.strokeRoundedWork
-                          : HugeIcons.strokeRoundedUser,
-                      color: Colors.white,
-                    ),
-                  ),
-                  title: Text(
-                    index % 2 == 0
-                        ? 'İş Fırsatı ${index + 1}'
-                        : 'Çalışan ${index + 1}',
-                    style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                    ),
-                  ),
-                  subtitle: Text(
-                    index % 2 == 0
-                        ? 'Bahçe düzenleme işi - 2.5 km uzaklıkta'
-                        : 'Deneyimli bahçıvan - 1.8 km uzaklıkta',
-                    style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  trailing: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: ThemeConstants.primaryColor,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Text(
-                      index % 2 == 0 ? '₺250' : '₺180/gün',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
+              ),
+            )
+          else if (_filteredJobs.isEmpty)
+            SliverToBoxAdapter(
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.all(32.0),
+                  child: Column(
+                    children: [
+                      Icon(
+                        HugeIcons.strokeRoundedSearchList01,
+                        size: 64,
+                        color: Colors.grey[400],
                       ),
+                      SizedBox(height: 16),
+                      Text(
+                        'Bu filtreye uygun iş bulunamadı',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          else
+            SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final job = _filteredJobs[index];
+                final distance = _getDistance(job);
+                return JobCard(job: job, distance: distance);
+              }, childCount: _filteredJobs.length),
+            ),
+          SliverToBoxAdapter(child: SizedBox(height: 100)),
+        ],
+      ),
+    );
+  }
+
+  SliverToBoxAdapter filters() {
+    return SliverToBoxAdapter(
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          children: [
+            // Sırala butonu
+            _buildFilterButton(
+              icon: HugeIcons.strokeRoundedArrowDataTransferVertical,
+              label: 'Sırala',
+              onTap: () {},
+            ),
+            SizedBox(width: 8),
+            // Kategoriler butonu
+            _buildFilterButton(
+              icon: HugeIcons.strokeRoundedMenu01,
+              label: 'Kategoriler',
+              isActive: _selectedFilter != 'all',
+              onTap: () => _showCategoryFilterSheet(),
+            ),
+            SizedBox(width: 8),
+            // Ücret butonu
+            _buildFilterButton(
+              icon: HugeIcons.strokeRoundedMoneyBag02,
+              label: 'Ücret',
+              isActive: _selectedPriceRange != 'all',
+              onTap: () => _showPriceFilterSheet(),
+            ),
+            SizedBox(width: 8),
+            // Mesafe butonu
+            _buildFilterButton(
+              icon: HugeIcons.strokeRoundedRoute02,
+              label: 'Mesafe',
+              isActive: _selectedDistance != 'all',
+              onTap: () => _showDistanceFilterSheet(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  SliverAppBar appBar(BuildContext context) {
+    return SliverAppBar(
+      pinned: true,
+      floating: true,
+      snap: false,
+      stretch: true,
+      expandedHeight: 124,
+      collapsedHeight: 124,
+      elevation: 0,
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.white,
+      clipBehavior: Clip.hardEdge,
+      title: const Text(
+        'KOALA',
+        style: TextStyle(
+          fontFamily: 'Poppins',
+          fontSize: 30,
+          fontWeight: FontWeight.w800,
+          color: ThemeConstants.primaryColor,
+        ),
+      ),
+      centerTitle: false,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+      ),
+      flexibleSpace: FlexibleSpaceBar(
+        background: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+            color: Colors.white,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Stack(
+                    clipBehavior: Clip.none,
+                    alignment: Alignment.centerRight,
+                    children: [
+                      // 🔹 Açılan TextField (butonun altından)
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeInOut,
+                        width: isOpen
+                            ? MediaQuery.of(context).size.width - 32
+                            : 50,
+                        height: 60,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: "Ara...",
+                            filled: true,
+                            fillColor: isOpen
+                                ? Colors.grey[200]
+                                : Colors.transparent,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                            suffixIcon: Hero(
+                              tag: 'search_button',
+                              child: IconButton(
+                                icon: const Icon(
+                                  HugeIcons.strokeRoundedSearch01,
+                                  size: 24,
+                                ),
+                                style: ButtonStyle(
+                                  backgroundColor: WidgetStatePropertyAll(
+                                    ThemeConstants.primaryColor,
+                                  ),
+                                  padding: WidgetStatePropertyAll(
+                                    EdgeInsets.all(8),
+                                  ),
+                                ),
+                                color: Colors.white,
+                                onPressed: () {},
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+              SizedBox(width: 16),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFilterButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+    bool isActive = false,
+  }) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          height: 40,
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            color: isActive
+                ? ThemeConstants.primaryColor.withValues(alpha: 0.15)
+                : Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isActive ? ThemeConstants.primaryColor : Colors.grey[300]!,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 16,
+                color: isActive
+                    ? ThemeConstants.primaryColor
+                    : Colors.grey[700],
+              ),
+              SizedBox(width: 4),
+              Flexible(
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: isActive
+                        ? ThemeConstants.primaryColor
+                        : Colors.grey[700],
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showCategoryFilterSheet() {
+    _showCategoryFilter();
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => _buildCategoryBottomSheet(),
+    );
+  }
+
+  void _showPriceFilterSheet() {
+    _showPriceFilter();
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => _buildPriceBottomSheet(),
+    );
+  }
+
+  void _showDistanceFilterSheet() {
+    _showDistanceFilter();
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => _buildDistanceBottomSheet(),
+    );
+  }
+
+  Widget _buildCategoryBottomSheet() {
+    return StatefulBuilder(
+      builder: (context, setModalState) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          padding: EdgeInsets.fromLTRB(
+            20,
+            20,
+            20,
+            MediaQuery.of(context).padding.bottom + 20,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Kategoriler',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                  onTap: () {},
-                ),
-              );
-            }, childCount: 10),
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  _buildFilterChip(
+                    'Tümü',
+                    'all',
+                    _tempFilter,
+                    (val) => setModalState(() => _tempFilter = val),
+                  ),
+                  _buildFilterChip(
+                    'Günlük',
+                    'oneTime',
+                    _tempFilter,
+                    (val) => setModalState(() => _tempFilter = val),
+                  ),
+                  _buildFilterChip(
+                    'Tekrarlı',
+                    'recurring',
+                    _tempFilter,
+                    (val) => setModalState(() => _tempFilter = val),
+                  ),
+                  _buildFilterChip(
+                    'Fotoğrafçılık',
+                    'photography',
+                    _tempFilter,
+                    (val) => setModalState(() => _tempFilter = val),
+                  ),
+                  _buildFilterChip(
+                    'Garsonluk',
+                    'waiter',
+                    _tempFilter,
+                    (val) => setModalState(() => _tempFilter = val),
+                  ),
+                  _buildFilterChip(
+                    'Hayvan Bakımı',
+                    'petCare',
+                    _tempFilter,
+                    (val) => setModalState(() => _tempFilter = val),
+                  ),
+                  _buildFilterChip(
+                    'Tasarım',
+                    'design',
+                    _tempFilter,
+                    (val) => setModalState(() => _tempFilter = val),
+                  ),
+                  _buildFilterChip(
+                    'Barista',
+                    'barista',
+                    _tempFilter,
+                    (val) => setModalState(() => _tempFilter = val),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              _buildApplyButton(),
+            ],
           ),
-        ],
+        );
+      },
+    );
+  }
+
+  Widget _buildPriceBottomSheet() {
+    return StatefulBuilder(
+      builder: (context, setModalState) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          padding: EdgeInsets.fromLTRB(
+            20,
+            20,
+            20,
+            MediaQuery.of(context).padding.bottom + 20,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Ücret Aralığı',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  _buildFilterChip(
+                    'Tümü',
+                    'all',
+                    _tempPriceRange,
+                    (val) => setModalState(() => _tempPriceRange = val),
+                  ),
+                  _buildFilterChip(
+                    '0-500₺',
+                    '0-500',
+                    _tempPriceRange,
+                    (val) => setModalState(() => _tempPriceRange = val),
+                  ),
+                  _buildFilterChip(
+                    '500-1000₺',
+                    '500-1000',
+                    _tempPriceRange,
+                    (val) => setModalState(() => _tempPriceRange = val),
+                  ),
+                  _buildFilterChip(
+                    '1000-2000₺',
+                    '1000-2000',
+                    _tempPriceRange,
+                    (val) => setModalState(() => _tempPriceRange = val),
+                  ),
+                  _buildFilterChip(
+                    '2000₺+',
+                    '2000+',
+                    _tempPriceRange,
+                    (val) => setModalState(() => _tempPriceRange = val),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              _buildApplyButton(),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildDistanceBottomSheet() {
+    return StatefulBuilder(
+      builder: (context, setModalState) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          padding: EdgeInsets.fromLTRB(
+            20,
+            20,
+            20,
+            MediaQuery.of(context).padding.bottom + 20,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Mesafe',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  _buildFilterChip(
+                    'Tümü',
+                    'all',
+                    _tempDistance,
+                    (val) => setModalState(() => _tempDistance = val),
+                  ),
+                  _buildFilterChip(
+                    '0-5 km',
+                    '0-5',
+                    _tempDistance,
+                    (val) => setModalState(() => _tempDistance = val),
+                  ),
+                  _buildFilterChip(
+                    '5-10 km',
+                    '5-10',
+                    _tempDistance,
+                    (val) => setModalState(() => _tempDistance = val),
+                  ),
+                  _buildFilterChip(
+                    '10-20 km',
+                    '10-20',
+                    _tempDistance,
+                    (val) => setModalState(() => _tempDistance = val),
+                  ),
+                  _buildFilterChip(
+                    '20+ km',
+                    '20+',
+                    _tempDistance,
+                    (val) => setModalState(() => _tempDistance = val),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              _buildApplyButton(),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildFilterChip(
+    String label,
+    String value,
+    String currentValue,
+    Function(String) onTap,
+  ) {
+    final isSelected = currentValue == value;
+    return GestureDetector(
+      onTap: () => onTap(value),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          color: isSelected ? ThemeConstants.primaryColor : Colors.grey[200],
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: isSelected ? Colors.white : Colors.black87,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildApplyButton() {
+    return SizedBox(
+      width: double.infinity,
+      height: 56,
+      child: ElevatedButton(
+        onPressed: _applyTempFilters,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ThemeConstants.primaryColor,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          elevation: 0,
+        ),
+        child: Text(
+          'Uygula',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }
