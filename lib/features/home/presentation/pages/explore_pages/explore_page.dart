@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:koala/features/home/presentation/providers/page_provider.dart';
-import 'package:koala/features/home/presentation/pages/map_explore_page.dart';
-import 'package:koala/features/home/presentation/pages/list_explore_page.dart';
+import 'package:koala/features/home/presentation/pages/explore_pages/map_explore_page.dart';
+import 'package:koala/features/home/presentation/pages/explore_pages/list_explore_page.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
@@ -43,8 +43,7 @@ class _ExplorePageState extends State<ExplorePage>
 
         return PageView(
           controller: _pageController,
-          physics:
-              const NeverScrollableScrollPhysics(), // Sadece programmatik geçiş
+          physics: const NeverScrollableScrollPhysics(),
           children: const [MapExplorePage(), ListExplorePage()],
         );
       },

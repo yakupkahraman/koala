@@ -37,6 +37,13 @@ class LocationService with WidgetsBindingObserver {
           _showPermissionDialog();
         }
       } else {
+        // Tam konum izni verildi - açık dialog varsa kapat
+        if (_dialogShown && context.mounted) {
+          Navigator.of(
+            context,
+            rootNavigator: true,
+          ).popUntil((route) => route.isFirst);
+        }
         _dialogShown = false;
         _requestedOnce = false;
         _getLocation();
@@ -49,6 +56,13 @@ class LocationService with WidgetsBindingObserver {
       }
 
       if (status.isGranted) {
+        // İzin verildi - açık dialog varsa kapat
+        if (_dialogShown && context.mounted) {
+          Navigator.of(
+            context,
+            rootNavigator: true,
+          ).popUntil((route) => route.isFirst);
+        }
         _dialogShown = false;
         _getLocation();
       } else {

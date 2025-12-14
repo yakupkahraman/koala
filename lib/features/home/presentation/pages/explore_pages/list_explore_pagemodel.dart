@@ -1,0 +1,212 @@
+part of 'list_explore_page.dart';
+
+abstract class ListExplorePagemodel extends State<ListExplorePage>
+    with AutomaticKeepAliveClientMixin<ListExplorePage> {
+  bool isOpen = true;
+  List<JobModel> _jobs = [];
+  List<JobModel> _filteredJobs = [];
+  Position? _currentPosition;
+  bool _loading = true;
+  final JobRepository _jobRepository = JobRepository();
+
+  // Aktif filtreler
+  String _selectedFilter = 'all';
+  String _selectedPriceRange = 'all';
+  String _selectedDistance = 'all';
+
+  // Geçici filtreler (bottomsheet'te seçilenler)
+  String _tempFilter = 'all';
+  String _tempPriceRange = 'all';
+  String _tempDistance = 'all';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadJobsAndLocation();
+  }
+
+  Future<void> _loadJobsAndLocation() async {
+    try {
+      // İşleri yükle
+      final jobs = await _jobRepository.getJobs();
+
+      // Konumu al
+      Position? position;
+      try {
+        position = await Geolocator.getCurrentPosition();
+      } catch (e) {
+        // Konum alınamazsa varsayılan konum kullan
+        position = null;
+      }
+
+      // Konuma göre sırala
+      if (position != null) {
+        jobs.sort((a, b) {
+          final distA = Geolocator.distanceBetween(
+            position!.latitude,
+            position.longitude,
+            a.latitude,
+            a.longitude,
+          );
+          final distB = Geolocator.distanceBetween(
+            position.latitude,
+            position.longitude,
+            b.latitude,
+            b.longitude,
+          );
+          return distA.compareTo(distB);
+        });
+      }
+
+      setState(() {
+        _jobs = jobs;
+        _filteredJobs = jobs;
+        _currentPosition = position;
+        _loading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _loading = false;
+      });
+    }
+  }
+
+  double? _getDistance(JobModel job) {
+    if (_currentPosition == null) return null;
+    final distance = Geolocator.distanceBetween(
+      _currentPosition!.latitude,
+      _currentPosition!.longitude,
+      job.latitude,
+      job.longitude,
+    );
+    return distance / 1000; // km'ye çevir
+  }
+
+  void _applyFilter(String filter) {
+    setState(() {
+      _selectedFilter = filter;
+      _applyAllFilters();
+    });
+  }
+
+  void _applyPriceFilter(String priceRange) {
+    setState(() {
+      _selectedPriceRange = priceRange;
+      _applyAllFilters();
+    });
+  }
+
+  void _applyDistanceFilter(String distance) {
+    setState(() {
+      _selectedDistance = distance;
+      _applyAllFilters();
+    });
+  }
+
+  void _applyAllFilters() {
+    List<JobModel> filtered = _jobs;
+
+    // Kategori ve tip filtresi
+    if (_selectedFilter != 'all') {
+      if (_selectedFilter == 'oneTime') {
+        filtered = filtered
+            .where((job) => job.type == JobType.oneTime)
+            .toList();
+      } else if (_selectedFilter == 'recurring') {
+        filtered = filtered
+            .where((job) => job.type == JobType.recurring)
+            .toList();
+      } else {
+        final category = JobCategory.values.firstWhere(
+          (c) => c.name == _selectedFilter,
+          orElse: () => JobCategory.waiter,
+        );
+        filtered = filtered.where((job) => job.category == category).toList();
+      }
+    }
+
+    // Ücret aralığı filtresi
+    if (_selectedPriceRange != 'all') {
+      if (_selectedPriceRange == '0-500') {
+        filtered = filtered.where((job) => job.price <= 500).toList();
+      } else if (_selectedPriceRange == '500-1000') {
+        filtered = filtered
+            .where((job) => job.price > 500 && job.price <= 1000)
+            .toList();
+      } else if (_selectedPriceRange == '1000-2000') {
+        filtered = filtered
+            .where((job) => job.price > 1000 && job.price <= 2000)
+            .toList();
+      } else if (_selectedPriceRange == '2000+') {
+        filtered = filtered.where((job) => job.price > 2000).toList();
+      }
+    }
+
+    // Mesafe filtresi
+    if (_selectedDistance != 'all' && _currentPosition != null) {
+      if (_selectedDistance == '0-5') {
+        filtered = filtered.where((job) {
+          final distance = _getDistance(job);
+          return distance != null && distance <= 5;
+        }).toList();
+      } else if (_selectedDistance == '5-10') {
+        filtered = filtered.where((job) {
+          final distance = _getDistance(job);
+          return distance != null && distance > 5 && distance <= 10;
+        }).toList();
+      } else if (_selectedDistance == '10-20') {
+        filtered = filtered.where((job) {
+          final distance = _getDistance(job);
+          return distance != null && distance > 10 && distance <= 20;
+        }).toList();
+      } else if (_selectedDistance == '20+') {
+        filtered = filtered.where((job) {
+          final distance = _getDistance(job);
+          return distance != null && distance > 20;
+        }).toList();
+      }
+    }
+
+    _filteredJobs = filtered;
+  }
+
+  void _clearAllFilters() {
+    setState(() {
+      _selectedFilter = 'all';
+      _selectedPriceRange = 'all';
+      _selectedDistance = 'all';
+      _filteredJobs = _jobs;
+    });
+  }
+
+  bool get _hasActiveFilters {
+    return _selectedFilter != 'all' ||
+        _selectedPriceRange != 'all' ||
+        _selectedDistance != 'all';
+  }
+
+  void _showCategoryFilter() {
+    _tempFilter = _selectedFilter;
+  }
+
+  void _showPriceFilter() {
+    _tempPriceRange = _selectedPriceRange;
+  }
+
+  void _showDistanceFilter() {
+    _tempDistance = _selectedDistance;
+  }
+
+  void _applyTempFilters() {
+    setState(() {
+      _selectedFilter = _tempFilter;
+      _selectedPriceRange = _tempPriceRange;
+      _selectedDistance = _tempDistance;
+      _applyAllFilters();
+    });
+    Navigator.pop(context);
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
