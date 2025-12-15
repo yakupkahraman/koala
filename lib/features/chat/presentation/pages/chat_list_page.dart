@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:koala/core/constants.dart';
 import 'package:koala/features/chat/presentation/widgets/chat_list_tile.dart';
 
 class ChatListPage extends StatefulWidget {
@@ -75,17 +74,12 @@ class _ChatListPageState extends State<ChatListPage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: UiConstants.defaultPadding,
-        ),
-        child: ListView.builder(
-          itemCount: chatList.length,
-          itemBuilder: (context, index) {
-            final chat = chatList[index];
-            return ChatListTile(chat: chat);
-          },
-        ),
+      body: ListView.builder(
+        itemCount: chatList.length,
+        itemBuilder: (context, index) {
+          final chat = chatList[index];
+          return ChatListTile(chat: chat);
+        },
       ),
     );
   }

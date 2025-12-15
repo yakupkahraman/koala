@@ -17,184 +17,194 @@ class RegisterTypePage extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: Center(
-          child: Container(
-            padding: EdgeInsets.only(left: 28.0, right: 28.0, bottom: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Ne olmak istersin?",
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 40,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 80),
-
-                // İş Veren Kartı
-                Card(
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    side: BorderSide(
-                      color: ThemeConstants.primaryColor,
-                      width: 3,
+        child: SingleChildScrollView(
+          child: Center(
+            child: Container(
+              padding: EdgeInsets.only(left: 28.0, right: 28.0, bottom: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Ne olmak istersin?",
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 40,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
                     ),
                   ),
-                  child: InkWell(
-                    splashColor: Colors.green[100],
-                    highlightColor: Colors.green[50],
-                    borderRadius: BorderRadius.circular(12.0),
-                    onTap: () async {
-                      final prefs = await SharedPreferences.getInstance();
-                      await prefs.setBool('isBusiness', true);
+                  const SizedBox(height: 64),
 
-                      if (context.mounted) {
-                        context.push(
-                          '/auth/register-type/register?isBusiness=true',
-                        );
-                      }
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(14.0),
-                      child: Row(
-                        children: [
-                          // İş Veren İmajı
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.asset(
-                              'assets/images/koala_business.png',
-                              width: 100,
-                              height: 150,
-                              fit: BoxFit.cover,
+                  // İş Veren Kartı
+                  Card(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        UiConstants.borderRadius,
+                      ),
+                      side: BorderSide(
+                        color: ThemeConstants.primaryColor,
+                        width: 3,
+                      ),
+                    ),
+                    child: InkWell(
+                      splashColor: Colors.green[100],
+                      highlightColor: Colors.green[50],
+                      borderRadius: BorderRadius.circular(
+                        UiConstants.borderRadius,
+                      ),
+                      onTap: () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool('isBusiness', true);
+
+                        if (context.mounted) {
+                          context.push(
+                            '/auth/register-type/register?isBusiness=true',
+                          );
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(14.0),
+                        child: Row(
+                          children: [
+                            // İş Veren İmajı
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.asset(
+                                'assets/images/koala_business.png',
+                                width: 100,
+                                height: 150,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 16),
+                            const SizedBox(width: 16),
 
-                          // İş Veren Yazısı
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'İş Veren',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
+                            // İş Veren Yazısı
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'İş Veren',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'İş yeriniz için',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey[600],
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'İş yeriniz için',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey[600],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
 
-                          // Arrow Right
-                          Icon(
-                            HugeIcons.strokeRoundedArrowRight01,
-                            color: Colors.grey[600],
-                            size: 24,
-                          ),
-                        ],
+                            // Arrow Right
+                            Icon(
+                              HugeIcons.strokeRoundedArrowRight01,
+                              color: Colors.grey[600],
+                              size: 24,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
-                // Çalışan Kartı
-                Card(
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    side: BorderSide(
-                      color: ThemeConstants.primaryColor,
-                      width: 3,
+                  // Çalışan Kartı
+                  Card(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        UiConstants.borderRadius,
+                      ),
+                      side: BorderSide(
+                        color: ThemeConstants.primaryColor,
+                        width: 3,
+                      ),
                     ),
-                  ),
-                  child: InkWell(
-                    splashColor: Colors.green[100],
-                    highlightColor: Colors.green[50],
-                    borderRadius: BorderRadius.circular(12.0),
-                    onTap: () async {
-                      final prefs = await SharedPreferences.getInstance();
-                      await prefs.setBool('isBusiness', false);
+                    child: InkWell(
+                      splashColor: Colors.green[100],
+                      highlightColor: Colors.green[50],
+                      borderRadius: BorderRadius.circular(
+                        UiConstants.borderRadius,
+                      ),
+                      onTap: () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool('isBusiness', false);
 
-                      if (context.mounted) {
-                        context.push(
-                          '/auth/register-type/register?isBusiness=false',
-                        );
-                      }
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(14.0),
-                      child: Row(
-                        children: [
-                          // Çalışan İmajı
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.asset(
-                              'assets/images/koala_worker.png',
-                              width: 100,
-                              height: 150,
-                              fit: BoxFit.cover,
+                        if (context.mounted) {
+                          context.push(
+                            '/auth/register-type/register?isBusiness=false',
+                          );
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(14.0),
+                        child: Row(
+                          children: [
+                            // Çalışan İmajı
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.asset(
+                                'assets/images/koala_worker.png',
+                                width: 100,
+                                height: 150,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 16),
+                            const SizedBox(width: 16),
 
-                          // Çalışan Yazısı
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Çalışan',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
+                            // Çalışan Yazısı
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Çalışan',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Para kazanmak için',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey[600],
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Para kazanmak için',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey[600],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
 
-                          // Arrow Right
-                          Icon(
-                            HugeIcons.strokeRoundedArrowRight01,
-                            color: Colors.grey[600],
-                            size: 24,
-                          ),
-                        ],
+                            // Arrow Right
+                            Icon(
+                              HugeIcons.strokeRoundedArrowRight01,
+                              color: Colors.grey[600],
+                              size: 24,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

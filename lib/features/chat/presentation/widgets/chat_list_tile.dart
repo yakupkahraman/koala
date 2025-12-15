@@ -9,13 +9,13 @@ class ChatListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         context.push('/chat-detail', extra: chat);
       },
       child: Container(
         height: 74, // İstediğin yükseklik
-        padding: EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         margin: EdgeInsets.only(bottom: 4),
         child: Row(
           children: [

@@ -139,7 +139,7 @@ class _ShellPageState extends State<ShellPage> {
         padding: const EdgeInsets.only(bottom: 30, left: 36, right: 36),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(36),
+            borderRadius: BorderRadius.circular(UiConstants.borderRadius),
             color: ThemeConstants.primaryColor,
             boxShadow: [
               BoxShadow(

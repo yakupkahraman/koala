@@ -133,10 +133,14 @@ class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
                                 alpha: 0.15,
                               )
                             : Colors.grey[200],
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(
+                          UiConstants.borderRadius,
+                        ),
                       ),
                       child: InkWell(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(
+                          UiConstants.borderRadius,
+                        ),
                         onTap: () {
                           setState(() {
                             _isSaved = !_isSaved;
@@ -186,7 +190,9 @@ class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
                   backgroundColor: ThemeConstants.primaryColor,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(
+                      UiConstants.borderRadius,
+                    ),
                   ),
                   elevation: 0,
                 ),

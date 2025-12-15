@@ -11,6 +11,7 @@ class AuthPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
+        bottom: false,
         child: Stack(
           children: [
             // Background Image
@@ -55,37 +56,12 @@ class AuthPage extends StatelessWidget {
                           title: 'KAYIT OL',
                         ),
                         const SizedBox(height: 15),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 60,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                context.push('/auth/login');
-                              },
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  side: BorderSide(
-                                    color: ThemeConstants.primaryColor,
-                                    width: 3.0,
-                                  ),
-                                ),
-                                backgroundColor: Colors.white,
-                                padding: const EdgeInsets.all(12.0),
-                              ),
-                              child: Text(
-                                "GİRİŞ YAP",
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: ThemeConstants.primaryColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ),
+                        MyButton(
+                          onPressed: () {
+                            context.go('/auth/login');
+                          },
+                          title: 'GİRİŞ YAP',
+                          isReversed: true,
                         ),
                         const SizedBox(height: 40),
                       ],

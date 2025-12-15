@@ -241,10 +241,14 @@ class _CompanyInformationsPageState extends State<CompanyInformationsPage> {
                                     color: Colors.grey[600],
                                   ),
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
+                                    borderRadius: BorderRadius.circular(
+                                      UiConstants.borderRadius,
+                                    ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
+                                    borderRadius: BorderRadius.circular(
+                                      UiConstants.borderRadius,
+                                    ),
                                     borderSide: BorderSide(
                                       color: ThemeConstants.primaryColor,
                                       width: 2.0,

@@ -63,220 +63,225 @@ class _CreatingPasswordPageState extends State<CreatingPasswordPage> {
         ),
       ),
       body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.all(UiConstants.defaultPadding),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Şifrenizi Oluşturalım",
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 40,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(height: 50),
-                        MyTextfield(
-                          labelText: "Şifre",
-                          controller: passwordController,
-                          isObscureText: isVisiblePassword,
-                          showSuffixIcon: true,
-                          keyboardType: TextInputType.visiblePassword,
-                          onChanged: (value) => setState(() {}),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              isVisiblePassword
-                                  ? HugeIcons.strokeRoundedViewOff
-                                  : HugeIcons.strokeRoundedView,
-                              color: Colors.grey[600],
+        child: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.all(UiConstants.defaultPadding),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Şifrenizi Oluşturalım",
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 40,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
                             ),
-                            onPressed: () {
-                              setState(() {
-                                isVisiblePassword = !isVisiblePassword;
-                              });
-                            },
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                        MyTextfield(
-                          labelText: "Şifre Tekrar",
-                          controller: confirmPasswordController,
-                          isObscureText: isVisibleConfirmPassword,
-                          showSuffixIcon: true,
-                          keyboardType: TextInputType.visiblePassword,
-                          onChanged: (value) => setState(() {}),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              isVisibleConfirmPassword
-                                  ? HugeIcons.strokeRoundedViewOff
-                                  : HugeIcons.strokeRoundedView,
-                              color: Colors.grey[600],
+                          const SizedBox(height: 36),
+                          MyTextfield(
+                            labelText: "Şifre",
+                            controller: passwordController,
+                            isObscureText: isVisiblePassword,
+                            showSuffixIcon: true,
+                            keyboardType: TextInputType.visiblePassword,
+                            onChanged: (value) => setState(() {}),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                isVisiblePassword
+                                    ? HugeIcons.strokeRoundedViewOff
+                                    : HugeIcons.strokeRoundedView,
+                                color: Colors.grey[600],
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  isVisiblePassword = !isVisiblePassword;
+                                });
+                              },
                             ),
-                            onPressed: () {
-                              setState(() {
-                                isVisibleConfirmPassword =
-                                    !isVisibleConfirmPassword;
-                              });
-                            },
                           ),
-                        ),
-                        const SizedBox(height: 15),
+                          const SizedBox(height: 10),
+                          MyTextfield(
+                            labelText: "Şifre Tekrar",
+                            controller: confirmPasswordController,
+                            isObscureText: isVisibleConfirmPassword,
+                            showSuffixIcon: true,
+                            keyboardType: TextInputType.visiblePassword,
+                            onChanged: (value) => setState(() {}),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                isVisibleConfirmPassword
+                                    ? HugeIcons.strokeRoundedViewOff
+                                    : HugeIcons.strokeRoundedView,
+                                color: Colors.grey[600],
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  isVisibleConfirmPassword =
+                                      !isVisibleConfirmPassword;
+                                });
+                              },
+                            ),
+                          ),
+                          const SizedBox(height: 15),
 
-                        // Şifre Güçlü/Eşleşme Göstergesi
-                        if (passwordController.text.isNotEmpty) ...[
-                          Container(
-                            padding: EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[50],
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.grey[300]!),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Şifre Güçlü Göstergesi
-                                Row(
-                                  children: [
-                                    Icon(
-                                      isPasswordStrong
-                                          ? HugeIcons
-                                                .strokeRoundedCheckmarkCircle02
-                                          : HugeIcons.strokeRoundedCancelCircle,
-                                      color: isPasswordStrong
-                                          ? Colors.green
-                                          : Colors.orange,
-                                      size: 20,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      isPasswordStrong
-                                          ? 'Güçlü şifre'
-                                          : 'Şifre güçlendirilmeli',
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: isPasswordStrong
-                                            ? Colors.green
-                                            : Colors.orange,
-                                      ),
-                                    ),
-                                  ],
+                          // Şifre Güçlü/Eşleşme Göstergesi
+                          if (passwordController.text.isNotEmpty) ...[
+                            Container(
+                              padding: EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[50],
+                                borderRadius: BorderRadius.circular(
+                                  UiConstants.borderRadius,
                                 ),
-
-                                if (!isPasswordStrong) ...[
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    '• En az 8 karakter\n• Büyük harf, küçük harf ve rakam içermeli',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 12,
-                                      color: Colors.grey[600],
-                                    ),
-                                  ),
-                                ],
-
-                                // Şifre Eşleşme Göstergesi
-                                if (confirmPasswordController
-                                    .text
-                                    .isNotEmpty) ...[
-                                  const SizedBox(height: 8),
+                                border: Border.all(color: Colors.grey[300]!),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Şifre Güçlü Göstergesi
                                   Row(
                                     children: [
                                       Icon(
-                                        passwordsMatch
+                                        isPasswordStrong
                                             ? HugeIcons
                                                   .strokeRoundedCheckmarkCircle02
                                             : HugeIcons
                                                   .strokeRoundedCancelCircle,
-                                        color: passwordsMatch
+                                        color: isPasswordStrong
                                             ? Colors.green
-                                            : Colors.red,
+                                            : Colors.orange,
                                         size: 20,
                                       ),
                                       const SizedBox(width: 8),
                                       Text(
-                                        passwordsMatch
-                                            ? 'Şifreler eşleşiyor'
-                                            : 'Şifreler eşleşmiyor',
+                                        isPasswordStrong
+                                            ? 'Güçlü şifre'
+                                            : 'Şifre güçlendirilmeli',
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
-                                          color: passwordsMatch
+                                          color: isPasswordStrong
                                               ? Colors.green
-                                              : Colors.red,
+                                              : Colors.orange,
                                         ),
                                       ),
                                     ],
                                   ),
-                                ],
-                              ],
-                            ),
-                          ),
-                        ],
-                        const SizedBox(height: 10),
-                      ],
-                    ),
-                  ),
-                  MyButton(
-                    onPressed: () async {
-                      if (isBusiness) {
-                        if (isPasswordStrong && passwordsMatch) {
-                          final prefs = await SharedPreferences.getInstance();
-                          await prefs.setBool('is_logged_in', true);
 
-                          if (context.mounted) {
-                            context.go('/explore');
+                                  if (!isPasswordStrong) ...[
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      '• En az 8 karakter\n• Büyük harf, küçük harf ve rakam içermeli',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 12,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                  ],
+
+                                  // Şifre Eşleşme Göstergesi
+                                  if (confirmPasswordController
+                                      .text
+                                      .isNotEmpty) ...[
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          passwordsMatch
+                                              ? HugeIcons
+                                                    .strokeRoundedCheckmarkCircle02
+                                              : HugeIcons
+                                                    .strokeRoundedCancelCircle,
+                                          color: passwordsMatch
+                                              ? Colors.green
+                                              : Colors.red,
+                                          size: 20,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          passwordsMatch
+                                              ? 'Şifreler eşleşiyor'
+                                              : 'Şifreler eşleşmiyor',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: passwordsMatch
+                                                ? Colors.green
+                                                : Colors.red,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            ),
+                          ],
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    ),
+                    MyButton(
+                      onPressed: () async {
+                        if (!isBusiness) {
+                          if (isPasswordStrong && passwordsMatch) {
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.setBool('is_logged_in', true);
+
+                            if (context.mounted) {
+                              context.go('/explore');
+                            }
+                          } else {
+                            // Uyarı mesajı göster
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  !isPasswordStrong
+                                      ? 'Lütfen güçlü bir şifre oluşturun'
+                                      : 'Şifreler eşleşmiyor',
+                                  style: TextStyle(fontFamily: 'Poppins'),
+                                ),
+                                backgroundColor: Colors.green[100],
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
                           }
                         } else {
-                          // Uyarı mesajı göster
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                !isPasswordStrong
-                                    ? 'Lütfen güçlü bir şifre oluşturun'
-                                    : 'Şifreler eşleşmiyor',
-                                style: TextStyle(fontFamily: 'Poppins'),
+                          if (isPasswordStrong && passwordsMatch) {
+                            context.push(
+                              '/auth/register-type/register/creating-password/company-informations',
+                            );
+                          } else {
+                            // Uyarı mesajı göster
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  !isPasswordStrong
+                                      ? 'Lütfen güçlü bir şifre oluşturun'
+                                      : 'Şifreler eşleşmiyor',
+                                  style: TextStyle(fontFamily: 'Poppins'),
+                                ),
+                                backgroundColor: Colors.green[100],
+                                behavior: SnackBarBehavior.floating,
                               ),
-                              backgroundColor: Colors.green[100],
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
+                            );
+                          }
                         }
-                      } else {
-                        if (isPasswordStrong && passwordsMatch) {
-                          context.push(
-                            '/auth/register-type/register/creating-password/company-informations',
-                          );
-                        } else {
-                          // Uyarı mesajı göster
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                !isPasswordStrong
-                                    ? 'Lütfen güçlü bir şifre oluşturun'
-                                    : 'Şifreler eşleşmiyor',
-                                style: TextStyle(fontFamily: 'Poppins'),
-                              ),
-                              backgroundColor: Colors.green[100],
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                        }
-                      }
-                    },
-                    title: isBusiness ? "DEVAM ET" : "BİTİR",
-                  ),
-                ],
+                      },
+                      title: isBusiness ? "DEVAM ET" : "BİTİR",
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -31,11 +31,14 @@ class _ChatPageState extends State<ChatPage> {
 
   void _sendMessage() {
     if (_messageController.text.trim().isNotEmpty) {
+      final now = DateTime.now();
+      final timeString =
+          '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}';
       setState(() {
         messages.add({
           'message': _messageController.text.trim(),
           'isMe': true,
-          'time': TimeOfDay.now().format(context),
+          'time': timeString,
         });
       });
       _messageController.clear();
@@ -50,7 +53,7 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
         title: Row(
@@ -67,7 +70,7 @@ class _ChatPageState extends State<ChatPage> {
                   child: Center(
                     child: Text(
                       widget.chat['avatar'],
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -91,13 +94,13 @@ class _ChatPageState extends State<ChatPage> {
                   ),
               ],
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   widget.chat['name'],
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: "Poppins",
                     color: Colors.black,
                     fontSize: 16,
@@ -105,7 +108,7 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                 ),
                 if (widget.chat['isOnline'] == true)
-                  Text(
+                  const Text(
                     'Çevrimiçi',
                     style: TextStyle(fontSize: 12, color: Colors.green),
                   ),
@@ -115,7 +118,7 @@ class _ChatPageState extends State<ChatPage> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.call, color: Colors.black),
+            icon: const Icon(Icons.call, color: Colors.black),
             onPressed: () {},
           ),
         ],
