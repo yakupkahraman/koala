@@ -59,6 +59,7 @@ class _MyJobsPageState extends State<MyJobsPage> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         elevation: 0,

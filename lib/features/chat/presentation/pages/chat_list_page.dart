@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:koala/features/chat/data/chat_service.dart';
+import 'package:koala/features/chat/domain/chat.dart';
 import 'package:koala/features/chat/presentation/widgets/chat_list_tile.dart';
 
 class ChatListPage extends StatefulWidget {
@@ -9,58 +11,20 @@ class ChatListPage extends StatefulWidget {
 }
 
 class _ChatListPageState extends State<ChatListPage> {
-  final List<Map<String, dynamic>> chatList = [
-    {
-      'id': '1',
-      'name': 'Ahmet Yılmaz',
-      'lastMessage': 'Merhaba, nasılsın?',
-      'time': '14:30',
-      'unreadCount': 2,
-      'avatar': 'A',
-      'isOnline': true,
-    },
-    {
-      'id': '2',
-      'name': 'Ayşe Kaya',
-      'lastMessage': 'Yarın buluşalım mı?',
-      'time': '13:45',
-      'unreadCount': 0,
-      'avatar': 'A',
-      'isOnline': false,
-    },
-    {
-      'id': '3',
-      'name': 'Mehmet Demir',
-      'lastMessage': 'Dosyayı gönderdim',
-      'time': '12:20',
-      'unreadCount': 1,
-      'avatar': 'M',
-      'isOnline': true,
-    },
-    {
-      'id': '4',
-      'name': 'Fatma Özkan',
-      'lastMessage': 'Teşekkürler!',
-      'time': 'Dün',
-      'unreadCount': 0,
-      'avatar': 'F',
-      'isOnline': false,
-    },
-    {
-      'id': '5',
-      'name': 'Ali Çelik',
-      'lastMessage': 'Proje nasıl gidiyor?',
-      'time': 'Dün',
-      'unreadCount': 3,
-      'avatar': 'A',
-      'isOnline': true,
-    },
-  ];
+  final ChatService _chatService = ChatService();
+  late List<Chat> chatList;
+
+  @override
+  void initState() {
+    super.initState();
+    chatList = _chatService.getChats();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         elevation: 0,

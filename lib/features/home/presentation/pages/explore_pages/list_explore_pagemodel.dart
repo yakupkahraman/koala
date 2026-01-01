@@ -82,27 +82,6 @@ abstract class ListExplorePagemodel extends State<ListExplorePage>
     return distance / 1000; // km'ye çevir
   }
 
-  void _applyFilter(String filter) {
-    setState(() {
-      _selectedFilter = filter;
-      _applyAllFilters();
-    });
-  }
-
-  void _applyPriceFilter(String priceRange) {
-    setState(() {
-      _selectedPriceRange = priceRange;
-      _applyAllFilters();
-    });
-  }
-
-  void _applyDistanceFilter(String distance) {
-    setState(() {
-      _selectedDistance = distance;
-      _applyAllFilters();
-    });
-  }
-
   void _applyAllFilters() {
     List<JobModel> filtered = _jobs;
 
@@ -168,21 +147,6 @@ abstract class ListExplorePagemodel extends State<ListExplorePage>
     }
 
     _filteredJobs = filtered;
-  }
-
-  void _clearAllFilters() {
-    setState(() {
-      _selectedFilter = 'all';
-      _selectedPriceRange = 'all';
-      _selectedDistance = 'all';
-      _filteredJobs = _jobs;
-    });
-  }
-
-  bool get _hasActiveFilters {
-    return _selectedFilter != 'all' ||
-        _selectedPriceRange != 'all' ||
-        _selectedDistance != 'all';
   }
 
   void _showCategoryFilter() {

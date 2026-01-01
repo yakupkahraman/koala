@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:koala/core/constants.dart';
@@ -48,3 +49,4 @@ class SearchExplorePage extends StatelessWidget {
     );
   }
 }
+*/

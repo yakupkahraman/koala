@@ -7,9 +7,9 @@ import 'package:koala/core/widgets/navbar_item.dart';
 import 'package:go_router/go_router.dart';
 import 'package:koala/features/home/presentation/providers/page_provider.dart';
 import 'package:koala/features/home/presentation/pages/explore_pages/explore_page.dart';
-import 'package:koala/features/home/presentation/pages/jobs_page.dart';
+import 'package:koala/features/jobs/presentation/pages/jobs_page.dart';
 import 'package:koala/features/chat/presentation/pages/chat_list_page.dart';
-import 'package:koala/features/home/presentation/pages/profile_page.dart';
+import 'package:koala/features/profile/presentation/pages/profile_page.dart';
 import 'package:provider/provider.dart';
 
 class ShellPage extends StatefulWidget {

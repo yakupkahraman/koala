@@ -6,12 +6,12 @@ import 'package:koala/features/auth/presentation/pages/creating_password_page.da
 import 'package:koala/features/auth/presentation/pages/onboarding_page.dart';
 import 'package:koala/features/auth/presentation/pages/register_type_page.dart';
 import 'package:koala/features/home/presentation/pages/explore_pages/explore_page.dart';
-import 'package:koala/features/home/presentation/pages/jobs_page.dart';
+import 'package:koala/features/jobs/presentation/pages/jobs_page.dart';
 import 'package:koala/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:koala/features/chat/presentation/pages/chat_page.dart';
-import 'package:koala/features/home/presentation/pages/profile_page.dart';
+import 'package:koala/features/chat/domain/chat.dart';
+import 'package:koala/features/profile/presentation/pages/profile_page.dart';
 import 'package:koala/features/home/presentation/pages/shell_page.dart';
-import 'package:koala/features/home/presentation/pages/search_explore_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:koala/features/auth/presentation/pages/login_page.dart';
 import 'package:koala/features/auth/presentation/pages/register_page.dart';
@@ -90,16 +90,16 @@ class RouterManager {
         path: '/onboarding',
         builder: (context, state) => const OnboardingPage(),
       ),
-      GoRoute(
-        path: '/search',
-        builder: (context, state) => const SearchExplorePage(),
-      ),
+      // GoRoute(
+      //   path: '/search',
+      //   builder: (context, state) => const SearchExplorePage(),
+      // ),
 
       // Chat Detail Route (outside of shell)
       GoRoute(
         path: '/chat-detail',
         builder: (context, state) {
-          final chatData = state.extra as Map<String, dynamic>;
+          final chatData = state.extra as Chat;
           return ChatPage(chat: chatData);
         },
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:koala/features/home/presentation/providers/page_provider.dart';
-import 'package:koala/features/home/presentation/pages/my_jobs_page.dart';
-import 'package:koala/features/home/presentation/pages/saved_jobs_page.dart';
+import 'package:koala/features/jobs/presentation/pages/my_jobs_page.dart';
+import 'package:koala/features/jobs/presentation/pages/saved_jobs_page.dart';
 
 class JobsPage extends StatefulWidget {
   const JobsPage({super.key});

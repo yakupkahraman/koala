@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:koala/core/constants.dart';
+import 'package:koala/features/chat/domain/chat.dart';
 
 class ChatListTile extends StatelessWidget {
-  final Map<String, dynamic> chat;
+  final Chat chat;
 
   const ChatListTile({super.key, required this.chat});
 
@@ -30,7 +31,7 @@ class ChatListTile extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      chat['avatar'],
+                      chat.avatar,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -39,7 +40,7 @@ class ChatListTile extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (chat['isOnline'] == true)
+                if (chat.isOnline)
                   Positioned(
                     bottom: 0,
                     right: 0,
@@ -62,11 +63,11 @@ class ChatListTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    chat['name'],
+                    chat.name,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 4),
-                  Text(chat['lastMessage']),
+                  Text(chat.lastMessage ?? ''),
                 ],
               ),
             ),
@@ -74,10 +75,10 @@ class ChatListTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  chat['time'],
+                  chat.timeString,
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
-                if (chat['unreadCount'] > 0)
+                if (chat.unreadCount > 0)
                   Container(
                     margin: EdgeInsets.only(top: 4),
                     padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -86,7 +87,7 @@ class ChatListTile extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
-                      chat['unreadCount'].toString(),
+                      chat.unreadCount.toString(),
                       style: TextStyle(color: Colors.white, fontSize: 10),
                     ),
                   ),

@@ -32,6 +32,7 @@ class _SavedJobsPageState extends State<SavedJobsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         elevation: 0,
