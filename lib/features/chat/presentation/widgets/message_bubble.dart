@@ -15,11 +15,17 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isMe = message.isMe;
+    final maxWidth = MediaQuery.of(context).size.width * 0.75;
 
     return Align(
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        margin: EdgeInsets.only(bottom: isNextSameSender ? 4 : 12),
+        constraints: BoxConstraints(maxWidth: maxWidth),
+        margin: EdgeInsets.only(
+          bottom: isNextSameSender ? 4 : 12,
+          left: isMe ? 48 : 0,
+          right: isMe ? 0 : 48,
+        ),
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: isMe ? ThemeConstants.primaryColor : Colors.grey[300],

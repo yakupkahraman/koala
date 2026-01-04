@@ -65,12 +65,18 @@ class ChatListTile extends StatelessWidget {
                   Text(
                     chat.name,
                     style: TextStyle(fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 4),
-                  Text(chat.lastMessage ?? ''),
+                  Text(
+                    chat.lastMessage ?? '',
+                    style: TextStyle(color: Colors.grey),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ),
             ),
+            SizedBox(width: 16),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

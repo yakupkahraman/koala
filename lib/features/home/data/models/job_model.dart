@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:koala/features/company_detail/domain/company_model.dart';
 
 /// İş kategorilerini temsil eden enum
 enum JobCategory { photography, waiter, petCare, design, barista }
@@ -97,6 +98,7 @@ class JobModel {
   final double price;
   final String? imageUrl;
   final String? company;
+  final CompanyModel? companyDetails;
   final String? description;
   final String? sector;
   final String? position;
@@ -123,6 +125,7 @@ class JobModel {
     required this.price,
     this.imageUrl,
     this.company,
+    this.companyDetails,
     this.description,
     this.sector,
     this.position,
@@ -158,6 +161,11 @@ class JobModel {
       price: (json['price'] as num).toDouble(),
       imageUrl: json['imageUrl'] as String?,
       company: json['company'] as String?,
+      companyDetails: json['companyDetails'] != null
+          ? CompanyModel.fromJson(
+              json['companyDetails'] as Map<String, dynamic>,
+            )
+          : null,
       description: json['description'] as String?,
       sector: json['sector'] as String?,
       position: json['position'] as String?,
@@ -192,6 +200,7 @@ class JobModel {
       'price': price,
       'imageUrl': imageUrl,
       'company': company,
+      'companyDetails': companyDetails?.toJson(),
       'description': description,
       'sector': sector,
       'position': position,

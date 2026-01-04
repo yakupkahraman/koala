@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:koala/core/constants.dart';
 import 'package:koala/features/home/data/models/job_model.dart';
 
@@ -245,14 +246,26 @@ class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Text(
-                  widget.job.company!,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 13 + (1 * expandProgress), // 13 -> 14
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[600],
+                child: GestureDetector(
+                  onTap: widget.job.companyDetails != null
+                      ? () {
+                          context.push(
+                            '/company-detail',
+                            extra: widget.job.companyDetails,
+                          );
+                        }
+                      : null,
+                  child: Text(
+                    widget.job.company!,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 13 + (1 * expandProgress), // 13 -> 14
+                      fontWeight: FontWeight.w500,
+                      color: widget.job.companyDetails != null
+                          ? ThemeConstants.primaryColor
+                          : Colors.grey[600],
+                    ),
                   ),
                 ),
               ),

@@ -7,6 +7,7 @@ class Chat {
   final int unreadCount;
   final bool isOnline;
   final String? userId;
+  final String? companyId;
 
   Chat({
     required this.id,
@@ -17,6 +18,7 @@ class Chat {
     this.unreadCount = 0,
     this.isOnline = false,
     this.userId,
+    this.companyId,
   });
 
   String get timeString {
@@ -45,6 +47,7 @@ class Chat {
     int? unreadCount,
     bool? isOnline,
     String? userId,
+    String? companyId,
   }) {
     return Chat(
       id: id ?? this.id,
@@ -55,6 +58,7 @@ class Chat {
       unreadCount: unreadCount ?? this.unreadCount,
       isOnline: isOnline ?? this.isOnline,
       userId: userId ?? this.userId,
+      companyId: companyId ?? this.companyId,
     );
   }
 
@@ -68,6 +72,7 @@ class Chat {
       'unreadCount': unreadCount,
       'isOnline': isOnline,
       'userId': userId,
+      'companyId': companyId,
     };
   }
 
@@ -83,6 +88,7 @@ class Chat {
       unreadCount: json['unreadCount'] ?? 0,
       isOnline: json['isOnline'] ?? false,
       userId: json['userId'],
+      companyId: json['companyId'],
     );
   }
 }

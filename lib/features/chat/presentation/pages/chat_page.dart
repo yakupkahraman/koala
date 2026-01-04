@@ -125,24 +125,27 @@ class _ChatPageState extends State<ChatPage> {
             ],
           ),
           const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.chat.name,
-                style: const TextStyle(
-                  fontFamily: "Poppins",
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.chat.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontFamily: "Poppins",
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              if (widget.chat.isOnline)
-                const Text(
-                  'Çevrimiçi',
-                  style: TextStyle(fontSize: 12, color: Colors.green),
-                ),
-            ],
+                if (widget.chat.isOnline)
+                  const Text(
+                    'Çevrimiçi',
+                    style: TextStyle(fontSize: 12, color: Colors.green),
+                  ),
+              ],
+            ),
           ),
         ],
       ),
