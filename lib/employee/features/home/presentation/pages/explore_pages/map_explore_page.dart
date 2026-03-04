@@ -342,22 +342,19 @@ class _MapExplorePageState extends MapExplorePageModel {
       ),
       centerTitle: false,
       actions: [
-        Hero(
-          tag: 'search_button',
-          child: IconButton(
-            icon: HugeIcon(
-              icon: HugeIcons.strokeRoundedSearch01,
-              color: Colors.white,
-            ),
-            style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(
-                Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            onPressed: () {
-              searchProvider.startSearching();
-            },
+        IconButton(
+          icon: HugeIcon(
+            icon: HugeIcons.strokeRoundedSearch01,
+            color: Colors.white,
           ),
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(
+              Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          onPressed: () {
+            searchProvider.startSearching();
+          },
         ),
         const SizedBox(width: 16),
       ],

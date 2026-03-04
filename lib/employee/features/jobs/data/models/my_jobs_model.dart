@@ -37,6 +37,7 @@ class MyJobsModel {
   final String id;
   final String title;
   final String company;
+  final String? companyId;
   final String description;
   final String date;
   final double price;
@@ -46,6 +47,7 @@ class MyJobsModel {
     required this.id,
     required this.title,
     required this.company,
+    this.companyId,
     required this.description,
     required this.date,
     required this.price,

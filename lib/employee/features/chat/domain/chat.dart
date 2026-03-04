@@ -2,6 +2,7 @@ class Chat {
   final String id;
   final String name;
   final String avatar;
+  final String? avatarUrl;
   final String? lastMessage;
   final DateTime? lastMessageTime;
   final int unreadCount;
@@ -13,6 +14,7 @@ class Chat {
     required this.id,
     required this.name,
     required this.avatar,
+    this.avatarUrl,
     this.lastMessage,
     this.lastMessageTime,
     this.unreadCount = 0,
@@ -42,6 +44,7 @@ class Chat {
     String? id,
     String? name,
     String? avatar,
+    String? avatarUrl,
     String? lastMessage,
     DateTime? lastMessageTime,
     int? unreadCount,
@@ -53,6 +56,7 @@ class Chat {
       id: id ?? this.id,
       name: name ?? this.name,
       avatar: avatar ?? this.avatar,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
       lastMessage: lastMessage ?? this.lastMessage,
       lastMessageTime: lastMessageTime ?? this.lastMessageTime,
       unreadCount: unreadCount ?? this.unreadCount,
@@ -67,6 +71,7 @@ class Chat {
       'id': id,
       'name': name,
       'avatar': avatar,
+      'avatarUrl': avatarUrl,
       'lastMessage': lastMessage,
       'lastMessageTime': lastMessageTime?.toIso8601String(),
       'unreadCount': unreadCount,
@@ -81,6 +86,7 @@ class Chat {
       id: json['id'],
       name: json['name'],
       avatar: json['avatar'],
+      avatarUrl: json['avatarUrl'],
       lastMessage: json['lastMessage'],
       lastMessageTime: json['lastMessageTime'] != null
           ? DateTime.parse(json['lastMessageTime'])

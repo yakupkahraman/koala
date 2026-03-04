@@ -20,7 +20,8 @@ class MyJobsRepository {
     MyJobsModel(
       id: '1',
       title: 'Düğün Fotoğrafçısı',
-      company: 'Studio Kreatif',
+      company: 'Özlem & Murat Düğün Organizasyonu',
+      companyId: 'comp_1',
       description: 'Düğün töreni fotoğraf çekimi, 6 saat',
       date: '15.03.2026',
       price: 3500,
@@ -29,7 +30,8 @@ class MyJobsRepository {
     MyJobsModel(
       id: '2',
       title: 'Cafe Barista',
-      company: 'Kahve Durağı',
+      company: 'Kahve Durağı Cafe',
+      companyId: 'comp_2',
       description: 'Hafta sonu barista, sabah vardiyası',
       date: '12.03.2026',
       price: 1200,
@@ -38,7 +40,8 @@ class MyJobsRepository {
     MyJobsModel(
       id: '3',
       title: 'Kedi Bakıcısı',
-      company: 'PetFriends',
+      company: 'Ahmet Yılmaz (Bireysel)',
+      companyId: 'comp_3',
       description: '3 gün boyunca 2 kedi bakımı',
       date: '18.03.2026',
       price: 900,
@@ -49,7 +52,8 @@ class MyJobsRepository {
     MyJobsModel(
       id: '4',
       title: 'Ürün Fotoğrafçısı',
-      company: 'E-Ticaret Plus',
+      company: 'TrendShop E-ticaret',
+      companyId: 'comp_6',
       description: '50 ürün için stüdyo çekimi',
       date: '08.03.2026',
       price: 2800,
@@ -58,7 +62,8 @@ class MyJobsRepository {
     MyJobsModel(
       id: '5',
       title: 'Garson',
-      company: 'Lezzet Restoran',
+      company: 'Lezzet Durağı Restaurant',
+      companyId: 'comp_4',
       description: 'Akşam vardiyası, özel davet servisi',
       date: '07.03.2026',
       price: 1500,
@@ -69,7 +74,8 @@ class MyJobsRepository {
     MyJobsModel(
       id: '6',
       title: 'Etkinlik Fotoğrafçısı',
-      company: 'EventShot Medya',
+      company: 'Elit Organizasyon',
+      companyId: 'comp_7',
       description: 'Kurumsal lansman etkinliği çekimi',
       date: '01.03.2026',
       price: 4000,
@@ -78,7 +84,8 @@ class MyJobsRepository {
     MyJobsModel(
       id: '7',
       title: 'Logo Tasarımcısı',
-      company: 'Starter Ajans',
+      company: 'FitLife Spor Salonu',
+      companyId: 'comp_9',
       description: 'Startup için logo ve marka kimliği',
       date: '28.02.2026',
       price: 2200,
@@ -89,7 +96,8 @@ class MyJobsRepository {
     MyJobsModel(
       id: '8',
       title: 'Düğün Fotoğrafçısı',
-      company: 'Aşk Stüdyo',
+      company: 'Özlem & Murat Düğün Organizasyonu',
+      companyId: 'comp_1',
       description: 'Kır düğünü fotoğraf ve video çekimi',
       date: '20.02.2026',
       price: 5000,
@@ -98,7 +106,8 @@ class MyJobsRepository {
     MyJobsModel(
       id: '9',
       title: 'Barista',
-      company: 'Coffee Lab',
+      company: 'Coffee Break Cafe',
+      companyId: 'comp_10',
       description: 'Özel etkinlik için barista hizmeti',
       date: '14.02.2026',
       price: 1800,
@@ -107,7 +116,8 @@ class MyJobsRepository {
     MyJobsModel(
       id: '10',
       title: 'Garson',
-      company: 'Grand Otel',
+      company: 'Elit Organizasyon',
+      companyId: 'comp_7',
       description: 'Gala yemeği servis hizmeti',
       date: '10.02.2026',
       price: 1600,
@@ -115,8 +125,9 @@ class MyJobsRepository {
     ),
     MyJobsModel(
       id: '11',
-      title: 'Köpek Bakıcısı',
-      company: 'Happy Paws',
+      title: 'Köpek Gezdirici',
+      company: 'Zeynep Kaya (Bireysel)',
+      companyId: 'comp_8',
       description: '1 hafta Golden Retriever bakımı',
       date: '05.02.2026',
       price: 2100,
@@ -125,7 +136,8 @@ class MyJobsRepository {
     MyJobsModel(
       id: '12',
       title: 'Ürün Fotoğrafçısı',
-      company: 'ModaStyle',
+      company: 'TrendShop E-ticaret',
+      companyId: 'comp_6',
       description: 'Sezon kataloğu için 100 ürün çekimi',
       date: '28.01.2026',
       price: 5500,
@@ -134,7 +146,8 @@ class MyJobsRepository {
     MyJobsModel(
       id: '13',
       title: 'Sosyal Medya Tasarımcısı',
-      company: 'DigiBoost',
+      company: 'FitLife Spor Salonu',
+      companyId: 'comp_9',
       description: 'Instagram içerik tasarımı, 30 görsel',
       date: '20.01.2026',
       price: 3000,

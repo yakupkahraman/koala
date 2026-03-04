@@ -13,6 +13,8 @@ class ChatService {
       id: '1',
       name: 'Özlem & Murat Düğün Organizasyonu',
       avatar: 'Ö',
+      avatarUrl:
+          'https://ui-avatars.com/api/?name=Özlem+Murat&size=256&background=E91E63&color=ffffff&bold=true&format=png',
       lastMessage: 'Düğün için detayları konuşalım mı?',
       lastMessageTime: DateTime.now().subtract(Duration(minutes: 30)),
       unreadCount: 2,
@@ -24,6 +26,8 @@ class ChatService {
       id: '2',
       name: 'Kahve Durağı Cafe',
       avatar: 'K',
+      avatarUrl:
+          'https://ui-avatars.com/api/?name=Kahve+Durağı&size=256&background=795548&color=ffffff&bold=true&format=png',
       lastMessage: 'Başvurunuz değerlendirildi',
       lastMessageTime: DateTime.now().subtract(Duration(hours: 1)),
       unreadCount: 0,
@@ -35,6 +39,8 @@ class ChatService {
       id: '3',
       name: 'Ahmet Yılmaz',
       avatar: 'A',
+      avatarUrl:
+          'https://ui-avatars.com/api/?name=Ahmet+Yılmaz&size=256&background=4CAF50&color=ffffff&bold=true&format=png',
       lastMessage: 'Kedilerim için bakıcı arıyorum',
       lastMessageTime: DateTime.now().subtract(Duration(hours: 2)),
       unreadCount: 1,
@@ -46,6 +52,8 @@ class ChatService {
       id: '4',
       name: 'Lezzet Durağı Restaurant',
       avatar: 'L',
+      avatarUrl:
+          'https://ui-avatars.com/api/?name=Lezzet+Durağı&size=256&background=FF5722&color=ffffff&bold=true&format=png',
       lastMessage: 'Teşekkürler, görüşmek üzere!',
       lastMessageTime: DateTime.now().subtract(Duration(days: 1)),
       unreadCount: 0,
@@ -57,6 +65,8 @@ class ChatService {
       id: '5',
       name: 'Brew & Co. Specialty Coffee',
       avatar: 'B',
+      avatarUrl:
+          'https://ui-avatars.com/api/?name=Brew+Co&size=256&background=3E2723&color=ffffff&bold=true&format=png',
       lastMessage: 'Barista pozisyonu için müsait misiniz?',
       lastMessageTime: DateTime.now().subtract(Duration(days: 1, hours: 5)),
       unreadCount: 3,
@@ -68,6 +78,8 @@ class ChatService {
       id: '6',
       name: 'TrendShop E-ticaret',
       avatar: 'T',
+      avatarUrl:
+          'https://ui-avatars.com/api/?name=Trend+Shop&size=256&background=9C27B0&color=ffffff&bold=true&format=png',
       lastMessage: 'Fotoğraf çekimi için tarih belirleyelim',
       lastMessageTime: DateTime.now().subtract(Duration(days: 2)),
       unreadCount: 0,
@@ -79,6 +91,8 @@ class ChatService {
       id: '7',
       name: 'Elit Organizasyon',
       avatar: 'E',
+      avatarUrl:
+          'https://ui-avatars.com/api/?name=Elit+Org&size=256&background=1565C0&color=ffffff&bold=true&format=png',
       lastMessage: 'Etkinlik detayları hakkında bilgi verebilir misiniz?',
       lastMessageTime: DateTime.now().subtract(Duration(days: 3)),
       unreadCount: 1,
@@ -90,6 +104,8 @@ class ChatService {
       id: '8',
       name: 'Zeynep Kaya',
       avatar: 'Z',
+      avatarUrl:
+          'https://ui-avatars.com/api/?name=Zeynep+Kaya&size=256&background=FF8F00&color=ffffff&bold=true&format=png',
       lastMessage: 'Köpeğim için bakıcı arıyorum',
       lastMessageTime: DateTime.now().subtract(Duration(days: 4)),
       unreadCount: 0,
@@ -315,6 +331,7 @@ class ChatService {
   Chat getOrCreateChatByCompany({
     required String companyId,
     required String companyName,
+    String? avatarUrl,
   }) {
     // Önce mevcut chat var mı kontrol et
     final existingChat = getChatByCompanyId(companyId);
@@ -327,6 +344,9 @@ class ChatService {
       id: 'chat_${DateTime.now().millisecondsSinceEpoch}',
       name: companyName,
       avatar: companyName.isNotEmpty ? companyName[0].toUpperCase() : 'C',
+      avatarUrl:
+          avatarUrl ??
+          'https://ui-avatars.com/api/?name=${Uri.encodeComponent(companyName)}&size=256&background=607D8B&color=ffffff&bold=true&format=png',
       lastMessage: null,
       lastMessageTime: DateTime.now(),
       unreadCount: 0,

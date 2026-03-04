@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:koala/employee/features/chat/data/chat_service.dart';
 import 'package:koala/employee/features/chat/domain/chat.dart';
 import 'package:koala/employee/features/chat/domain/message.dart';
+import 'package:koala/employee/features/chat/presentation/widgets/chat_avatar.dart';
 import 'package:koala/employee/features/chat/presentation/widgets/message_bubble.dart';
 import 'package:koala/employee/features/chat/presentation/widgets/message_textfield.dart';
 import 'package:koala/product/constants/app_padding.dart';
@@ -88,41 +89,13 @@ class _ChatPageState extends State<ChatPage> {
       ),
       title: Row(
         children: [
-          Stack(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Center(
-                  child: Text(
-                    widget.chat.avatar,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
-              if (widget.chat.isOnline)
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                    width: 12,
-                    height: 12,
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
-                    ),
-                  ),
-                ),
-            ],
+          ChatAvatar(
+            avatarUrl: widget.chat.avatarUrl,
+            fallbackText: widget.chat.avatar,
+            size: 40,
+            borderRadius: 14,
+            isOnline: widget.chat.isOnline,
+            onlineDotSize: 12,
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -149,12 +122,6 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ],
       ),
-      // actions: [
-      //   IconButton(
-      //     icon: const Icon(Icons.call, color: Colors.black),
-      //     onPressed: () {},
-      //   ),
-      // ],
     );
   }
 

@@ -246,6 +246,7 @@ class _CompanyDetailPageState extends State<CompanyDetailPage> {
                         final chat = chatService.getOrCreateChatByCompany(
                           companyId: widget.company.id,
                           companyName: widget.company.name,
+                          avatarUrl: widget.company.logo?.url,
                         );
                         Navigator.push(
                           context,

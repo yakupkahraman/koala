@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:koala/employee/features/chat/domain/chat.dart';
+import 'package:koala/employee/features/chat/presentation/widgets/chat_avatar.dart';
 
 class ChatListTile extends StatelessWidget {
   final Chat chat;
@@ -14,46 +15,18 @@ class ChatListTile extends StatelessWidget {
         context.push('/chat-detail', extra: chat);
       },
       child: Container(
-        height: 74, // İstediğin yükseklik
+        height: 74,
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         margin: EdgeInsets.only(bottom: 4),
         child: Row(
           children: [
-            Stack(
-              children: [
-                Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Center(
-                    child: Text(
-                      chat.avatar,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                ),
-                if (chat.isOnline)
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      width: 16,
-                      height: 16,
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white, width: 2),
-                      ),
-                    ),
-                  ),
-              ],
+            ChatAvatar(
+              avatarUrl: chat.avatarUrl,
+              fallbackText: chat.avatar,
+              size: 60,
+              borderRadius: 20,
+              isOnline: chat.isOnline,
+              onlineDotSize: 16,
             ),
             SizedBox(width: 16),
             Expanded(

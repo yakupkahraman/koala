@@ -22,6 +22,7 @@ class ApplyProvider extends ChangeNotifier {
       id: 'applied_${job.id}',
       title: job.title,
       company: job.company ?? 'Bilinmeyen Şirket',
+      companyId: job.companyDetails?.id,
       description: job.description ?? job.subtitle,
       date: dateStr,
       price: job.price,

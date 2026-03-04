@@ -123,7 +123,10 @@ class ProfilePage extends StatelessWidget {
               Text("yakup_demir_cv.pdf", style: TextStyle(color: Colors.white)),
             ],
           ),
-          Icon(Icons.file_open, color: Colors.white),
+          HugeIcon(
+            icon: HugeIcons.strokeRoundedFileAttachment,
+            color: Colors.white,
+          ),
         ],
       ),
     );

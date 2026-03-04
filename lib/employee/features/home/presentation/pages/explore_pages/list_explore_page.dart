@@ -288,30 +288,27 @@ class _ListExplorePageState extends ListExplorePagemodel {
                                     onPressed: _clearSearch,
                                   )
                                 : null,
-                            suffixIcon: Hero(
-                              tag: 'search_button',
-                              child: IconButton(
-                                icon: const Icon(
-                                  HugeIcons.strokeRoundedSearch01,
-                                  size: 24,
-                                ),
-                                style: ButtonStyle(
-                                  backgroundColor: WidgetStatePropertyAll(
-                                    Theme.of(context).colorScheme.primary,
-                                  ),
-                                  padding: const WidgetStatePropertyAll(
-                                    EdgeInsets.all(8),
-                                  ),
-                                ),
-                                color: Colors.white,
-                                onPressed: () {
-                                  if (_searchFocusNode.hasFocus) {
-                                    _searchFocusNode.unfocus();
-                                  } else {
-                                    _searchFocusNode.requestFocus();
-                                  }
-                                },
+                            suffixIcon: IconButton(
+                              icon: const Icon(
+                                HugeIcons.strokeRoundedSearch01,
+                                size: 24,
                               ),
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStatePropertyAll(
+                                  Theme.of(context).colorScheme.primary,
+                                ),
+                                padding: const WidgetStatePropertyAll(
+                                  EdgeInsets.all(8),
+                                ),
+                              ),
+                              color: Colors.white,
+                              onPressed: () {
+                                if (_searchFocusNode.hasFocus) {
+                                  _searchFocusNode.unfocus();
+                                } else {
+                                  _searchFocusNode.requestFocus();
+                                }
+                              },
                             ),
                           ),
                         ),

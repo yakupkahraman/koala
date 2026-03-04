@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:koala/employee/features/company_detail/data/company_repository.dart';
+import 'package:koala/employee/features/company_detail/domain/company_model.dart';
 import 'package:koala/employee/features/jobs/data/models/my_jobs_model.dart';
 import 'package:koala/employee/features/jobs/data/repositories/my_jobs_repository.dart';
 import 'package:koala/employee/features/jobs/presentation/providers/apply_provider.dart';
@@ -17,6 +19,7 @@ class MyJobsPage extends StatefulWidget {
 
 class _MyJobsPageState extends State<MyJobsPage> {
   final MyJobsRepository _repository = MyJobsRepository();
+  final CompanyRepository _companyRepository = CompanyRepository();
   bool showAllPastJobs = false;
   List<MyJobsModel> _allJobs = [];
   bool _loading = true;
@@ -44,6 +47,20 @@ class _MyJobsPageState extends State<MyJobsPage> {
       ..._allJobs.where((job) => job.status == status),
     ];
     return combined;
+  }
+
+  Future<void> _navigateToCompany(MyJobsModel job) async {
+    CompanyModel? company;
+
+    if (job.companyId != null) {
+      company = await _companyRepository.getCompanyById(job.companyId!);
+    }
+
+    company ??= await _companyRepository.getCompanyByName(job.company);
+
+    if (company != null && mounted) {
+      context.push('/company-detail', extra: company);
+    }
   }
 
   @override
@@ -138,6 +155,35 @@ class _MyJobsPageState extends State<MyJobsPage> {
           color: Colors.black,
           fontSize: 24,
           fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
+
+  Widget _tappableCompanyName(MyJobsModel job, Color textColor) {
+    final hasTapAction = job.companyId != null;
+
+    return GestureDetector(
+      onTap: hasTapAction ? () => _navigateToCompany(job) : null,
+      child: Text(
+        job.company,
+        style: TextStyle(
+          fontFamily: "Poppins",
+          color: hasTapAction
+              ? (textColor == Colors.white
+                    ? Colors.white
+                    : AppColors.primaryColor)
+              : textColor.withValues(alpha: 0.7),
+          fontSize: 13,
+          fontWeight: hasTapAction ? FontWeight.w600 : FontWeight.w400,
+          decoration: hasTapAction
+              ? TextDecoration.underline
+              : TextDecoration.none,
+          decorationColor: hasTapAction
+              ? (textColor == Colors.white
+                    ? Colors.white
+                    : AppColors.primaryColor)
+              : null,
         ),
       ),
     );
@@ -298,14 +344,7 @@ class _MyJobsPageState extends State<MyJobsPage> {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      job.company,
-                      style: TextStyle(
-                        fontFamily: "Poppins",
-                        color: Colors.black.withValues(alpha: 0.7),
-                        fontSize: 13,
-                      ),
-                    ),
+                    _tappableCompanyName(job, Colors.black),
                     SizedBox(height: 2),
                     Text(
                       job.description,
@@ -395,14 +434,7 @@ class _MyJobsPageState extends State<MyJobsPage> {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            job.company,
-            style: TextStyle(
-              fontFamily: "Poppins",
-              color: textColor.withValues(alpha: 0.7),
-              fontSize: 13,
-            ),
-          ),
+          _tappableCompanyName(job, textColor),
           SizedBox(height: 2),
           Text(
             job.description,
@@ -417,6 +449,7 @@ class _MyJobsPageState extends State<MyJobsPage> {
       ),
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
@@ -506,14 +539,7 @@ class _MyJobsPageState extends State<MyJobsPage> {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    job.company,
-                    style: TextStyle(
-                      fontFamily: "Poppins",
-                      color: Colors.black54,
-                      fontSize: 13,
-                    ),
-                  ),
+                  _tappableCompanyName(job, Colors.black87),
                   SizedBox(height: 2),
                   Text(
                     job.description,
@@ -525,6 +551,7 @@ class _MyJobsPageState extends State<MyJobsPage> {
               ),
               trailing: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
@@ -536,11 +563,17 @@ class _MyJobsPageState extends State<MyJobsPage> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  Text(
-                    job.date,
-                    style: TextStyle(color: Colors.black45, fontSize: 12),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        job.date,
+                        style: TextStyle(color: Colors.black45, fontSize: 12),
+                      ),
+                      SizedBox(width: 4),
+                      Icon(Icons.check_circle, color: Colors.green, size: 16),
+                    ],
                   ),
-                  Icon(Icons.check_circle, color: Colors.green, size: 18),
                 ],
               ),
             );

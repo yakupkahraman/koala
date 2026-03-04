@@ -1,5 +1,6 @@
 import 'package:koala/employee/features/company_detail/domain/company_model.dart';
 import 'package:koala/employee/features/company_detail/domain/address_model.dart';
+import 'package:koala/employee/features/company_detail/domain/image_model.dart';
 
 /// Fake şirket verilerini sağlayan repository
 /// Backend hazır olduğunda burası gerçek API'ye bağlanacak
@@ -16,6 +17,13 @@ class CompanyRepository {
       name: 'Özlem & Murat Düğün Organizasyonu',
       email: 'info@omlmdugum.com',
       phoneNumber: '+90 312 555 0101',
+      logo: ImageModel(
+        id: 'logo_1',
+        url:
+            'https://ui-avatars.com/api/?name=Özlem+Murat&size=256&background=E91E63&color=ffffff&bold=true&format=png',
+        name: 'Özlem & Murat Logo',
+        contentType: 'image/png',
+      ),
       website: 'www.ozlemmuratdugun.com',
       description:
           'Ankara\'da 10 yıldır hizmet veren profesyonel düğün organizasyon şirketi. Hayalinizdeki düğünü gerçeğe dönüştürüyoruz.',
@@ -38,6 +46,13 @@ class CompanyRepository {
       name: 'Kahve Durağı Cafe',
       email: 'iletisim@kahveduragi.com',
       phoneNumber: '+90 312 555 0202',
+      logo: ImageModel(
+        id: 'logo_2',
+        url:
+            'https://ui-avatars.com/api/?name=Kahve+Durağı&size=256&background=795548&color=ffffff&bold=true&format=png',
+        name: 'Kahve Durağı Logo',
+        contentType: 'image/png',
+      ),
       website: 'www.kahveduragi.com',
       description:
           'Kızılay\'ın kalbinde özel kahve çeşitleri ve ev yapımı pastalarıyla hizmet veren samimi bir cafe. Her gün taze kahve ve sıcak bir ortam.',
@@ -60,6 +75,13 @@ class CompanyRepository {
       name: 'Ahmet Yılmaz (Bireysel)',
       email: 'ahmet.yilmaz@email.com',
       phoneNumber: '+90 532 555 0303',
+      logo: ImageModel(
+        id: 'logo_3',
+        url:
+            'https://ui-avatars.com/api/?name=Ahmet+Yılmaz&size=256&background=4CAF50&color=ffffff&bold=true&format=png',
+        name: 'Ahmet Yılmaz Avatar',
+        contentType: 'image/png',
+      ),
       description:
           'Hayvan sever bireysel iş veren. Kedilerime iyi bakılmasını istiyorum.',
       address: AddressModel(
@@ -80,6 +102,13 @@ class CompanyRepository {
       name: 'Lezzet Durağı Restaurant',
       email: 'info@lezzetduragi.com',
       phoneNumber: '+90 312 555 0404',
+      logo: ImageModel(
+        id: 'logo_4',
+        url:
+            'https://ui-avatars.com/api/?name=Lezzet+Durağı&size=256&background=FF5722&color=ffffff&bold=true&format=png',
+        name: 'Lezzet Durağı Logo',
+        contentType: 'image/png',
+      ),
       website: 'www.lezzetduragi.com',
       description:
           'Modern ve geleneksel Türk mutfağını bir araya getiren özgün konseptli restoranımız yakında açılıyor. Lezzet dolu bir yolculuğa hazır olun!',
@@ -102,6 +131,13 @@ class CompanyRepository {
       name: 'Brew & Co. Specialty Coffee',
       email: 'hello@brewandco.com',
       phoneNumber: '+90 312 555 0505',
+      logo: ImageModel(
+        id: 'logo_5',
+        url:
+            'https://ui-avatars.com/api/?name=Brew+Co&size=256&background=3E2723&color=ffffff&bold=true&format=png',
+        name: 'Brew & Co Logo',
+        contentType: 'image/png',
+      ),
       website: 'www.brewandco.com',
       description:
           'Ankara\'nın ilk specialty coffee mekânlarından biri. Dünyanın dört bir yanından özenle seçilmiş kahve çekirdekleri ve profesyonel barista ekibi.',
@@ -124,6 +160,13 @@ class CompanyRepository {
       name: 'TrendShop E-ticaret',
       email: 'destek@trendshop.com',
       phoneNumber: '+90 312 555 0606',
+      logo: ImageModel(
+        id: 'logo_6',
+        url:
+            'https://ui-avatars.com/api/?name=Trend+Shop&size=256&background=9C27B0&color=ffffff&bold=true&format=png',
+        name: 'TrendShop Logo',
+        contentType: 'image/png',
+      ),
       website: 'www.trendshop.com',
       description:
           'Moda ve aksesuar e-ticaret platformu. En yeni trendleri uygun fiyatlarla müşterilerimize ulaştırıyoruz.',
@@ -146,6 +189,13 @@ class CompanyRepository {
       name: 'Elit Organizasyon',
       email: 'info@elitorganizasyon.com',
       phoneNumber: '+90 312 555 0707',
+      logo: ImageModel(
+        id: 'logo_7',
+        url:
+            'https://ui-avatars.com/api/?name=Elit+Org&size=256&background=1565C0&color=ffffff&bold=true&format=png',
+        name: 'Elit Organizasyon Logo',
+        contentType: 'image/png',
+      ),
       website: 'www.elitorganizasyon.com',
       description:
           'Kurumsal etkinlik, toplantı ve özel organizasyon hizmetlerinde 15 yıllık deneyim. Her detayda mükemmellik.',
@@ -168,6 +218,13 @@ class CompanyRepository {
       name: 'Zeynep Kaya (Bireysel)',
       email: 'zeynep.kaya@email.com',
       phoneNumber: '+90 535 555 0808',
+      logo: ImageModel(
+        id: 'logo_8',
+        url:
+            'https://ui-avatars.com/api/?name=Zeynep+Kaya&size=256&background=FF8F00&color=ffffff&bold=true&format=png',
+        name: 'Zeynep Kaya Avatar',
+        contentType: 'image/png',
+      ),
       description:
           'Golden Retriever sahibi. Köpeğime profesyonel ve sevgi dolu bir bakım arıyorum.',
       address: AddressModel(
@@ -188,6 +245,13 @@ class CompanyRepository {
       name: 'FitLife Spor Salonu',
       email: 'bilgi@fitlifegym.com',
       phoneNumber: '+90 312 555 0909',
+      logo: ImageModel(
+        id: 'logo_9',
+        url:
+            'https://ui-avatars.com/api/?name=Fit+Life&size=256&background=00C853&color=ffffff&bold=true&format=png',
+        name: 'FitLife Logo',
+        contentType: 'image/png',
+      ),
       website: 'www.fitlifegym.com',
       description:
           'Modern ekipman, profesyonel eğitmenler ve motivasyon dolu bir ortam. Sağlıklı yaşam yolculuğunuz FitLife ile başlasın!',
@@ -210,6 +274,13 @@ class CompanyRepository {
       name: 'Coffee Break Cafe',
       email: 'info@coffeebreak.com',
       phoneNumber: '+90 312 555 1010',
+      logo: ImageModel(
+        id: 'logo_10',
+        url:
+            'https://ui-avatars.com/api/?name=Coffee+Break&size=256&background=6D4C41&color=ffffff&bold=true&format=png',
+        name: 'Coffee Break Logo',
+        contentType: 'image/png',
+      ),
       website: 'www.coffeebreakcafe.com',
       description:
           'Kızılay\'da bulunan huzurlu ve samimi atmosferli cafe. Kaliteli kahve, taze sandviçler ve güler yüzlü ekip.',
