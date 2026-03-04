@@ -60,18 +60,27 @@ class JobMarkerGenerator {
     const double size = 70; // Marker boyutu
 
     // SVG dosyasını yükle
-    final String svgString = await rootBundle.loadString(category.pinAsset);
+    String svgString = await rootBundle.loadString(category.pinAsset);
 
-    //TODO: RENKLENDİRMEK İÇİN ÖRNEK KOD (İSTEĞE BAĞLI)
-    // final String categoryColorHex =
-    //     '#${category.color.value.toRadixString(16).substring(2)}';
+    // Kategori rengini hex formatına çevir
+    final String categoryColorHex =
+        '#${category.color.value.toRadixString(16).substring(2)}';
 
-    // // Basit bir replace işlemi (SVG yapınıza göre 'fill="currentColor"' veya belirli bir hex kodunu hedefleyin)
+    // Pin arka plan rengini (#82C180) kategori rengiyle değiştir
+    svgString = svgString.replaceAll('#82C180', categoryColorHex);
+
+    // SVG içindeki siyah renkleri kategori rengiyle değiştir
     // svgString = svgString.replaceAll(
     //   'fill="black"',
     //   'fill="$categoryColorHex"',
     // );
+    // svgString = svgString.replaceAll(
+    //   'fill="#000000"',
+    //   'fill="$categoryColorHex"',
+    // );
+    // svgString = svgString.replaceAll('fill="#000"', 'fill="$categoryColorHex"');
     // svgString = svgString.replaceAll('#000000', categoryColorHex);
+    // svgString = svgString.replaceAll('#000', categoryColorHex);
 
     // SVG'yi Picture'a dönüştür
     final PictureInfo pictureInfo = await vg.loadPicture(

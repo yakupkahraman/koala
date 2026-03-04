@@ -14,6 +14,7 @@ import 'package:koala/employee/features/profile/presentation/pages/profile_page.
 import 'package:koala/employee/features/home/presentation/pages/shell_page.dart';
 import 'package:koala/employee/features/company_detail/presentation/pages/company_detail_page.dart';
 import 'package:koala/employee/features/company_detail/domain/company_model.dart';
+import 'package:koala/employee/features/settings/presentation/pages/settings_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:koala/employee/features/auth/presentation/pages/login_page.dart';
 import 'package:koala/employee/features/auth/presentation/pages/register_page.dart';
@@ -111,6 +112,11 @@ class RouterManager {
           final companyData = state.extra as CompanyModel;
           return CompanyDetailPage(company: companyData);
         },
+      ),
+
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsPage(),
       ),
 
       //Main Shell
