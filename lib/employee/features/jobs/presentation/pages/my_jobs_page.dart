@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:koala/employee/features/jobs/data/models/my_jobs_model.dart';
 import 'package:koala/employee/features/jobs/data/repositories/my_jobs_repository.dart';
+import 'package:koala/employee/features/jobs/presentation/providers/apply_provider.dart';
 import 'package:koala/employee/features/jobs/presentation/providers/review_provider.dart';
 import 'package:koala/product/constants/app_colors.dart';
 import 'package:koala/product/constants/app_padding.dart';
@@ -34,8 +35,15 @@ class _MyJobsPageState extends State<MyJobsPage> {
     });
   }
 
-  List<MyJobsModel> _getJobsByStatus(MyJobStatus status) {
-    return _allJobs.where((job) => job.status == status).toList();
+  List<MyJobsModel> _getJobsByStatus(
+    MyJobStatus status, {
+    List<MyJobsModel> extraJobs = const [],
+  }) {
+    final combined = [
+      ...extraJobs.where((j) => j.status == status),
+      ..._allJobs.where((job) => job.status == status),
+    ];
+    return combined;
   }
 
   @override
@@ -47,10 +55,22 @@ class _MyJobsPageState extends State<MyJobsPage> {
       );
     }
 
-    final pendingJobs = _getJobsByStatus(MyJobStatus.pending);
-    final approvedJobs = _getJobsByStatus(MyJobStatus.approved);
-    final completedJobs = _getJobsByStatus(MyJobStatus.completed);
-    final pastJobs = _getJobsByStatus(MyJobStatus.past);
+    final applyProvider = context.watch<ApplyProvider>();
+    final appliedJobs = applyProvider.appliedJobs;
+
+    final pendingJobs = _getJobsByStatus(
+      MyJobStatus.pending,
+      extraJobs: appliedJobs,
+    );
+    final approvedJobs = _getJobsByStatus(
+      MyJobStatus.approved,
+      extraJobs: appliedJobs,
+    );
+    final completedJobs = _getJobsByStatus(
+      MyJobStatus.completed,
+      extraJobs: appliedJobs,
+    );
+    final pastJobs = _getJobsByStatus(MyJobStatus.past, extraJobs: appliedJobs);
 
     return Scaffold(
       appBar: _appBar(),

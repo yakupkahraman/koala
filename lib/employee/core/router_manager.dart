@@ -21,6 +21,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:koala/employee/features/auth/presentation/pages/login_page.dart';
 import 'package:koala/employee/features/auth/presentation/pages/register_page.dart';
 import 'package:koala/employee/features/auth/presentation/pages/email_verification_pending_page.dart';
+import 'package:koala/employee/features/jobs/presentation/pages/apply_page.dart';
+import 'package:koala/employee/features/home/data/models/job_model.dart';
 
 class RouterManager {
   static Future<bool> isUserLoggedIn() async {
@@ -117,6 +119,14 @@ class RouterManager {
         builder: (context, state) {
           final job = state.extra as MyJobsModel;
           return ReviewPage(job: job);
+        },
+      ),
+
+      GoRoute(
+        path: '/apply',
+        builder: (context, state) {
+          final job = state.extra as JobModel;
+          return ApplyPage(job: job);
         },
       ),
 

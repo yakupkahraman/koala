@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:koala/employee/features/home/data/models/job_model.dart';
+import 'package:koala/employee/features/jobs/presentation/providers/apply_provider.dart';
 import 'package:koala/employee/features/jobs/presentation/providers/saved_jobs_provider.dart';
 import 'package:koala/product/constants/app_padding.dart';
 import 'package:koala/product/constants/app_radius.dart';
@@ -103,7 +104,9 @@ class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
 
   Container bottomButtonsBar(BuildContext context, bool isExpanded) {
     final savedJobsProvider = context.watch<SavedJobsProvider>();
+    final applyProvider = context.watch<ApplyProvider>();
     final isSaved = savedJobsProvider.isSaved(widget.job.id);
+    final alreadyApplied = applyProvider.hasApplied(widget.job.id);
 
     return Container(
       padding: EdgeInsets.fromLTRB(
@@ -167,37 +170,36 @@ class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
             child: SizedBox(
               height: 56,
               child: ElevatedButton(
-                onPressed: isExpanded
-                    ? () {
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              '${widget.job.title} için başvurunuz alındı!',
-                            ),
-                            backgroundColor: Theme.of(
-                              context,
-                            ).colorScheme.primary,
-                          ),
-                        );
-                      }
-                    : () {
-                        widget.sheetController?.animateTo(
-                          0.95,
-                          duration: const Duration(milliseconds: 400),
-                          curve: Curves.easeInOut,
-                        );
-                      },
+                onPressed: alreadyApplied
+                    ? null
+                    : (isExpanded
+                          ? () {
+                              Navigator.pop(context);
+                              context.push('/apply', extra: widget.job);
+                            }
+                          : () {
+                              widget.sheetController?.animateTo(
+                                0.95,
+                                duration: const Duration(milliseconds: 400),
+                                curve: Curves.easeInOut,
+                              );
+                            }),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  backgroundColor: alreadyApplied
+                      ? Colors.grey[300]
+                      : Theme.of(context).colorScheme.primary,
                   foregroundColor: Colors.white,
+                  disabledBackgroundColor: Colors.grey[300],
+                  disabledForegroundColor: Colors.grey[500],
                   shape: RoundedRectangleBorder(
                     borderRadius: AppRadius.primaryCircular,
                   ),
                   elevation: 0,
                 ),
                 child: Text(
-                  isExpanded ? 'Başvur' : 'Detayları Gör',
+                  alreadyApplied
+                      ? 'Başvuruldu ✓'
+                      : (isExpanded ? 'Başvur' : 'Detayları Gör'),
                   style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 16,
