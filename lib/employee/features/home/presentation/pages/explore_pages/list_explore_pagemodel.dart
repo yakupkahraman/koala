@@ -9,6 +9,11 @@ abstract class ListExplorePagemodel extends State<ListExplorePage>
   bool _loading = true;
   final JobRepository _jobRepository = JobRepository();
 
+  // Arama
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
+  String _searchQuery = '';
+
   // Aktif filtreler
   String _selectedFilter = 'all';
   String _selectedPriceRange = 'all';
@@ -23,6 +28,13 @@ abstract class ListExplorePagemodel extends State<ListExplorePage>
   void initState() {
     super.initState();
     _loadJobsAndLocation();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _searchFocusNode.dispose();
+    super.dispose();
   }
 
   Future<void> _loadJobsAndLocation() async {
@@ -82,8 +94,37 @@ abstract class ListExplorePagemodel extends State<ListExplorePage>
     return distance / 1000; // km'ye çevir
   }
 
+  void _onSearchChanged(String query) {
+    setState(() {
+      _searchQuery = query;
+      _applyAllFilters();
+    });
+  }
+
+  void _clearSearch() {
+    _searchController.clear();
+    setState(() {
+      _searchQuery = '';
+      _applyAllFilters();
+    });
+  }
+
   void _applyAllFilters() {
     List<JobModel> filtered = _jobs;
+
+    // Arama filtresi
+    if (_searchQuery.trim().isNotEmpty) {
+      final lowerQuery = _searchQuery.toLowerCase();
+      filtered = filtered.where((job) {
+        return job.title.toLowerCase().contains(lowerQuery) ||
+            job.subtitle.toLowerCase().contains(lowerQuery) ||
+            (job.company?.toLowerCase().contains(lowerQuery) ?? false) ||
+            job.category.displayName.toLowerCase().contains(lowerQuery) ||
+            (job.address?.toLowerCase().contains(lowerQuery) ?? false) ||
+            (job.sector?.toLowerCase().contains(lowerQuery) ?? false) ||
+            (job.description?.toLowerCase().contains(lowerQuery) ?? false);
+      }).toList();
+    }
 
     // Kategori ve tip filtresi
     if (_selectedFilter != 'all') {

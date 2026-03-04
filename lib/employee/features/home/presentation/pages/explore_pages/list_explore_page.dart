@@ -18,81 +18,137 @@ class _ListExplorePageState extends ListExplorePagemodel {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
-      extendBody: true,
-      extendBodyBehindAppBar: false,
-      body: CustomScrollView(
-        slivers: [
-          //TODO: Küçük ekranlar için responsive tasarım
-          appBar(context),
-          SliverToBoxAdapter(child: const SizedBox(height: 10)),
-          filters(),
+    return GestureDetector(
+      onTap: () => _searchFocusNode.unfocus(),
+      child: Scaffold(
+        backgroundColor: Colors.grey[200],
+        extendBody: true,
+        extendBodyBehindAppBar: false,
+        body: CustomScrollView(
+          slivers: [
+            appBar(context),
+            SliverToBoxAdapter(child: const SizedBox(height: 10)),
+            filters(),
 
-          // Yakındaki İşler Başlığı
-          SliverToBoxAdapter(
-            child: Container(
-              padding: EdgeInsets.fromLTRB(16, 14, 0, 14),
-              child: Text(
-                'Yakındaki İşler',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                ),
-              ),
-            ),
-          ),
-
-          // İş Listesi
-          if (_loading)
-            SliverToBoxAdapter(
-              child: Center(
-                child: Padding(
-                  padding: EdgeInsets.all(32.0),
-                  child: CircularProgressIndicator(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ),
-            )
-          else if (_filteredJobs.isEmpty)
-            SliverToBoxAdapter(
-              child: Center(
-                child: Padding(
-                  padding: EdgeInsets.all(32.0),
-                  child: Column(
+            // Arama aktifse sonuç sayısını göster
+            if (_searchQuery.isNotEmpty)
+              SliverToBoxAdapter(
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
+                  child: Row(
                     children: [
-                      Icon(
-                        HugeIcons.strokeRoundedSearchList01,
-                        size: 64,
-                        color: Colors.grey[400],
-                      ),
-                      SizedBox(height: 16),
                       Text(
-                        'Bu filtreye uygun iş bulunamadı',
+                        '"$_searchQuery" için ${_filteredJobs.length} sonuç',
                         style: TextStyle(
                           fontFamily: 'Poppins',
-                          fontSize: 16,
-                          color: Colors.grey,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: _clearSearch,
+                        child: Text(
+                          'Temizle',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-            )
-          else
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                final job = _filteredJobs[index];
-                final distance = _getDistance(job);
-                return JobCard(job: job, distance: distance);
-              }, childCount: _filteredJobs.length),
+
+            // Yakındaki İşler Başlığı
+            SliverToBoxAdapter(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(16, 14, 0, 14),
+                child: Text(
+                  _searchQuery.isNotEmpty
+                      ? 'Arama Sonuçları'
+                      : 'Yakındaki İşler',
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 30,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
+                ),
+              ),
             ),
-          SliverToBoxAdapter(child: SizedBox(height: 100)),
-        ],
+
+            // İş Listesi
+            if (_loading)
+              SliverToBoxAdapter(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+              )
+            else if (_filteredJobs.isEmpty)
+              SliverToBoxAdapter(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Column(
+                      children: [
+                        Icon(
+                          HugeIcons.strokeRoundedSearchList01,
+                          size: 64,
+                          color: Colors.grey[400],
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          _searchQuery.isNotEmpty
+                              ? '"$_searchQuery" ile eşleşen iş bulunamadı'
+                              : 'Bu filtreye uygun iş bulunamadı',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 16,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        if (_searchQuery.isNotEmpty) ...[
+                          const SizedBox(height: 12),
+                          TextButton(
+                            onPressed: _clearSearch,
+                            child: Text(
+                              'Aramayı Temizle',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            else
+              SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final job = _filteredJobs[index];
+                  final distance = _getDistance(job);
+                  return JobCard(job: job, distance: distance);
+                }, childCount: _filteredJobs.length),
+              ),
+            SliverToBoxAdapter(child: SizedBox(height: 100)),
+          ],
+        ),
       ),
     );
   }
@@ -191,7 +247,7 @@ class _ListExplorePageState extends ListExplorePagemodel {
                     clipBehavior: Clip.none,
                     alignment: Alignment.centerRight,
                     children: [
-                      // 🔹 Açılan TextField (butonun altından)
+                      // 🔹 Açılan TextField
                       AnimatedContainer(
                         duration: const Duration(milliseconds: 200),
                         curve: Curves.easeInOut,
@@ -200,8 +256,20 @@ class _ListExplorePageState extends ListExplorePagemodel {
                             : 50,
                         height: 60,
                         child: TextField(
+                          controller: _searchController,
+                          focusNode: _searchFocusNode,
+                          onChanged: _onSearchChanged,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 15,
+                          ),
                           decoration: InputDecoration(
-                            hintText: "Ara...",
+                            hintText: "İş, şirket veya konum ara...",
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 15,
+                              color: Colors.grey[400],
+                            ),
                             filled: true,
                             fillColor: isOpen
                                 ? Colors.grey[200]
@@ -210,6 +278,16 @@ class _ListExplorePageState extends ListExplorePagemodel {
                               borderRadius: BorderRadius.circular(30),
                               borderSide: BorderSide.none,
                             ),
+                            prefixIcon: _searchQuery.isNotEmpty
+                                ? IconButton(
+                                    icon: Icon(
+                                      Icons.close,
+                                      size: 20,
+                                      color: Colors.grey[600],
+                                    ),
+                                    onPressed: _clearSearch,
+                                  )
+                                : null,
                             suffixIcon: Hero(
                               tag: 'search_button',
                               child: IconButton(
@@ -221,12 +299,18 @@ class _ListExplorePageState extends ListExplorePagemodel {
                                   backgroundColor: WidgetStatePropertyAll(
                                     Theme.of(context).colorScheme.primary,
                                   ),
-                                  padding: WidgetStatePropertyAll(
+                                  padding: const WidgetStatePropertyAll(
                                     EdgeInsets.all(8),
                                   ),
                                 ),
                                 color: Colors.white,
-                                onPressed: () {},
+                                onPressed: () {
+                                  if (_searchFocusNode.hasFocus) {
+                                    _searchFocusNode.unfocus();
+                                  } else {
+                                    _searchFocusNode.requestFocus();
+                                  }
+                                },
                               ),
                             ),
                           ),

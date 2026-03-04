@@ -14,6 +14,12 @@ abstract class MapExplorePageModel extends State<MapExplorePage>
 
   // İş verileri
   Set<Marker> _markers = {};
+  List<JobModel> _allJobs = [];
+  List<JobModel> _searchResults = [];
+
+  // Arama
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -46,6 +52,7 @@ abstract class MapExplorePageModel extends State<MapExplorePage>
   Future<void> _loadJobs() async {
     try {
       final jobs = await _jobRepository.getJobs();
+      _allJobs = jobs;
 
       final markers = await JobMarkerGenerator.generateMarkers(
         jobs: jobs,
@@ -60,6 +67,60 @@ abstract class MapExplorePageModel extends State<MapExplorePage>
     }
   }
 
+  /// Haritada arama yap
+  void _onMapSearch(String query) {
+    if (query.trim().isEmpty) {
+      setState(() {
+        _searchResults = [];
+      });
+      return;
+    }
+
+    final lowerQuery = query.toLowerCase();
+    setState(() {
+      _searchResults = _allJobs.where((job) {
+        return job.title.toLowerCase().contains(lowerQuery) ||
+            job.subtitle.toLowerCase().contains(lowerQuery) ||
+            (job.company?.toLowerCase().contains(lowerQuery) ?? false) ||
+            job.category.displayName.toLowerCase().contains(lowerQuery) ||
+            (job.address?.toLowerCase().contains(lowerQuery) ?? false) ||
+            (job.sector?.toLowerCase().contains(lowerQuery) ?? false);
+      }).toList();
+    });
+  }
+
+  /// Arama sonucuna tıklanınca haritada o işe odaklan
+  void _focusOnJob(JobModel job) {
+    _searchFocusNode.unfocus();
+
+    final searchProvider = Provider.of<SearchProvider>(context, listen: false);
+    searchProvider.stopSearching();
+    _searchController.clear();
+
+    setState(() {
+      _searchResults = [];
+    });
+
+    // Haritayı o konuma taşı
+    if (_mapController != null) {
+      _mapController!.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: LatLng(job.latitude, job.longitude),
+            zoom: 17.0,
+          ),
+        ),
+      );
+    }
+
+    // Kısa bir gecikme ile bottom sheet aç
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (mounted) {
+        JobDetailBottomSheet.show(context, job);
+      }
+    });
+  }
+
   /// Marker'a tıklandığında bottom sheet göster
   void _onJobMarkerTap(JobModel job) {
     HapticFeedback.lightImpact();
@@ -69,6 +130,8 @@ abstract class MapExplorePageModel extends State<MapExplorePage>
   @override
   void dispose() {
     _locationService.dispose();
+    _searchController.dispose();
+    _searchFocusNode.dispose();
     super.dispose();
   }
 
