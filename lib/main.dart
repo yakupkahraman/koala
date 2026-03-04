@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:koala/employee/features/home/presentation/providers/page_provider.dart';
+import 'package:koala/employee/features/jobs/presentation/providers/saved_jobs_provider.dart';
+import 'package:koala/employee/features/jobs/presentation/providers/review_provider.dart';
 import 'package:koala/product/theme/theme_provider.dart';
 import 'package:koala/product/my_app.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +12,8 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => PageProvider()),
+        ChangeNotifierProvider(create: (_) => SavedJobsProvider()),
+        ChangeNotifierProvider(create: (_) => ReviewProvider()),
       ],
       child: MyApp(),
     ),

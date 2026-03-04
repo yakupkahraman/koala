@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:koala/employee/features/home/data/models/job_model.dart';
+import 'package:koala/employee/features/jobs/presentation/providers/saved_jobs_provider.dart';
 import 'package:koala/product/constants/app_padding.dart';
 import 'package:koala/product/constants/app_radius.dart';
+import 'package:provider/provider.dart';
 
 class JobDetailBottomSheet extends StatefulWidget {
   final JobModel job;
@@ -52,7 +54,6 @@ class JobDetailBottomSheet extends StatefulWidget {
 }
 
 class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
-  bool _isSaved = false;
   double _sheetSize = 0.5;
 
   @override
@@ -101,6 +102,9 @@ class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
   }
 
   Container bottomButtonsBar(BuildContext context, bool isExpanded) {
+    final savedJobsProvider = context.watch<SavedJobsProvider>();
+    final isSaved = savedJobsProvider.isSaved(widget.job.id);
+
     return Container(
       padding: EdgeInsets.fromLTRB(
         AppPadding.primary,
@@ -130,7 +134,7 @@ class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
                     color: Colors.transparent,
                     child: Ink(
                       decoration: BoxDecoration(
-                        color: _isSaved
+                        color: isSaved
                             ? Theme.of(
                                 context,
                               ).colorScheme.primary.withValues(alpha: 0.15)
@@ -140,14 +144,12 @@ class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
                       child: InkWell(
                         borderRadius: AppRadius.primaryCircular,
                         onTap: () {
-                          setState(() {
-                            _isSaved = !_isSaved;
-                          });
+                          savedJobsProvider.toggleSave(widget.job);
                         },
                         child: Center(
                           child: Icon(
-                            _isSaved ? Icons.bookmark : Icons.bookmark_border,
-                            color: _isSaved
+                            isSaved ? Icons.bookmark : Icons.bookmark_border,
+                            color: isSaved
                                 ? Theme.of(context).colorScheme.primary
                                 : Colors.grey[700],
                           ),
@@ -236,7 +238,7 @@ class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
             ),
           ),
 
-          // Şirket adı (varsa)
+          // Şirket adı (varsa)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -255,7 +257,7 @@ class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 13 + (1 * expandProgress), // 13 -> 14
+                      fontSize: 13 + (1 * expandProgress),
                       fontWeight: FontWeight.w500,
                       color: widget.job.companyDetails != null
                           ? Theme.of(context).colorScheme.primary
@@ -310,12 +312,12 @@ class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
             ],
           ),
 
-          // Başlık
+          // Başlık
           Text(
             widget.job.title,
             style: TextStyle(
               fontFamily: 'Poppins',
-              fontSize: 22 + (6 * expandProgress), // 22 -> 28
+              fontSize: 22 + (6 * expandProgress),
               fontWeight: FontWeight.w700,
               color: Colors.black87,
             ),
@@ -349,19 +351,11 @@ class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
                 ),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
-                  // padding: EdgeInsets.symmetric(
-                  //   horizontal: 12 + (4 * expandProgress),
-                  //   vertical: 6 + (4 * expandProgress),
-                  // ),
-                  // decoration: BoxDecoration(
-                  //   color: ThemeConstants.primaryColor.withValues(alpha: 0.15),
-                  //   borderRadius: BorderRadius.circular(isExpanded ? 12 : 20),
-                  // ),
                   child: Text(
-                    '${widget.job.price.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\\d{1,3})(?=(\\d{3})+(?!\\d))'), (Match m) => '${m[1]}.')}₺',
+                    '${widget.job.price.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}₺',
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 26 + (4 * expandProgress), // 16 -> 20
+                      fontSize: 26 + (4 * expandProgress),
                       fontWeight: FontWeight.w700,
                       color: Theme.of(context).colorScheme.primary,
                     ),
@@ -396,7 +390,7 @@ class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
             widget.job.description ?? widget.job.subtitle,
             style: TextStyle(
               fontFamily: 'Poppins',
-              fontSize: 14 + (1 * expandProgress), // 14 -> 15
+              fontSize: 14 + (1 * expandProgress),
               fontWeight: FontWeight.w400,
               color: Colors.grey[isExpanded ? 700 : 600],
               height: 1.5 + (0.1 * expandProgress),
@@ -566,7 +560,7 @@ class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
   AnimatedContainer appBar(double expandProgress) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
-      height: 8 + (56 * expandProgress), // 8 -> 64 (padding + buton yüksekliği)
+      height: 8 + (56 * expandProgress),
       child: expandProgress > 0.3
           ? Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),

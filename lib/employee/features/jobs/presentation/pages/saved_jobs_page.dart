@@ -1,32 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:koala/employee/features/home/data/models/job_model.dart';
+import 'package:koala/employee/features/home/presentation/widgets/job_detail_bottom_sheet.dart';
+import 'package:koala/employee/features/jobs/presentation/providers/saved_jobs_provider.dart';
 import 'package:koala/product/constants/app_padding.dart';
+import 'package:provider/provider.dart';
 
-class SavedJobsPage extends StatefulWidget {
+class SavedJobsPage extends StatelessWidget {
   const SavedJobsPage({super.key});
-
-  @override
-  State<SavedJobsPage> createState() => _SavedJobsPageState();
-}
-
-class _SavedJobsPageState extends State<SavedJobsPage> {
-  // Örnek veri listesi
-  final List<Map<String, String>> savedJobs = const [
-    {
-      "title": "Flutter Developer",
-      "description": "Flutter ile mobil uygulama geliştirme",
-      "date": "2023-09-01",
-    },
-    {
-      "title": "Backend Developer",
-      "description": "Node.js ile REST API geliştirme",
-      "date": "2023-08-15",
-    },
-    {
-      "title": "UI/UX Designer",
-      "description": "Mobil uygulama için kullanıcı arayüzü tasarımı",
-      "date": "2023-07-30",
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +17,7 @@ class _SavedJobsPageState extends State<SavedJobsPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
-          "Kaydettiğim İşlerim",
+          "Kaydettiğim İşler",
           style: TextStyle(
             fontFamily: "Poppins",
             color: Colors.black,
@@ -46,57 +26,155 @@ class _SavedJobsPageState extends State<SavedJobsPage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: AppPadding.primaryAll,
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.zero, // ListView'in kendi padding'ini kaldır
+      body: Consumer<SavedJobsProvider>(
+        builder: (context, provider, child) {
+          final savedJobs = provider.savedJobs;
+
+          if (savedJobs.isEmpty) {
+            return _emptyState();
+          }
+
+          return ListView.separated(
+            padding: AppPadding.primaryAll,
             itemCount: savedJobs.length,
+            separatorBuilder: (context, index) => Divider(
+              color: Colors.black.withValues(alpha: 0.1),
+              thickness: 1,
+              height: 1,
+            ),
             itemBuilder: (context, index) {
-              final savedJob = savedJobs[index];
-              return Column(
-                children: [
-                  ListTile(
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 0,
-                      vertical: 2, // Vertical padding'i azalt
-                    ),
-                    title: Text(
-                      savedJob["title"]!,
-                      style: TextStyle(
-                        fontFamily: "Poppins",
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    subtitle: Text(
-                      savedJob["description"]!,
-                      style: TextStyle(color: Colors.black54),
-                    ),
-                    trailing: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        SizedBox(height: 6),
-                        Text(
-                          savedJob["date"]!,
-                          style: TextStyle(color: Colors.black, fontSize: 14),
-                        ),
-                        Icon(Icons.bookmark, size: 30),
-                      ],
-                    ),
-                  ),
-                  if (index < savedJobs.length - 1)
-                    Divider(
-                      color: Colors.black.withValues(alpha: 0.3),
-                      thickness: 1,
-                      height: 1,
-                    ),
-                ],
-              );
+              final job = savedJobs[index];
+              return _savedJobTile(context, job, provider);
             },
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _emptyState() {
+    return Center(
+      child: Padding(
+        padding: AppPadding.primaryAll,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.bookmark_border, size: 80, color: Colors.grey[300]),
+            SizedBox(height: 16),
+            Text(
+              'Henüz kaydedilmiş iş yok',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[600],
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'İş detaylarında kaydet butonuna basarak\nişleri buraya ekleyebilirsiniz.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14,
+                color: Colors.grey[500],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _savedJobTile(
+    BuildContext context,
+    JobModel job,
+    SavedJobsProvider provider,
+  ) {
+    return Dismissible(
+      key: ValueKey(job.id),
+      direction: DismissDirection.endToStart,
+      onDismissed: (_) {
+        provider.removeJob(job.id);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${job.title} kaldırıldı'),
+            action: SnackBarAction(
+              label: 'Geri Al',
+              onPressed: () => provider.toggleSave(job),
+            ),
           ),
+        );
+      },
+      background: Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.only(right: 24),
+        color: Colors.red.shade400,
+        child: Icon(Icons.delete_outline, color: Colors.white, size: 28),
+      ),
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+        onTap: () => JobDetailBottomSheet.show(context, job),
+        leading: Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: job.category.color.withValues(alpha: 0.15),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(job.category.icon, color: job.category.color, size: 24),
+        ),
+        title: Text(
+          job.title,
+          style: TextStyle(
+            fontFamily: "Poppins",
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+            fontSize: 15,
+          ),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              job.company ?? '',
+              style: TextStyle(
+                fontFamily: "Poppins",
+                color: Colors.black54,
+                fontSize: 13,
+              ),
+            ),
+            SizedBox(height: 2),
+            Text(
+              job.subtitle,
+              style: TextStyle(color: Colors.black38, fontSize: 12),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              '${job.price.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}₺',
+              style: TextStyle(
+                fontFamily: "Poppins",
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            GestureDetector(
+              onTap: () => provider.removeJob(job.id),
+              child: Icon(
+                Icons.bookmark,
+                color: Theme.of(context).colorScheme.primary,
+                size: 24,
+              ),
+            ),
+          ],
         ),
       ),
     );

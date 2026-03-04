@@ -7,6 +7,8 @@ import 'package:koala/employee/features/auth/presentation/pages/onboarding_page.
 import 'package:koala/employee/features/auth/presentation/pages/register_type_page.dart';
 import 'package:koala/employee/features/home/presentation/pages/explore_pages/explore_page.dart';
 import 'package:koala/employee/features/jobs/presentation/pages/jobs_page.dart';
+import 'package:koala/employee/features/jobs/presentation/pages/review_page.dart';
+import 'package:koala/employee/features/jobs/data/models/my_jobs_model.dart';
 import 'package:koala/employee/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:koala/employee/features/chat/presentation/pages/chat_page.dart';
 import 'package:koala/employee/features/chat/domain/chat.dart';
@@ -94,10 +96,6 @@ class RouterManager {
         builder: (context, state) => const OnboardingPage(),
       ),
 
-      // GoRoute(
-      //   path: '/search',
-      //   builder: (context, state) => const SearchExplorePage(),
-      // ),
       GoRoute(
         path: '/chat-detail',
         builder: (context, state) {
@@ -111,6 +109,14 @@ class RouterManager {
         builder: (context, state) {
           final companyData = state.extra as CompanyModel;
           return CompanyDetailPage(company: companyData);
+        },
+      ),
+
+      GoRoute(
+        path: '/review',
+        builder: (context, state) {
+          final job = state.extra as MyJobsModel;
+          return ReviewPage(job: job);
         },
       ),
 
