@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
 class MyListTile extends StatelessWidget {
-  const MyListTile({super.key, required this.title, required this.icon});
+  const MyListTile({
+    super.key,
+    required this.title,
+    required this.icon,
+    this.onTap,
+  });
 
   final String title;
   final IconData icon;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +31,7 @@ class MyListTile extends StatelessWidget {
           ),
         ),
         trailing: Icon(Icons.arrow_forward_ios, size: 16),
-        onTap: () {},
+        onTap: onTap,
       ),
     );
   }

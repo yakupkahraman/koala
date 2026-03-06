@@ -20,6 +20,17 @@ class LoginPage extends StatelessWidget {
           onPressed: () => context.pop(),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setBool('is_logged_in', true);
+          await prefs.setString('user_type', 'business');
+
+          if (context.mounted) {
+            context.go('/business/home');
+          }
+        },
+      ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 40.0, left: 12.0, right: 12.0),
         child: RichText(
@@ -128,6 +139,10 @@ class LoginPage extends StatelessWidget {
                                   final prefs =
                                       await SharedPreferences.getInstance();
                                   await prefs.setBool('is_logged_in', true);
+                                  await prefs.setString(
+                                    'user_type',
+                                    'employee',
+                                  );
 
                                   if (context.mounted) {
                                     context.go('/explore');
