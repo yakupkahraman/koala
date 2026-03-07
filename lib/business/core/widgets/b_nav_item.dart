@@ -4,8 +4,7 @@ import 'package:koala/product/constants/app_colors.dart';
 
 class BNavItem extends StatefulWidget {
   final int index;
-  final IconData unSelectedIcon;
-  final IconData selectedIcon;
+  final IconData icon;
   final bool isSelected;
   final VoidCallback onTap;
   final String? label;
@@ -16,10 +15,10 @@ class BNavItem extends StatefulWidget {
     required this.index,
     required this.isSelected,
     required this.onTap,
-    required this.unSelectedIcon,
-    required this.selectedIcon,
+
     this.label,
     this.centerItem,
+    required this.icon,
   });
 
   @override
@@ -29,42 +28,56 @@ class BNavItem extends StatefulWidget {
 class _BNavItemState extends State<BNavItem> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: widget.centerItem == true ? Colors.white : Colors.transparent,
-          shape: BoxShape.circle,
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(widget.centerItem == true ? 14 : 8),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              HugeIcon(
-                icon: widget.isSelected
-                    ? widget.selectedIcon
-                    : widget.unSelectedIcon,
-                size: 26,
-                color: widget.isSelected
-                    ? Colors.white
-                    : (widget.centerItem == true
-                          ? AppColors.primaryColor
-                          : Colors.white),
-              ),
-              if (widget.centerItem != true && widget.label != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 5.0),
-                  child: Text(
-                    widget.label!,
-                    style: TextStyle(
-                      color: widget.isSelected ? Colors.white : Colors.white,
-                      fontSize: 9,
-                      fontFamily: 'Poppins',
+    return Material(
+      color: AppColors.primaryColor,
+      borderRadius: widget.centerItem == true
+          ? BorderRadius.circular(200)
+          : BorderRadius.circular(25),
+      child: InkWell(
+        borderRadius: widget.centerItem == true
+            ? BorderRadius.circular(200)
+            : BorderRadius.circular(25),
+        onTap: widget.onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            color: widget.centerItem == true
+                ? Colors.white
+                : Colors.transparent,
+            shape: BoxShape.circle,
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(widget.centerItem == true ? 14 : 8),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                HugeIcon(
+                  icon: widget.icon,
+                  size: 26,
+                  color: widget.isSelected
+                      ? Colors.white
+                      : (widget.centerItem == true
+                            ? AppColors.primaryColor
+                            : Colors.grey[300]!),
+                ),
+                if (widget.centerItem != true && widget.label != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: Text(
+                      widget.label!,
+                      style: TextStyle(
+                        color: widget.isSelected
+                            ? Colors.white
+                            : Colors.grey[300],
+                        fontSize: 9,
+                        fontFamily: 'Poppins',
+                        fontWeight: widget.isSelected
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
                     ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

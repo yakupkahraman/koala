@@ -1,7 +1,10 @@
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:koala/business/core/b_shell_page.dart';
+import 'package:koala/business/features/home/presentation/pages/b_create_page.dart';
 import 'package:koala/business/features/home/presentation/pages/b_home_page.dart';
 import 'package:koala/business/features/home/presentation/pages/b_posts_page.dart';
+import 'package:koala/business/features/home/presentation/pages/b_profile_page.dart';
 import 'package:koala/employee/features/auth/presentation/pages/auth_gate.dart';
 import 'package:koala/employee/features/auth/presentation/pages/auth_page.dart';
 import 'package:koala/employee/features/auth/presentation/pages/company_informations_page.dart';
@@ -178,13 +181,54 @@ class RouterManager {
         routes: [
           GoRoute(
             path: '/business/home',
-            builder: (context, state) => const BHomePage(),
+            pageBuilder: (context, state) => CustomTransitionPage(
+              key: state.pageKey,
+              child: BHomePage(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) =>
+                      FadeTransition(opacity: animation, child: child),
+              transitionDuration: const Duration(milliseconds: 200),
+            ),
           ),
           GoRoute(
             path: '/business/posts',
-            builder: (context, state) => const BPostsPage(),
+            pageBuilder: (context, state) => CustomTransitionPage(
+              key: state.pageKey,
+              child: const BPostsPage(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) =>
+                      FadeTransition(opacity: animation, child: child),
+              transitionDuration: const Duration(milliseconds: 200),
+            ),
+          ),
+          GoRoute(
+            path: '/business/chat',
+            pageBuilder: (context, state) => CustomTransitionPage(
+              key: state.pageKey,
+              child: ChatListPage(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) =>
+                      FadeTransition(opacity: animation, child: child),
+              transitionDuration: const Duration(milliseconds: 200),
+            ),
+          ),
+          GoRoute(
+            path: '/business/profile',
+            pageBuilder: (context, state) => CustomTransitionPage(
+              key: state.pageKey,
+              child: BProfilePage(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) =>
+                      FadeTransition(opacity: animation, child: child),
+              transitionDuration: const Duration(milliseconds: 200),
+            ),
           ),
         ],
+      ),
+
+      GoRoute(
+        path: '/business/create',
+        builder: (context, state) => const BCreatePage(),
       ),
 
       //Employee Main Shell

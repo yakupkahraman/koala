@@ -10,15 +10,3 @@ class BPageProvider with ChangeNotifier {
     notifyListeners();
   }
 }
-
-class NavigationItemData {
-  final String route;
-  final IconData unSelectedIcon;
-  final IconData selectedIcon;
-
-  NavigationItemData({
-    required this.route,
-    required this.unSelectedIcon,
-    required this.selectedIcon,
-  });
-}

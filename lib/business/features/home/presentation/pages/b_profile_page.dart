@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class BPostsPage extends StatelessWidget {
-  const BPostsPage({super.key});
+class BProfilePage extends StatelessWidget {
+  const BProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "İş İlanlarım",
+          "Profilim",
           style: TextStyle(
             fontFamily: "Poppins",
             color: Colors.black,
