@@ -7,7 +7,7 @@ import 'package:koala/employee/features/home/data/models/job_model.dart';
 import 'package:koala/employee/features/home/data/repositories/job_repository.dart';
 import 'package:koala/employee/features/home/presentation/providers/search_provider.dart';
 import 'package:koala/employee/features/home/presentation/widgets/job_marker_generator.dart';
-import 'package:koala/employee/features/home/presentation/widgets/job_detail_bottom_sheet.dart';
+import 'package:koala/employee/core/widgets/job_detail_bottom_sheet.dart';
 import 'package:koala/product/constants/app_padding.dart';
 import 'package:provider/provider.dart';
 

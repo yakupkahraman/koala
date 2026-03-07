@@ -533,19 +533,17 @@ class _JobDetailBottomSheetState extends State<JobDetailBottomSheet> {
                               ],
                             ),
                           ),
-                          TextButton(
-                            onPressed: () {
-                              // TODO: Haritada göster
-                            },
-                            child: const Text(
-                              'Haritada Gör',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
+                          // TextButton(
+                          //   onPressed: () {},
+                          //   child: const Text(
+                          //     'Haritada Gör',
+                          //     style: TextStyle(
+                          //       fontFamily: 'Poppins',
+                          //       fontSize: 13,
+                          //       fontWeight: FontWeight.w600,
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

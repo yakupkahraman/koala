@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:koala/employee/features/home/data/models/job_model.dart';
-import 'package:koala/employee/features/home/presentation/widgets/job_detail_bottom_sheet.dart';
+import 'package:koala/employee/core/widgets/job_detail_bottom_sheet.dart';
 
 class JobCard extends StatelessWidget {
   final JobModel job;
