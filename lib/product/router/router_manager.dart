@@ -5,6 +5,11 @@ import 'package:koala/business/features/home/presentation/pages/b_create_page.da
 import 'package:koala/business/features/home/presentation/pages/b_home_page.dart';
 import 'package:koala/business/features/home/presentation/pages/b_posts_page.dart';
 import 'package:koala/business/features/home/presentation/pages/b_profile_page.dart';
+import 'package:koala/business/features/home/presentation/pages/b_settings_page.dart';
+import 'package:koala/business/features/home/presentation/pages/b_company_info_page.dart';
+import 'package:koala/business/features/home/presentation/pages/b_job_detail_page.dart';
+import 'package:koala/business/features/home/presentation/pages/b_user_profile_page.dart';
+import 'package:koala/business/features/home/data/models/b_applicant_model.dart';
 import 'package:koala/employee/features/auth/presentation/pages/auth_gate.dart';
 import 'package:koala/employee/features/auth/presentation/pages/auth_page.dart';
 import 'package:koala/employee/features/auth/presentation/pages/company_informations_page.dart';
@@ -239,6 +244,32 @@ class RouterManager {
       GoRoute(
         path: '/business/create',
         builder: (context, state) => const BCreatePage(),
+      ),
+
+      GoRoute(
+        path: '/business/settings',
+        builder: (context, state) => const BSettingsPage(),
+      ),
+
+      GoRoute(
+        path: '/business/company-info',
+        builder: (context, state) => const BCompanyInfoPage(),
+      ),
+
+      GoRoute(
+        path: '/business/job-detail',
+        builder: (context, state) {
+          final jobId = state.extra as String;
+          return BJobDetailPage(jobId: jobId);
+        },
+      ),
+
+      GoRoute(
+        path: '/business/user-profile',
+        builder: (context, state) {
+          final applicant = state.extra as BApplicantModel;
+          return BUserProfilePage(applicant: applicant);
+        },
       ),
 
       //Employee Main Shell

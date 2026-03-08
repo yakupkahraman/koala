@@ -110,11 +110,11 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
               MyTextfield(labelText: "Konum", controller: _locationController),
               SizedBox(height: 16),
               _aboutTextField(),
-              SizedBox(height: 16),
-              MyTextfield(
-                labelText: "CV Dosya Adı",
-                controller: _cvFileNameController,
-              ),
+              // SizedBox(height: 16),
+              // MyTextfield(
+              //   labelText: "CV Dosya Adı",
+              //   controller: _cvFileNameController,
+              // ),
               SizedBox(height: 40),
             ],
           ),

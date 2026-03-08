@@ -4,8 +4,9 @@ import 'package:koala/employee/features/home/data/models/job_model.dart';
 import 'package:koala/employee/features/jobs/presentation/providers/apply_provider.dart';
 import 'package:koala/product/constants/app_colors.dart';
 import 'package:koala/product/constants/app_padding.dart';
-import 'package:provider/provider.dart';
+import 'package:koala/product/widgets/button_navbar.dart';
 import 'package:koala/product/widgets/my_appbar.dart';
+import 'package:provider/provider.dart';
 
 class ApplyPage extends StatefulWidget {
   final JobModel job;
@@ -361,62 +362,19 @@ class _ApplyPageState extends State<ApplyPage> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.fromLTRB(
-          AppPadding.primary,
-          12,
-          AppPadding.primary,
-          MediaQuery.of(context).padding.bottom + 12,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, -2),
-            ),
-          ],
-        ),
-        child: SizedBox(
-          height: 56,
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: alreadyApplied
-                ? null
-                : (_agreedToTerms
-                      ? () {
-                          applyProvider.applyToJob(
-                            widget.job,
-                            coverLetter: _coverLetterController.text.isNotEmpty
-                                ? _coverLetterController.text
-                                : null,
-                          );
-                          _showSuccessDialog(context);
-                        }
-                      : null),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: alreadyApplied
-                  ? Colors.grey[300]
-                  : AppColors.primaryColor,
-              foregroundColor: Colors.white,
-              disabledBackgroundColor: Colors.grey[300],
-              disabledForegroundColor: Colors.grey[500],
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
-              ),
-            ),
-            child: Text(
-              alreadyApplied ? 'Zaten Başvurdunuz' : 'Başvuruyu Gönder',
-              style: const TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ),
+      bottomNavigationBar: ButtonNavbar(
+        onPressed: (alreadyApplied || !_agreedToTerms)
+            ? () {}
+            : () {
+                applyProvider.applyToJob(
+                  widget.job,
+                  coverLetter: _coverLetterController.text.isNotEmpty
+                      ? _coverLetterController.text
+                      : null,
+                );
+                _showSuccessDialog(context);
+              },
+        title: alreadyApplied ? 'Zaten Başvurdunuz' : 'Başvuruyu Gönder',
       ),
     );
   }
