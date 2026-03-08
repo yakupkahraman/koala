@@ -10,6 +10,8 @@ import 'package:koala/business/features/home/presentation/pages/b_company_info_p
 import 'package:koala/business/features/home/presentation/pages/b_job_detail_page.dart';
 import 'package:koala/business/features/home/presentation/pages/b_user_profile_page.dart';
 import 'package:koala/business/features/home/presentation/pages/b_notifications_page.dart';
+import 'package:koala/business/features/chat/presentation/pages/b_chat_list_page.dart';
+import 'package:koala/business/features/chat/presentation/pages/b_chat_page.dart';
 import 'package:koala/business/features/home/data/models/b_applicant_model.dart';
 import 'package:koala/employee/features/auth/presentation/pages/auth_gate.dart';
 import 'package:koala/employee/features/auth/presentation/pages/auth_page.dart';
@@ -221,7 +223,7 @@ class RouterManager {
             path: '/business/chat',
             pageBuilder: (context, state) => CustomTransitionPage(
               key: state.pageKey,
-              child: ChatListPage(),
+              child: const BChatListPage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) =>
                       FadeTransition(opacity: animation, child: child),
@@ -276,6 +278,14 @@ class RouterManager {
       GoRoute(
         path: '/business/notifications',
         builder: (context, state) => const BNotificationsPage(),
+      ),
+
+      GoRoute(
+        path: '/business/chat-detail',
+        builder: (context, state) {
+          final chat = state.extra as Chat;
+          return BChatPage(chat: chat);
+        },
       ),
 
       //Employee Main Shell
