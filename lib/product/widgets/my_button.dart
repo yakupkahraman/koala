@@ -10,7 +10,7 @@ class MyButton extends StatelessWidget {
     this.isLoading = false,
   });
 
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String title;
   final bool? isReversed;
   final bool isLoading;

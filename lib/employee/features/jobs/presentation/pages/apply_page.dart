@@ -364,7 +364,7 @@ class _ApplyPageState extends State<ApplyPage> {
       ),
       bottomNavigationBar: ButtonNavbar(
         onPressed: (alreadyApplied || !_agreedToTerms)
-            ? () {}
+            ? null
             : () {
                 applyProvider.applyToJob(
                   widget.job,
