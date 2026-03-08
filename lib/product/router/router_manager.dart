@@ -9,6 +9,7 @@ import 'package:koala/business/features/home/presentation/pages/b_settings_page.
 import 'package:koala/business/features/home/presentation/pages/b_company_info_page.dart';
 import 'package:koala/business/features/home/presentation/pages/b_job_detail_page.dart';
 import 'package:koala/business/features/home/presentation/pages/b_user_profile_page.dart';
+import 'package:koala/business/features/home/presentation/pages/b_notifications_page.dart';
 import 'package:koala/business/features/home/data/models/b_applicant_model.dart';
 import 'package:koala/employee/features/auth/presentation/pages/auth_gate.dart';
 import 'package:koala/employee/features/auth/presentation/pages/auth_page.dart';
@@ -270,6 +271,11 @@ class RouterManager {
           final applicant = state.extra as BApplicantModel;
           return BUserProfilePage(applicant: applicant);
         },
+      ),
+
+      GoRoute(
+        path: '/business/notifications',
+        builder: (context, state) => const BNotificationsPage(),
       ),
 
       //Employee Main Shell
