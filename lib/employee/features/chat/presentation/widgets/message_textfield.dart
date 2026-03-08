@@ -20,19 +20,19 @@ class MessageTextField extends StatelessWidget {
         decoration: BoxDecoration(color: Colors.white),
         child: Row(
           children: [
-            Container(
-              width: 50,
-              height: 50,
-              margin: EdgeInsets.only(right: 6),
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                icon: Icon(Icons.add, color: Colors.grey[600], size: 18),
-                onPressed: onAddPressed,
-              ),
-            ),
+            // Container(
+            //   width: 50,
+            //   height: 50,
+            //   margin: EdgeInsets.only(right: 6),
+            //   decoration: BoxDecoration(
+            //     color: Colors.grey[100],
+            //     shape: BoxShape.circle,
+            //   ),
+            //   child: IconButton(
+            //     icon: Icon(Icons.add, color: Colors.grey[600], size: 18),
+            //     onPressed: onAddPressed,
+            //   ),
+            // ),
             Expanded(
               child: Container(
                 height: 52,

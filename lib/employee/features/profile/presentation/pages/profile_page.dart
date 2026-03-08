@@ -1,35 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:koala/employee/features/home/presentation/widgets/my_list_tile.dart';
+import 'package:koala/employee/features/profile/data/fake_user.dart';
+import 'package:koala/employee/features/profile/data/models/user.dart';
 import 'package:koala/employee/features/profile/presentation/widgets/experience_card.dart';
 import 'package:koala/product/constants/app_colors.dart';
 import 'package:koala/product/constants/app_padding.dart';
+import 'package:koala/product/widgets/my_appbar.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  late User user;
+
+  @override
+  void initState() {
+    super.initState();
+    user = FakeUser.instance;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Ayarlardan döndüğünde güncel veriyi al
+    setState(() {
+      user = FakeUser.instance;
+    });
+  }
+
+  void _navigateToAccountInfo() async {
+    final updatedUser = await context.push<User>('/account-info', extra: user);
+    if (updatedUser != null) {
+      setState(() {
+        user = updatedUser;
+        // Fake user'ı da güncelle ki uygulama genelinde tutarlı olsun
+        FakeUser.instance.fullName = updatedUser.fullName;
+        FakeUser.instance.jobTitle = updatedUser.jobTitle;
+        FakeUser.instance.location = updatedUser.location;
+        FakeUser.instance.about = updatedUser.about;
+        FakeUser.instance.cvFileName = updatedUser.cvFileName;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        surfaceTintColor: Colors.white,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          "Profilim",
-          style: TextStyle(
-            fontFamily: "Poppins",
-            color: Colors.black,
-            fontSize: 24,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+      appBar: MyAppbar(
+        title: "Profilim",
+        fontSize: 24,
+        showBackButton: false,
         actions: [
           IconButton(
-            onPressed: () {
-              context.push('/settings');
+            onPressed: () async {
+              await context.push('/settings');
+              // Ayarlardan döndüğünde profili güncelle
+              setState(() {
+                user = FakeUser.instance;
+              });
             },
             icon: HugeIcon(
               icon: HugeIcons.strokeRoundedSettings01,
@@ -54,9 +87,30 @@ class ProfilePage extends StatelessWidget {
               SizedBox(height: 30),
               experienceSection(),
               SizedBox(height: 120),
-              //settingsList(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget editProfileButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton.icon(
+        onPressed: _navigateToAccountInfo,
+        icon: Icon(Icons.edit, size: 18),
+        label: Text(
+          "Profili Düzenle",
+          style: TextStyle(fontFamily: "Poppins", fontWeight: FontWeight.w500),
+        ),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.primaryColor,
+          side: BorderSide(color: AppColors.primaryColor),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          padding: EdgeInsets.symmetric(vertical: 12),
         ),
       ),
     );
@@ -92,9 +146,8 @@ class ProfilePage extends StatelessWidget {
           "Hakkımda",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        Text(
-          "Profesyonel etkinlik ve ürün fotoğrafçısıyım. Yüksek kaliteli ekipman ve hızlı teslimat garantisiyle çalışıyorum. İşlerinize değer katacak profesyonel kareler için profili inceleyebilir, hemen iletişime geçebilirsiniz.",
-        ),
+        SizedBox(height: 4),
+        Text(user.about, style: TextStyle(fontFamily: "Poppins", fontSize: 14)),
       ],
     );
   }
@@ -120,7 +173,7 @@ class ProfilePage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text("yakup_demir_cv.pdf", style: TextStyle(color: Colors.white)),
+              Text(user.cvFileName, style: TextStyle(color: Colors.white)),
             ],
           ),
           HugeIcon(
@@ -143,7 +196,7 @@ class ProfilePage extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage('assets/images/koala_profile_picture.png'),
+              image: AssetImage(user.profileImage),
             ),
           ),
         ),
@@ -151,9 +204,8 @@ class ProfilePage extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(width: 20),
             Text(
-              "Yakup Demir",
+              user.fullName,
               style: TextStyle(
                 fontFamily: "Poppins",
                 color: Colors.black,
@@ -162,7 +214,7 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             Text(
-              "Fotoğrafçı",
+              user.jobTitle,
               style: TextStyle(
                 fontFamily: "Poppins",
                 color: Colors.black,
@@ -171,7 +223,7 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             Text(
-              "Küçükçekmece/İstanbul",
+              user.location,
               style: TextStyle(
                 fontFamily: "Poppins",
                 color: Colors.black,
@@ -194,78 +246,17 @@ class ProfilePage extends StatelessWidget {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 12),
-        ExperienceCard(
-          title: "Kıdemli Fotoğrafçı",
-          company: "Studio Kreatif",
-          duration: "Ocak 2023 - Halen",
-          description:
-              "Kurumsal etkinlik ve ürün fotoğrafçılığı. Haftalık ortalama 5 etkinlik çekimi.",
-        ),
-        ExperienceCard(
-          title: "Fotoğrafçı",
-          company: "EventShot Medya",
-          duration: "Mart 2021 - Aralık 2022",
-          description:
-              "Düğün, nişan ve özel gün fotoğrafçılığı. 200+ etkinlikte görev aldım.",
-        ),
-        ExperienceCard(
-          title: "Stajyer Fotoğrafçı",
-          company: "Lens Ajans",
-          duration: "Haziran 2020 - Şubat 2021",
-          description:
-              "Stüdyo çekimleri, ışık düzeni kurulumu ve post-prodüksiyon süreçlerinde destek.",
-        ),
-        ExperienceCard(
-          title: "Freelance Fotoğrafçı",
-          company: "Serbest",
-          duration: "Ocak 2019 - Mayıs 2020",
-          description:
-              "Sosyal medya içerik üretimi, portre ve doğa fotoğrafçılığı. 50+ müşteri portföyü.",
-          isLast: true,
-        ),
-      ],
-    );
-  }
-
-  Row scoreArea() {
-    return Row(
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 150,
-              height: 150,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  alignment: Alignment.center,
-                  image: AssetImage('assets/images/culsuz_koala.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Text(
-              "Çulsuz Koala",
-              style: TextStyle(
-                fontFamily: "Poppins",
-                color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Column settingsList() {
-    return Column(
-      children: [
-        MyListTile(icon: Icons.person_outline, title: "Hesap Bilgilerim"),
-        MyListTile(icon: Icons.settings, title: "Uygulama Ayarları"),
-        MyListTile(icon: Icons.question_mark_rounded, title: "Yardım"),
-        MyListTile(icon: Icons.logout, title: "Çıkış Yap"),
+        ...user.experiences.asMap().entries.map((entry) {
+          final index = entry.key;
+          final exp = entry.value;
+          return ExperienceCard(
+            title: exp.title,
+            company: exp.company,
+            duration: exp.duration,
+            description: exp.description,
+            isLast: index == user.experiences.length - 1,
+          );
+        }),
       ],
     );
   }

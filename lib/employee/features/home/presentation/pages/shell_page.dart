@@ -131,6 +131,28 @@ class _ShellPageState extends State<ShellPage> {
                 const NeverScrollableScrollPhysics(), // Sadece programmatik geçiş
             children: _pages,
           ),
+          // Sayfanın altında beyaz fade efekti
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: IgnorePointer(
+              child: Container(
+                height: 60,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.white.withValues(alpha: 0.0),
+                      Colors.white.withValues(alpha: 0.4),
+                      Colors.white,
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: Padding(
@@ -159,13 +181,13 @@ class _ShellPageState extends State<ShellPage> {
                       ? (context.watch<PageProvider>().exploreViewType ==
                                 ExploreViewType.map
                             ? HugeIcons.strokeRoundedNavigation05
-                            : HugeIcons.strokeRoundedListView)
+                            : HugeIcons.strokeRoundedMenu05)
                       : HugeIcons.strokeRoundedNavigation05,
                   selectedIcon: _selectedIndex == 0
                       ? (context.watch<PageProvider>().exploreViewType ==
                                 ExploreViewType.map
                             ? HugeIcons.strokeRoundedNavigation05
-                            : HugeIcons.strokeRoundedListView)
+                            : HugeIcons.strokeRoundedMenu05)
                       : HugeIcons.strokeRoundedNavigation05,
                   isSelected: _selectedIndex == 0,
                   onTap: () => _onItemTapped(0, '/explore'),

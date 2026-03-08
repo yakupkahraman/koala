@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:koala/employee/features/chat/data/chat_service.dart';
 import 'package:koala/employee/features/chat/presentation/pages/chat_page.dart';
@@ -294,8 +295,8 @@ class _CompanyDetailPageState extends State<CompanyDetailPage> {
       expandedHeight: 180,
       backgroundColor: Theme.of(context).colorScheme.primary,
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.white),
-        onPressed: () => Navigator.pop(context),
+        icon: Icon(HugeIcons.strokeRoundedArrowLeft01, color: Colors.white),
+        onPressed: () => context.pop(),
       ),
       centerTitle: false,
       title: Opacity(

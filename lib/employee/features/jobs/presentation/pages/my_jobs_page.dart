@@ -8,6 +8,7 @@ import 'package:koala/employee/features/jobs/presentation/providers/apply_provid
 import 'package:koala/employee/features/jobs/presentation/providers/review_provider.dart';
 import 'package:koala/product/constants/app_colors.dart';
 import 'package:koala/product/constants/app_padding.dart';
+import 'package:koala/product/widgets/my_appbar.dart';
 import 'package:provider/provider.dart';
 
 class MyJobsPage extends StatefulWidget {
@@ -32,6 +33,7 @@ class _MyJobsPageState extends State<MyJobsPage> {
 
   Future<void> _loadJobs() async {
     final jobs = await _repository.getMyJobs();
+    if (!mounted) return;
     setState(() {
       _allJobs = jobs;
       _loading = false;
@@ -56,6 +58,8 @@ class _MyJobsPageState extends State<MyJobsPage> {
       company = await _companyRepository.getCompanyById(job.companyId!);
     }
 
+    if (!mounted) return;
+
     company ??= await _companyRepository.getCompanyByName(job.company);
 
     if (company != null && mounted) {
@@ -67,7 +71,7 @@ class _MyJobsPageState extends State<MyJobsPage> {
   Widget build(BuildContext context) {
     if (_loading) {
       return Scaffold(
-        appBar: _appBar(),
+        appBar: MyAppbar(title: 'İşlerim', showBackButton: false),
         body: Center(child: CircularProgressIndicator()),
       );
     }
@@ -90,7 +94,7 @@ class _MyJobsPageState extends State<MyJobsPage> {
     final pastJobs = _getJobsByStatus(MyJobStatus.past, extraJobs: appliedJobs);
 
     return Scaffold(
-      appBar: _appBar(),
+      appBar: MyAppbar(title: 'İşlerim', showBackButton: false),
       body: SingleChildScrollView(
         child: Padding(
           padding: AppPadding.primaryHorizontal,
@@ -137,24 +141,6 @@ class _MyJobsPageState extends State<MyJobsPage> {
               SizedBox(height: 100),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  AppBar _appBar() {
-    return AppBar(
-      centerTitle: false,
-      surfaceTintColor: Colors.white,
-      backgroundColor: Colors.white,
-      elevation: 0,
-      title: Text(
-        "İşlerim",
-        style: TextStyle(
-          fontFamily: "Poppins",
-          color: Colors.black,
-          fontSize: 24,
-          fontWeight: FontWeight.w500,
         ),
       ),
     );

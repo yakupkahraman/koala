@@ -29,6 +29,8 @@ import 'package:koala/employee/features/auth/presentation/pages/register_page.da
 import 'package:koala/employee/features/auth/presentation/pages/email_verification_pending_page.dart';
 import 'package:koala/employee/features/jobs/presentation/pages/apply_page.dart';
 import 'package:koala/employee/features/home/data/models/job_model.dart';
+import 'package:koala/employee/features/settings/presentation/pages/account_info_page.dart';
+import 'package:koala/employee/features/profile/data/models/user.dart';
 
 class RouterManager {
   static Future<bool> isUserLoggedIn() async {
@@ -174,6 +176,14 @@ class RouterManager {
       GoRoute(
         path: '/settings',
         builder: (context, state) => const SettingsPage(),
+      ),
+
+      GoRoute(
+        path: '/account-info',
+        builder: (context, state) {
+          final user = state.extra as User;
+          return AccountInfoPage(user: user);
+        },
       ),
 
       ShellRoute(

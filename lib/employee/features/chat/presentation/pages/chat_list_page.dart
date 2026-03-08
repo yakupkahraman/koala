@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:koala/employee/features/chat/data/chat_service.dart';
 import 'package:koala/employee/features/chat/domain/chat.dart';
 import 'package:koala/employee/features/chat/presentation/widgets/chat_list_tile.dart';
+import 'package:koala/product/widgets/my_appbar.dart';
 
 class ChatListPage extends StatefulWidget {
   const ChatListPage({super.key});
@@ -23,21 +24,7 @@ class _ChatListPageState extends State<ChatListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        surfaceTintColor: Colors.white,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          "Sohbetlerim",
-          style: TextStyle(
-            fontFamily: "Poppins",
-            color: Colors.black,
-            fontSize: 24,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
+      appBar: MyAppbar(title: "Sohbetlerim", showBackButton: false),
       body: ListView.builder(
         itemCount: chatList.length,
         itemBuilder: (context, index) {

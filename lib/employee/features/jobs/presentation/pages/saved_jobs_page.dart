@@ -3,6 +3,7 @@ import 'package:koala/employee/features/home/data/models/job_model.dart';
 import 'package:koala/employee/core/widgets/job_detail_bottom_sheet.dart';
 import 'package:koala/employee/features/jobs/presentation/providers/saved_jobs_provider.dart';
 import 'package:koala/product/constants/app_padding.dart';
+import 'package:koala/product/widgets/my_appbar.dart';
 import 'package:provider/provider.dart';
 
 class SavedJobsPage extends StatelessWidget {
@@ -11,21 +12,7 @@ class SavedJobsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        surfaceTintColor: Colors.white,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          "Kaydettiğim İşler",
-          style: TextStyle(
-            fontFamily: "Poppins",
-            color: Colors.black,
-            fontSize: 24,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
+      appBar: MyAppbar(title: "Kaydettiğim İşler", showBackButton: false),
       body: Consumer<SavedJobsProvider>(
         builder: (context, provider, child) {
           final savedJobs = provider.savedJobs;

@@ -51,6 +51,7 @@ class ChatListTile extends StatelessWidget {
             SizedBox(width: 16),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
                   chat.timeString,

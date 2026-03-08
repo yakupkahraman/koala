@@ -5,6 +5,7 @@ import 'package:koala/employee/features/jobs/presentation/providers/apply_provid
 import 'package:koala/product/constants/app_colors.dart';
 import 'package:koala/product/constants/app_padding.dart';
 import 'package:provider/provider.dart';
+import 'package:koala/product/widgets/my_appbar.dart';
 
 class ApplyPage extends StatefulWidget {
   final JobModel job;
@@ -32,21 +33,7 @@ class _ApplyPageState extends State<ApplyPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: false,
-        surfaceTintColor: Colors.white,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          'İşe Başvur',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            color: Colors.black,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
+      appBar: MyAppbar(title: "İşe Başvur"),
       body: SingleChildScrollView(
         child: Padding(
           padding: AppPadding.primaryHorizontal,

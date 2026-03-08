@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:koala/employee/features/chat/data/chat_service.dart';
 import 'package:koala/employee/features/chat/domain/chat.dart';
 import 'package:koala/employee/features/chat/domain/message.dart';
@@ -84,8 +86,8 @@ class _ChatPageState extends State<ChatPage> {
       backgroundColor: Colors.white,
       elevation: 0,
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.black),
-        onPressed: () => Navigator.pop(context),
+        icon: Icon(HugeIcons.strokeRoundedArrowLeft01, color: Colors.black),
+        onPressed: () => context.pop(),
       ),
       title: Row(
         children: [

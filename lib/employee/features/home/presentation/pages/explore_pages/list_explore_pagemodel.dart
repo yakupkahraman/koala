@@ -70,6 +70,7 @@ abstract class ListExplorePagemodel extends State<ListExplorePage>
         });
       }
 
+      if (!mounted) return;
       setState(() {
         _jobs = jobs;
         _filteredJobs = jobs;
@@ -77,6 +78,7 @@ abstract class ListExplorePagemodel extends State<ListExplorePage>
         _loading = false;
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _loading = false;
       });

@@ -59,6 +59,7 @@ abstract class MapExplorePageModel extends State<MapExplorePage>
         onMarkerTap: _onJobMarkerTap,
       );
 
+      if (!mounted) return;
       setState(() {
         _markers = markers;
       });

@@ -4,8 +4,9 @@ import 'package:koala/employee/features/jobs/data/models/review_model.dart';
 import 'package:koala/employee/features/jobs/presentation/providers/review_provider.dart';
 import 'package:koala/product/constants/app_colors.dart';
 import 'package:koala/product/constants/app_padding.dart';
-import 'package:koala/product/constants/app_radius.dart';
 import 'package:provider/provider.dart';
+import 'package:koala/product/widgets/button_navbar.dart';
+import 'package:koala/product/widgets/my_appbar.dart';
 
 class ReviewPage extends StatefulWidget {
   final MyJobsModel job;
@@ -70,21 +71,7 @@ class _ReviewPageState extends State<ReviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        surfaceTintColor: Colors.white,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          "Değerlendir",
-          style: TextStyle(
-            fontFamily: "Poppins",
-            color: Colors.black,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
+      appBar: MyAppbar(title: "Değerlendir"),
       body: SingleChildScrollView(
         padding: AppPadding.primaryAll,
         child: Column(
@@ -101,7 +88,11 @@ class _ReviewPageState extends State<ReviewPage> {
           ],
         ),
       ),
-      bottomNavigationBar: _submitButton(),
+      bottomNavigationBar: ButtonNavbar(
+        onPressed: _submitReview,
+        title: "Yorumu Yayınla",
+        isLoading: _isSubmitting,
+      ),
     );
   }
 
@@ -429,62 +420,6 @@ class _ReviewPageState extends State<ReviewPage> {
                   : null,
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _submitButton() {
-    return Container(
-      padding: EdgeInsets.fromLTRB(
-        AppPadding.primary,
-        12,
-        AppPadding.primary,
-        MediaQuery.of(context).padding.bottom + 12,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: Offset(0, -2),
-          ),
-        ],
-      ),
-      child: SizedBox(
-        width: double.infinity,
-        height: 56,
-        child: ElevatedButton(
-          onPressed: _isSubmitting ? null : _submitReview,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primaryColor,
-            foregroundColor: Colors.white,
-            disabledBackgroundColor: AppColors.primaryColor.withValues(
-              alpha: 0.5,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: AppRadius.primaryCircular,
-            ),
-            elevation: 0,
-          ),
-          child: _isSubmitting
-              ? SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
-                    color: Colors.white,
-                  ),
-                )
-              : Text(
-                  "Yorumu Yayınla",
-                  style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
         ),
       ),
     );
