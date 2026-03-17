@@ -1,3 +1,13 @@
+import java.util.Properties
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.inputStream().use { localProperties.load(it) }
+}
+
+val mapsApiKey: String = localProperties.getProperty("MAPS_API_KEY") ?: ""
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -20,6 +30,7 @@ android {
     }
 
     defaultConfig {
+        manifestPlaceholders += mapOf("mapsApiKey" to mapsApiKey)
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.koala"
         // You can update the following values to match your application needs.
